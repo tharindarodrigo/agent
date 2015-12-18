@@ -9,7 +9,7 @@
     </div>
     <ul class="nav navbar-top-links navbar-right">
         <li>
-            <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+            <span class="m-r-sm text-muted welcome-message">{{!empty(Agent::where('user_id',Auth::id())->count()) ? Agent::where('user_id',Auth::id())->first()->company : ''}}</span>
         </li>
         <li class="dropdown">
             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -19,7 +19,8 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a href="profile.html" class="pull-left">
-                            <img alt="image" class="img-circle" src="img/a7.jpg">
+                            {{--<img alt="image" class="img-circle" src="img/a7.jpg">--}}
+                            {{HTML::image('img/a7.jpg')}}
                         </a>
                         <div class="media-body">
                             <small class="pull-right">46h ago</small>
@@ -32,7 +33,8 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a href="profile.html" class="pull-left">
-                            <img alt="image" class="img-circle" src="img/a4.jpg">
+                            {{--<img alt="image" class="img-circle" src="img/a4.jpg">--}}
+                            {{HTML::image('img/a4.jpg')}}
                         </a>
                         <div class="media-body ">
                             <small class="pull-right text-navy">5h ago</small>
@@ -45,7 +47,8 @@
                 <li>
                     <div class="dropdown-messages-box">
                         <a href="profile.html" class="pull-left">
-                            <img alt="image" class="img-circle" src="img/profile.jpg">
+                            {{--<img alt="image" class="img-circle" src="img/profile.jpg">--}}
+                            {{HTML::image('img/profile.jpg')}}
                         </a>
                         <div class="media-body ">
                             <small class="pull-right">23h ago</small>
@@ -109,8 +112,8 @@
 
 
         <li>
-            <a href="login.html">
-                <i class="fa fa-sign-out"></i> Log out
+            <a href="{{URL::route('account-sign-out')}}">
+                <i class="fa fa-sign-out"></i> Sign out
             </a>
         </li>
     </ul>

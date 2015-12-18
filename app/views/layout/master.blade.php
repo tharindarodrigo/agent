@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.3/empty_page.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Nov 2015 11:39:13 GMT -->
 <head>
 
     <meta charset="utf-8">
@@ -10,11 +8,11 @@
 
     <title>INSPINIA | Empty Page</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    {{HTML::style("css/bootstrap.min.css")}}
+    {{HTML::style("font-awesome/css/font-awesome.css")}}
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    {{HTML::style("css/animate.css")}}
+    {{HTML::style("css/style.css")}}
 
     @yield('css')
 
@@ -64,19 +62,17 @@
 </div>
 
 <!-- Mainly scripts -->
-<script src="js/jquery-2.1.1.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+{{HTML::script("//code.jquery.com/jquery-2.1.4.min.js")}}
+{{HTML::script("js/bootstrap.min.js")}}
+{{HTML::script("js/plugins/metisMenu/jquery.metisMenu.js")}}
+{{HTML::script("js/plugins/slimscroll/jquery.slimscroll.min.js")}}
 
 <!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
-<script src="js/plugins/pace/pace.min.js"></script>
+{{HTML::script("js/inspinia.js")}}
+{{HTML::script("js/plugins/pace/pace.min.js")}}
 
 @yield('scripts')
 
 </body>
 
-
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.3/empty_page.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Nov 2015 11:39:13 GMT -->
 </html>

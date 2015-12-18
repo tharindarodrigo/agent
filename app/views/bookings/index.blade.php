@@ -8,6 +8,14 @@
     {{--</style>--}}
 @endsection
 
+@section('active-bookings')
+    {{'active'}}
+@endsection
+
+@section('active-bookings-my-bookings')
+    {{'active'}}
+@endsection
+
 @section('bread-crumbs')
     {{--<li>/</li>--}}
     {{--<li><a href="#" class="active">Bookings</a></li>--}}
@@ -23,43 +31,20 @@
                         <h5>Editable Table in- combination with jEditable</h5>
 
                         <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#">Config option 1</a>
-                                </li>
-                                <li><a href="#">Config option 2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
+                            {{--<a class="collapse-link">--}}
+                            {{--<i class="fa fa-chevron-up"></i>--}}
+                            {{--</a>--}}
+
                         </div>
                     </div>
                     <div class="ibox-content">
 
-                        <table class="table table-striped table-bordered table-hover " id="">
-                            @include('bookings.index_partials.all-bookings')
-                        </table>
+                        @include('bookings.index_partials.all-bookings')
 
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-
 @endsection
-
-
-
-
-
-
-
-

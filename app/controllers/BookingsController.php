@@ -40,7 +40,6 @@ class BookingsController extends \BaseController
                 $invoices_query->where('user_id',$user_id);
             }
 
-
             if(Input::get('get_payments')){
 
                 Session::flash('activate_payments_tab','active');
@@ -498,9 +497,9 @@ class BookingsController extends \BaseController
      */
     public function show($id)
     {
+
         try {
             $booking = Booking::with('voucher')->with('client')->with('flightDetail')->where('id', $id)->first();
-
         } catch (ModelNotFoundException $e) {
             return Redirect::to('/404');
         }

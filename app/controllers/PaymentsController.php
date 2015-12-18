@@ -12,7 +12,7 @@ class PaymentsController extends \BaseController
     {
         $payments = Payment::all();
 
-        return View::make('control-panel.payments.index', compact('payments'));
+        return View::make('payments.index', compact('payments'));
     }
 
     /**
@@ -22,7 +22,7 @@ class PaymentsController extends \BaseController
      */
     public function create()
     {
-        return View::make('control-panel.payments.create');
+        return View::make('payments.create');
     }
 
     /**
@@ -59,7 +59,7 @@ class PaymentsController extends \BaseController
 
         Payment::create($data);
 
-        return Redirect::route('control-panel.payments.index');
+        return Redirect::route('payments.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class PaymentsController extends \BaseController
     {
         $payment = Payment::findOrFail($id);
 
-        return View::make('control-panel.payments.show', compact('payment'));
+        return View::make('payments.show', compact('payment'));
     }
 
     /**
@@ -86,7 +86,7 @@ class PaymentsController extends \BaseController
     {
         $payment = Payment::find($id);
 
-        return View::make('control-panel.payments.edit', compact('payment'));
+        return View::make('payments.edit', compact('payment'));
     }
 
     /**
@@ -107,7 +107,7 @@ class PaymentsController extends \BaseController
 
         $payment->update($data);
 
-        return Redirect::route('control-panel.payments.index');
+        return Redirect::route('payments.index');
     }
 
     /**
@@ -120,7 +120,7 @@ class PaymentsController extends \BaseController
     {
         Payment::destroy($id);
 
-        return Redirect::route('control-panel.payments.index');
+        return Redirect::route('payments.index');
     }
 
 }

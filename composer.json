@@ -12,7 +12,8 @@
     "way/generators": "2.*",
     "Intervention/image": "dev-master",
     "zizaco/entrust": "1.2.*@dev",
-    "barryvdh/laravel-dompdf": "0.4.*"
+    "barryvdh/laravel-dompdf": "0.4.*",
+    "soapbox/laravel-formatter": "^2.0"
   },
   "autoload": {
     "classmap": [

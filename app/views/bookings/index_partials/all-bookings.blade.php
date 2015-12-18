@@ -1,3 +1,5 @@
+{{--{{dd($bookings->toArray())}}--}}
+
 @if(!empty($bookings))
     <div class="">
 
