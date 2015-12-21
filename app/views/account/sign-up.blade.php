@@ -23,8 +23,6 @@
                             {{Form::text('email', null, array('class'=> 'form-control', 'style: border:none;', 'placeholder' => 'Email'))}}
                             {{$errors->first('email', '<span class="size12" style="color: red;">:message</span>') }}
                         </div>
-
-
                         <div class="row">
 
                             <div class="col-xs-6">

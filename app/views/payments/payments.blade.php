@@ -42,16 +42,9 @@
     @yield('active-payments-create')
 @endsection
 
-@section('control-sub-title')
-    {{'All Payments'}}
-@endsection
-
 @section('content')
-    <div class="col-md-12">
-        <div class="row">
-            @yield('payment-content')
-        </div>
-    </div>
+    @yield('payment-content')
+
 @endsection
 
 @section('scripts1')

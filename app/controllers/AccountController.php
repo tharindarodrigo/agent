@@ -146,11 +146,9 @@ class AccountController extends \BaseController
                 return Redirect::intended('/');
 
             } else {
-                dd('something wrong');
                 return Redirect::back()
                     ->with('global', 'check your username and password');
             }
-
 
         }
 
@@ -228,14 +226,15 @@ class AccountController extends \BaseController
                 }
 
                 if ($user->save()) {
-                    Session::flash('global', 'Your credential have been updated');
+                    Session::flash('global', 'Your credentials have been updated');
                     return Redirect::back();
                 }
+
                 return Redirect::route('profile-edit-user-post')
                     ->with('global', 'please check again');
             }
             return Redirect::back()
-                ->with('global', 'Your password is wrong');
+                ->with('wrong-password', 'Your password is wrong');
         }
 
     }
@@ -365,6 +364,16 @@ class AccountController extends \BaseController
     private function writeLog($content)
     {
         File::append(public_path() . '/user-log.txt', $content . "\n");
+    }
+
+    public function getChangePassword()
+    {
+        return View::make('account.profile.change-password');
+    }
+
+    public function changePassword()
+    {
+        $this->updateProfile();
     }
 
 

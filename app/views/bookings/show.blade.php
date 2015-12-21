@@ -120,74 +120,83 @@
             </div>
         </div>
     </div>
-    <div class="wrapper wrapper-content animated fadeInRight">
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel">
-
-                <div class="panel-heading">
-                    <div class="panel-title m-b-md"><h4>Blank Panel with icons tabs</h4></div>
-                    <div class="panel-options">
-
-                        <ul class="nav nav-tabs">
-                            <li role="presentation" class="{{!Session::has('bookings_show_tabs')? 'active': '' }}"><a
-                                        href="#client_details" aria-controls="customer_details" role="tab"
-                                        data-toggle="tab">Client Details</a></li>
-                            <li role="presentation" class=""><a href="#vouchers" aria-controls="clients" role="tab"
-                                                                data-toggle="tab">Vouchers</a></li>
-                            <li role="presentation"
-                                class="{{Session::get('bookings_show_tabs')=='flight-details-tab' ? 'active' : ''}}"><a
-                                        href="#flightDetails" aria-controls="flightDetails" role="tab"
-                                        data-toggle="tab">Flight
-                                    Details</a></li>
-                            <li role="presentation" class=""><a href="#transportation" aria-controls="transportation"
-                                                                role="tab" data-toggle="tab">Transportation</a></li>
-                            <li role="presentation" class=""><a href="#excursions" aria-controls="transportation"
-                                                                role="tab" data-toggle="tab">Excursions</a></li>
-                            <li role="presentation" class=""><a href="#invoice" aria-controls="invoice" role="tab"
-                                                                data-toggle="tab">Invoice</a></li>
-                        </ul>
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="{{!Session::has('bookings_show_tabs')? 'active': '' }}"><a
+                                href="#client_details" role="tab"
+                                data-toggle="tab">Client Details</a></li>
+                    <li class=""><a href="#vouchers"
+                                    data-toggle="tab">Vouchers</a></li>
+                    <li class="{{Session::get('bookings_show_tabs')=='flight-details-tab' ? 'active' : ''}}"><a
+                                href="#flightDetails" data-toggle="tab">Flight
+                            Details</a></li>
+                    <li class=""><a href="#transportation" data-toggle="tab">Transportation</a></li>
+                    <li class=""><a href="#excursions" data-toggle="tab">Excursions</a></li>
+                    <li class=""><a href="#invoice" data-toggle="tab">Invoice</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane {{!Session::has('bookings_show_tabs')? 'active': '' }}"
+                         id="client_details">
+                        <div class="panel-body">
+                            @include('bookings.create_partials.client_details')
+                        </div>
                     </div>
-                </div>
+                    <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
+                         id="vouchers">
+                        <div class="panel-body">
 
-                <div class="panel-body">
+                            @include('bookings.create_partials.vouchers')
+                        </div>
+                    </div>
+                    <div role="tabpanel"
+                         class="tab-pane {{Session::get('bookings_show_tabs')=='flight-details-tab' ? 'active' : ''}}"
+                         id="flightDetails">
+                        <div class="panel-body">
 
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane {{!Session::has('bookings_show_tabs')? 'active': '' }}"
-                             id="client_details">
-                                @include('bookings.create_partials.client_details')
+                            @include('bookings.create_partials.flight_details')
+                        </div>
+                    </div>
+                    <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
+                         id="transportation">
+                        <div class="panel-body">
 
-                        </div>
-                        <div role="tabpanel" class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
-                             id="vouchers">
-                                @include('bookings.create_partials.vouchers')
-                        </div>
-                        <div role="tabpanel"
-                             class="tab-pane {{Session::get('bookings_show_tabs')=='flight-details-tab' ? 'active' : ''}}"
-                             id="flightDetails">
-                                @include('bookings.create_partials.flight_details')
-                        </div>
-                        <div role="tabpanel" class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
-                             id="transportation">
                             @include('bookings.create_partials.transportation')
                         </div>
-                        <div role="tabpanel" class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
-                             id="excursions">
+                    </div>
+                    <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
+                         id="excursions">
+                        <div class="panel-body">
+
                             @include('bookings.create_partials.excursions')
 
                         </div>
+                    </div>
 
-                        <div role="tabpanel" class="tab-pane {{--Session::has('') ? 'active' : ''--}}" id="invoice">
-                                @include('bookings.create_partials.invoices')
+                    <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}" id="invoice">
+                        <div class="panel-body">
+
+                            @include('bookings.create_partials.invoices')
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+{{--@endsection--}}
 
+{{--@section('scripts')--}}
+
+    {{--<script type="text/javascript">--}}
+        {{--$(document).ready(function () {--}}
+            {{--$('.delete-button').click(function () {--}}
+                {{--alert('asdasd');--}}
+            {{--});--}}
+        {{--});--}}
+
+    {{--</script>--}}
 @stop
 
 

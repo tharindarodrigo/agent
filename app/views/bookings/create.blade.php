@@ -27,7 +27,7 @@ if (Session::has('excursion_cart_details')) {
             text-align: center;
         }
 
-        .table{
+        .table {
             margin-bottom: 10px !important;
         }
     </style>
@@ -41,7 +41,7 @@ if (Session::has('excursion_cart_details')) {
 @endsection
 
 @section('body-content')
-    <!-- CONTENT -->
+
     <div class="container">
 
         <div class="container mt25 offset-0">
@@ -472,7 +472,7 @@ if (Session::has('excursion_cart_details')) {
                                                     <br/>
 
                                                     From - {{ $transport_booking['origin'] }} <br/>
-                                                    To -  {{ $transport_booking['destination_1'] }}  <br/>
+                                                    To - {{ $transport_booking['destination_1'] }} <br/>
 
                                                 </div>
 
@@ -520,7 +520,7 @@ if (Session::has('excursion_cart_details')) {
                                                     - {{ City::where('id' , TransportPackage::where('id', $predefined_transport['predefine_id'])->first()->origin)->first()->city; }}
                                                     <br/>
                                                     To
-                                                    -  {{ City::where('id' , TransportPackage::where('id', $predefined_transport['predefine_id'])->first()->destination)->first()->city; }}
+                                                    - {{ City::where('id' , TransportPackage::where('id', $predefined_transport['predefine_id'])->first()->destination)->first()->city; }}
                                                     <br/>
 
                                                 </div>
@@ -627,10 +627,9 @@ if (Session::has('excursion_cart_details')) {
 
 
     </div>
-    <!-- END OF CONTENT -->
 
-    @endsection
-            <!-- Javascript  -->
+@endsection
+
 
 
 

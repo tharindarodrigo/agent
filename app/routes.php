@@ -52,6 +52,9 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'AccountController@getSignOut',
     ));
 
+    Route::get('account/profile/change-password', 'AccountController@getChangePassword');
+    Route::post('account/profile/post-change-password', 'AccountController@updateProfile');
+
     Route::get('bookings/cancel-booking', 'BookingsController@cancelBooking');
     Route::post('/bookings/create-client', 'BookingsController@addClient');
     Route::post('/bookings/destroy-client', 'BookingsController@destroyClient');
@@ -67,7 +70,7 @@ Route::group(array('before' => 'auth'), function () {
 
     Route::resource('bookings.clients', 'ClientsController');
     Route::resource('bookings.flightDetails', 'FlightDetailsController');
-    Route::resource('payments', 'PaymentsController');
+    Route::resource('accounts/payments', 'PaymentsController');
 
 
     Route::get('/my-bookings', function () {
@@ -76,8 +79,9 @@ Route::group(array('before' => 'auth'), function () {
 
 //Vouchers
     Route::resource('bookings.vouchers', 'VouchersController');
-
     Route::get('accounts/balance-sheet/{reference_number?}', 'AccountsController@getBalanceSheet');
+    Route::get('accounts/credit-limit', 'AccountsController@getCreditLimit');
+    Route::get('accounts/invoices', 'AccountsController@getInvoices');
 
 });
 

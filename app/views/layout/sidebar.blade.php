@@ -68,8 +68,8 @@
                     </li>
                     <li class="@yield('active-balance-sheet')">
                         <a href="{{URL::to('accounts/balance-sheet')}}">Balance Sheet</a></li>
-                    <li>
-                        <a href="#">Credit Limit</a></li>
+                    <li class="@yield('active-accounts-credit-limit')">
+                        <a href="{{URL::to('accounts/credit-limit')}}">Credit Limit</a></li>
                 </ul>
             </li>
 

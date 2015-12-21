@@ -27,5 +27,14 @@
 @endsection
 
 @section('script')
+    {{HTML::script('ajax/commonFunctions.js')}}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.delete-button').click(function () {
+                confirm();
+            });
+        });
+    </script>
 
 @stop

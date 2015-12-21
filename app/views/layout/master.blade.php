@@ -61,17 +61,15 @@
     </div>
 </div>
 
-<!-- Mainly scripts -->
 {{HTML::script("//code.jquery.com/jquery-2.1.4.min.js")}}
 {{HTML::script("js/bootstrap.min.js")}}
 {{HTML::script("js/plugins/metisMenu/jquery.metisMenu.js")}}
 {{HTML::script("js/plugins/slimscroll/jquery.slimscroll.min.js")}}
 
-<!-- Custom and plugin javascript -->
 {{HTML::script("js/inspinia.js")}}
 {{HTML::script("js/plugins/pace/pace.min.js")}}
 
-@yield('scripts')
+@yield('script')
 
 </body>
 
