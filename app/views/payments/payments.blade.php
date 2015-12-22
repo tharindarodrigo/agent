@@ -29,12 +29,16 @@
 @endsection
 
 {{--Active Main Menu Item--}}
+@section('active-accounts')
+    {{ 'active' }}
+@endsection
+
 @section('active-payments')
     {{ 'active' }}
 @endsection
 
 {{--Active Sub menu Item--}}
-@section('active-payments-create')
+@section('active-payments-index')
     @yield('active-payments-create')
 @endsection
 
@@ -44,7 +48,6 @@
 
 @section('content')
     @yield('payment-content')
-
 @endsection
 
 @section('scripts1')

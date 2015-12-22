@@ -17,8 +17,8 @@
                                 <span class="text-muted text-xs block">Art Director <b
                                             class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">Company Profile</a></li>
+                        <li><a href="{{URL::to('accounts/profile')}}">My Profile</a></li>
+                        <li><a href="{{URL::to('account/profile/change-password')}}">Change Password</a></li>
                         <li><a href="#">Mailbox</a></li>
                         <li class="divider"></li>
                         <li><a href="{{URL::route('account-sign-out')}}">Sign Out</a></li>
@@ -53,15 +53,15 @@
                 <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Accounts </span><span
                             class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="#">Invoices</a></li>
+                    <li class="@yield('active-invoices')"><a href="{{URL::to('accounts/invoices')}}">Invoices</a></li>
                     <li class="@yield('active-payments')">
                         <a href="#">Payments <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li class="@yield('active-payments-view-payments')">
                                 <a href="{{URL::to('accounts/payments')}}">View Payments </a>
                             </li>
-                            <li>
-                                <a href="#">Make Payment</a>
+                            <li class="@yield('active-payments-create-payments')">
+                                <a href="{{URL::route('accounts.payments.create')}}">Make Payment</a>
                             </li>
 
                         </ul>

@@ -12,6 +12,25 @@
     {{'active'}}
 @endsection
 
+@endsection
+
+@section('active-invoices')
+    @yield('active-invoices')
+@endsection
+
+@section('active-payments')
+    @yield('active-payments')
+@endsection
+
+@section('active-payments-view-payments')
+    @yield('active-payments-view-payments')
+@endsection
+
+
+@section('active-payments-create-payments')
+    @yield('active-payments-create-payments')
+@endsection
+
 @section('style')
     {{HTML::style('https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css')}}
 

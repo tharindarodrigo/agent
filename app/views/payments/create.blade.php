@@ -1,6 +1,10 @@
 @extends('payments.payments')
 
-@section('active-payments-create')
+@section('active-payments')
+    {{'active'}}
+@endsection
+
+@section('active-payments-create-payments')
     {{'active'}}
 @endsection
 

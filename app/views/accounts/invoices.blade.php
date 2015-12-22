@@ -1,4 +1,4 @@
-@extends('bookings.bookings')
+@extends('accounts.accounts')
 
 @section('styles')
     {{--<style type="text/css">--}}
@@ -8,7 +8,7 @@
     {{--</style>--}}
 @endsection
 
-@section('active-bookings')
+@section('active-invoices')
     {{'active'}}
 @endsection
 
