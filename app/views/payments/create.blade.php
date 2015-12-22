@@ -14,7 +14,7 @@
             <div class="col-lg-5">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Horizontal form</h5>
+                        <h5>Make a Payment</h5>
 
                     </div>
                     <div class="ibox-content">

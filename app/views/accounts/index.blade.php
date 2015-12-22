@@ -9,7 +9,7 @@
 @endsection
 
 @section('active-balance-sheet')
-{{'active'}}
+    {{'active'}}
 @endsection
 
 
@@ -25,24 +25,22 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Editable Table in- combination with jEditable</h5>
+                        <h5>Balance Sheet</h5>
 
                         <div class="ibox-tools">
                             {{--<a class="collapse-link">--}}
-                                {{--<i class="fa fa-chevron-up"></i>--}}
+                            {{--<i class="fa fa-chevron-up"></i>--}}
                             {{--</a>--}}
 
                         </div>
                     </div>
                     <div class="ibox-content">
-                           @include('accounts.balance-sheet')
+                        @include('accounts.balance-sheet')
                     </div>
                 </div>
-
+            </div>
         </div>
-
     </div>
-
 
 @endsection
 

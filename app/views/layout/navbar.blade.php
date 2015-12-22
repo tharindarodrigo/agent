@@ -1,9 +1,12 @@
 <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-        <form role="search" class="navbar-form-custom" action="http://webapplayers.com/inspinia_admin-v2.3/search_results.html">
+
+        <form role="search" class="navbar-form-custom"
+              action="http://webapplayers.com/inspinia_admin-v2.3/search_results.html">
             <div class="form-group">
-                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                <input type="text" placeholder="Search for something..." class="form-control" name="top-search"
+                       id="top-search">
             </div>
         </form>
     </div>
@@ -13,7 +16,7 @@
         </li>
         <li class="dropdown">
             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
             </a>
             <ul class="dropdown-menu dropdown-messages">
                 <li>
@@ -22,6 +25,7 @@
                             {{--<img alt="image" class="img-circle" src="img/a7.jpg">--}}
                             {{HTML::image('img/a7.jpg')}}
                         </a>
+
                         <div class="media-body">
                             <small class="pull-right">46h ago</small>
                             <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
@@ -36,9 +40,11 @@
                             {{--<img alt="image" class="img-circle" src="img/a4.jpg">--}}
                             {{HTML::image('img/a4.jpg')}}
                         </a>
+
                         <div class="media-body ">
                             <small class="pull-right text-navy">5h ago</small>
-                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>.
+                            <br>
                             <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
                         </div>
                     </div>
@@ -50,6 +56,7 @@
                             {{--<img alt="image" class="img-circle" src="img/profile.jpg">--}}
                             {{HTML::image('img/profile.jpg')}}
                         </a>
+
                         <div class="media-body ">
                             <small class="pull-right">23h ago</small>
                             <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
@@ -69,7 +76,7 @@
         </li>
         <li class="dropdown">
             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                <i class="fa fa-shopping-cart"></i> <span class="label label-primary">8</span>
             </a>
             <ul class="dropdown-menu dropdown-alerts">
                 <li>

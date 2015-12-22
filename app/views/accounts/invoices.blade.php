@@ -28,7 +28,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Editable Table in- combination with jEditable</h5>
+                        <h5>Invoices List</h5>
 
                         <div class="ibox-tools">
                             {{--<a class="collapse-link">--}}
@@ -55,7 +55,7 @@
                                     <td>{{$booking->reference_number}}</td>
                                     <td align="right">{{number_format($booking->invoice->amount,2)}}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-warning"><span class="fa fa-eye"></span></a>
+                                        <a href="{{URL::to('invoice/'.$booking->id)}}" class="btn btn-sm btn-default"><span class="fa fa-eye"></span></a>
                                     </td>
                                 </tr>
                             @endforeach
