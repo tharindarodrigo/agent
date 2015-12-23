@@ -34,7 +34,7 @@
                 <ol class="breadcrumb">
                     @yield('bread-crumbs')
                     <li>
-                        <a href="index-2.html">This is</a>
+                        <a href="#">This is</a>
                     </li>
                     <li class="active">
                         <strong>Breadcrumb</strong>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="title-action">
-                    <a href="#" class="btn btn-primary">This is action area</a>
+
                 </div>
             </div>
         </div>
