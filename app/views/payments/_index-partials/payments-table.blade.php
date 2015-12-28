@@ -17,7 +17,7 @@
                 <td>{{$payment->id}}</td>
                 <td>{{$payment->reference_number}}</td>
                 <td>{{$payment->agent->company or 'individual'}}</td>
-                <td align="center">{{$payment->payment_date_time}}</td>
+                <td align="center">{{date('Y-m-d',strtotime($payment->payment_date_time))}}</td>
                 <td align="right">{{number_format($payment->amount,2)}}</td>
                 <td>
                     {{Form::open(array('route' => array('accounts.payments.destroy', $payment->id), 'method'=>'delete'))}}

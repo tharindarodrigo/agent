@@ -19,43 +19,16 @@ class BookingsController extends \BaseController
      *
      * @return Response
      */
+
     public function index()
     {
 
+//        dd(Input::all());
         if (Auth::check()) {
 
             $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
-            $user_id = Auth::id();
 
-            $payments_query = Payment::with('user')->with('agent')
-                ->select(array('payment_date_time AS date', 'amount AS debit', 'details', 'id'));
-
-            $invoices_query = Booking::join('invoices', 'invoices.booking_id', '=','bookings.id')
-            ->select(array('arrival_date AS date', 'reference_number AS details', 'amount as credit'))
-
-                ->where('val','=', 1);
-
-            if(!Entrust::hasRole('Admin')){
-                $payments_query->where('user_id',$user_id);
-                $invoices_query->where('user_id',$user_id);
-            }
-
-            if(Input::get('get_payments')){
-
-                Session::flash('activate_payments_tab','active');
-
-                $from_d = Input::get('from_d');
-                $to_d = Input::get('to_d');
-                $payments = $payments_query->whereBetween('payment_date_time',array($from_d,$to_d))->get();
-                $invoices = $invoices_query->whereBetween('arrival_date',array($from_d,$to_d))->get();
-
-            } else {
-                $payments = $payments_query->get();
-                $invoices = $invoices_query->get();
-            }
-
-
-            //dd($pay);
+//            dd($reference_number);
             if (Entrust::hasRole('Admin')) {
                 $bookings = Booking::with('user')
                     ->where('reference_number', 'like', '%' . $reference_number . '%')
@@ -63,36 +36,85 @@ class BookingsController extends \BaseController
 //                ->where('departure_date', '=', $departure_date)
                     ->get();
             } else {
+
                 $bookings = Booking::whereHas('user', function ($q) {
                     $q->where('users.id', $this->_user->id);
-                })->where('reference_number', 'like', $reference_number)
+                })->where('reference_number', 'like', '%' . $reference_number . '%')
 //                ->where('arrival_date', '=', $arrival_date)
 //                ->where('departure_date', '=', $departure_date)
                     ->get();
             }
 
 
-
-            $merged_data = array_merge($payments->toArray(), $invoices->toArray());
-            foreach ($merged_data as $key => $row) {
-                $c[$key] = $row['date'];
-
-            }
-
-            if(!empty($merged_data)){
-                array_multisort($c, SORT_ASC, $merged_data);
-            }
-
-
-            $total = 0;
-
-            if(Input::has('get_payment'))
-                return View::make('bookings.index', compact('bookings', 'payments', 'merged_data','total'))->withInput();
-
-            return View::make('bookings.index', compact('bookings', 'payments', 'merged_data', 'invoice', 'total'));
+            return View::make('bookings.index', compact('bookings'));
         }
 
         return App::abort(404);
+    }
+
+    public function getSearchedBookings()
+    {
+
+
+        if (Auth::check()) {
+
+            $reference_number = Input::has('reference_number') ? Input::get('reference_number') : null;
+            if (Input::has('reference_number') && (!Input::has('arrival_date') || !Input::has('arrival_date'))) {
+                if (Entrust::hasRole('Admin')) {
+                    $bookings = Booking::with('user')
+                        ->where('reference_number', '=', $reference_number)
+                        ->get();
+                } else {
+                    $bookings = Booking::whereHas('user', function ($q) {
+                        $q->where('users.id', $this->_user->id);
+                    })->where('reference_number', '=', $reference_number)
+                        ->get();
+
+                }
+            } elseif (!Input::has('reference_number') && ($arrival_date = Input::has('arrival_date') && $departure_date = Input::has('arrival_date'))) {
+                if (Entrust::hasRole('Admin')) {
+                    $bookings = Booking::with('user')
+                        ->where('arrival_date', '=', $arrival_date)
+                        ->where('departure_date', '=', $departure_date)
+                        ->get();
+                } else {
+                    $bookings = Booking::whereHas('user', function ($q) {
+                        $q->where('users.id', $this->_user->id);
+                    })
+                        ->where('arrival_date', '=', $arrival_date)
+                        ->where('departure_date', '=', $departure_date)
+                        ->get();
+                }
+            } elseif (Input::has('reference_number') && Input::has('arrival_date') && Input::has('arrival_date')) {
+                if (Entrust::hasRole('Admin')) {
+                    $bookings = Booking::with('user')
+                        ->where('reference_number', '=', $reference_number)
+                        ->where('arrival_date', '=', $arrival_date)
+                        ->where('departure_date', '=', $departure_date)
+                        ->get();
+                } else {
+                    $bookings = Booking::whereHas('user', function ($q) {
+                        $q->where('users.id', $this->_user->id);
+                    })->where('reference_number', '=', $reference_number)
+                        ->where('arrival_date', '=', $arrival_date)
+                        ->where('departure_date', '=', $departure_date)
+                        ->get();
+                }
+
+            } elseif (!Input::has('reference_number') && !Input::has('arrival_date') && !Input::has('arrival_date')) {
+
+
+                if (Entrust::hasRole('Admin')) {
+                    $bookings = Booking::with('user')->get();
+                } else {
+                    $bookings = Booking::whereHas('user', function ($q) {
+                        $q->where('users.id', $this->_user->id);
+                    })->get();
+                }
+            }
+
+            return View::make('bookings.index', compact('bookings'));
+        }
     }
 
     /**
@@ -176,7 +198,7 @@ class BookingsController extends \BaseController
 
         if (Auth::check()) {
             $user = Auth::user();
-            if(Entrust::hasRole('Agent')){
+            if (Entrust::hasRole('Agent')) {
 
                 $rules = Booking::$agentRules;
             }
@@ -184,7 +206,7 @@ class BookingsController extends \BaseController
             $rules = Booking::$guestRules;
         }
         $data = Input::all();
-        if(Auth::check())
+        if (Auth::check())
             $data['user_id'] = Auth::id();
         $validator = Validator::make($data, $rules);
 
@@ -192,11 +214,6 @@ class BookingsController extends \BaseController
             //dd($validator->errors());
             return Redirect::back()->withErrors($validator)->withInput();
         }
-
-//        if (!Session::has('client-list')) {
-//            return Redirect::back();
-//        }
-
 
         $data['val'] = 1;
 
@@ -263,7 +280,7 @@ class BookingsController extends \BaseController
                         $custom_trip['to'] = date('Y-m-d H:i', strtotime($custom_trip['drop_off_date'] . ' ' . $custom_trip['drop_off_time_hour'] . ':' . $custom_trip['drop_off_time_minutes']));
                         $custom_trip['reference_number'] = 'TR' . ($booking->reference_number * 1000 + $x++);
                         $custom_trip['booking_id'] = $booking->id;
-                        $custom_trip['locations'] = $custom_trip['destination_1'].','.$custom_trip['destination_2'] or ''.','.$custom_trip['destination_3'];
+                        $custom_trip['locations'] = $custom_trip['destination_1'] . ',' . $custom_trip['destination_2'] or '' . ',' . $custom_trip['destination_3'];
                         $custom_trip['amount'] = rand(100, 200);
 
                         CustomTrip::create($custom_trip);
@@ -292,7 +309,7 @@ class BookingsController extends \BaseController
                 //Send Transportation Email to All EHI users
 
                 $pdf = PDF::loadView('emails/transport', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/transport'.$booking->id.'.pdf');
+                $pdf->save(public_path() . '/temp-files/transport' . $booking->id . '.pdf');
 
                 if ($a > 0) {
                     Mail::send('emails/transport-mail', array(
@@ -380,7 +397,7 @@ class BookingsController extends \BaseController
 
                         // voucher
                         $pdf = PDF::loadView('emails/voucher', array('voucher' => $created_voucher));
-                        $pdf->save(public_path() . '/temp-files/voucher'.$created_voucher->id.'.pdf');
+                        $pdf->save(public_path() . '/temp-files/voucher' . $created_voucher->id . '.pdf');
 
                         $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
                             ->where('hotel_user.hotel_id', $created_voucher->hotel_id)
@@ -388,8 +405,8 @@ class BookingsController extends \BaseController
 
                         Mail::send('emails/voucher-mail', array(
                             'voucher' => Voucher::find($created_voucher->id)
-                        ), function ($message) use ($booking, $hotel_users,$created_voucher) {
-                            $message->attach(public_path() . '/temp-files/voucher'.$created_voucher->id.'.pdf')
+                        ), function ($message) use ($booking, $hotel_users, $created_voucher) {
+                            $message->attach(public_path() . '/temp-files/voucher' . $created_voucher->id . '.pdf')
                                 ->subject('Booking Voucher : ' . $booking->reference_number)
                                 ->from('reservations@srilankahotels.travel', 'SriLankaHotels.Travel')
                                 ->bcc('admin@srilankahotels.travel', 'SriLankaHotels.Travel');
@@ -405,7 +422,7 @@ class BookingsController extends \BaseController
                 //Booking details
 
                 $pdf = PDF::loadView('emails/booking', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/booking'.$booking->id.'.pdf');
+                $pdf->save(public_path() . '/temp-files/booking' . $booking->id . '.pdf');
 
                 $emails = array('tharinda@exotic-intl.com', 'lahiru@exotic-intl.com', 'umesh@exotic-intl.com');
                 $ehi_users = User::getEhiUsers();
@@ -414,7 +431,7 @@ class BookingsController extends \BaseController
                 Mail::send('emails/booking-mail', array(
                     'booking' => Booking::getBookingData($booking->id)
                 ), function ($message) use ($booking, $emails, $ehi_users) {
-                    $message->attach(public_path() . '/temp-files/booking'.$booking->id.'.pdf')
+                    $message->attach(public_path() . '/temp-files/booking' . $booking->id . '.pdf')
                         ->subject('New Booking: ' . $booking->reference_number)
                         ->from('noreply@srilankahotels.com', 'SriLankaHotels.Travel')
                         ->bcc('admin@srilankahotels.travel', 'Admin');
@@ -439,7 +456,7 @@ class BookingsController extends \BaseController
 
                 //Invoice
                 $pdf = PDF::loadView('emails/invoice', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/invoice'.$b.'.pdf');
+                $pdf->save(public_path() . '/temp-files/invoice' . $b . '.pdf');
                 $pdf = PDF::loadView('emails/service-voucher', array('booking' => $booking));
                 $pdf->save(public_path() . '/temp-files/service-voucher.pdf');
 
@@ -466,7 +483,7 @@ class BookingsController extends \BaseController
                     ), function ($message) use ($booking, $emails) {
                         $message->to($booking->email, $booking->name)
                             ->subject('Booking Created : ' . $booking->reference_number)
-                            ->attach(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+                            ->attach(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
                         $message->to('accounts@srilankahotels.travel', 'Accounts');
                         if (!empty($ehi_users)) {
                             foreach ($ehi_users as $ehi_user) {

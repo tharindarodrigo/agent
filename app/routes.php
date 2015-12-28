@@ -62,6 +62,7 @@ Route::group(array('before' => 'auth'), function () {
 
     Route::get('vouchers/{id}/cancel', 'VouchersController@cancelVoucher');
 
+    Route::post('bookings/post-bookings', 'BookingsController@getSearchedBookings');
     Route::resource('bookings', 'BookingsController');
 
     Route::resource('bookings.custom-trip', 'CustomTripsController');

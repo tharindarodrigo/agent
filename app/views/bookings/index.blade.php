@@ -38,13 +38,63 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="row">
+                                    {{Form::open(array('url'=>array('bookings/post-bookings')))}}
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            {{Form::text('reference_number',null,array('class'=> 'form-control','placeholder'=> 'Reference Number'))}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{Form::submit('Search',array('class'=>'btn btn-block btn-primary', 'name'=>'search_reference_number'))}}
+                                    </div>
+                                    {{Form::close()}}
 
-                        @include('bookings.index_partials.all-bookings')
+
+                                </div>
+                            </div>
+                            {{Form::open(array('url'=>array('bookings/post-bookings')))}}
+                            <div class="col-lg-6">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{Form::select('tour_type',array('arrival'=>'Arrival','departure'=>'Departure'),null,array('class'=> 'form-control'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        {{Form::select('status',array('any'=>'Any', 'active'=>'Active', 'inactive'=>'Inactive'),null,array('class'=> 'form-control'))}}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{Form::text('from',null,array('class'=> 'form-control','placeholder'=> 'From'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        {{Form::text('to',null,array('class'=> 'form-control','placeholder'=> 'To'))}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 vertical-align">
+                                <button class="btn btn-block  btn-primary btn-lg" type="submit">
+                                    Search
+                                </button>
+                            </div>
+                            {{Form::close()}}
+                        </div>
+
 
                     </div>
+
+
+                    @include('bookings.index_partials.all-bookings')
+
+
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection
