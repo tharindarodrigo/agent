@@ -23,39 +23,73 @@ class BookingsController extends \BaseController
     public function index()
     {
 
-//        dd(Input::all());
-        if (Auth::check()) {
+        $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
 
-            $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
+        if (Entrust::hasRole('Admin')) {
+            $bookings = Booking::with('user')
+                ->where('reference_number', 'like', '%' . $reference_number . '%');
 
-//            dd($reference_number);
-            if (Entrust::hasRole('Admin')) {
-                $bookings = Booking::with('user')
-                    ->where('reference_number', 'like', '%' . $reference_number . '%')
-//                ->where('arrival_date', '=', $arrival_date)
-//                ->where('departure_date', '=', $departure_date)
-                    ->get();
-            } else {
+        } else {
 
-                $bookings = Booking::whereHas('user', function ($q) {
-                    $q->where('users.id', $this->_user->id);
-                })->where('reference_number', 'like', '%' . $reference_number . '%')
-//                ->where('arrival_date', '=', $arrival_date)
-//                ->where('departure_date', '=', $departure_date)
-                    ->get();
-            }
-
-
-            return View::make('bookings.index', compact('bookings'));
+            $bookings = Booking::whereHas('user', function ($q) {
+                $q->where('users.id', $this->_user->id);
+            })->where('reference_number', 'like', '%' . $reference_number . '%');
         }
 
-        return App::abort(404);
+        //return View::make('bookings.index', compact('bookings'));
+
+        if (Input::get('search')) {
+
+            $status = Input::get('status');
+
+
+            switch ($status) {
+                case '0':
+                    $val = '%';
+                    break;
+
+                case '1':
+                    $val = '1';
+                    break;
+
+                case '2':
+                    $val = '0';
+                    break;
+
+            }
+
+            $from = Input::get('from');
+            $to = Input::get('to');
+            $tour_type = Input::get('tour_type');
+
+
+            switch ($tour_type) {
+                case '0':
+                    $tour_type = '0';
+                    $tour = 'arrival_date';
+                    break;
+
+                case '1':
+                    $tour_type = '1';
+                    $tour = 'departure_date';
+                    break;
+            }
+
+            $bookings = $bookings
+                ->where($tour,'>=',$from)
+                ->where($tour,'<=',$to)
+                ->where('val', 'LIKE', $val);
+        }
+
+        $bookings = $bookings->get();
+
+        return View::make('bookings.index', compact('bookings', 'from', 'to','tour_type', 'status'));
     }
 
+    //this should be deleted
     public function getSearchedBookings()
     {
-
-
+        /*
         if (Auth::check()) {
 
             $reference_number = Input::has('reference_number') ? Input::get('reference_number') : null;
@@ -114,7 +148,7 @@ class BookingsController extends \BaseController
             }
 
             return View::make('bookings.index', compact('bookings'));
-        }
+        }*/
     }
 
     /**
@@ -125,7 +159,9 @@ class BookingsController extends \BaseController
     public function create()
     {
 
-        // For Hotel Booking
+        return View::make('bookings.create');
+
+        Session::put('rate_box_details','');
 
         if (Session::has('rate_box_details')) {
 
@@ -141,6 +177,7 @@ class BookingsController extends \BaseController
                 $hotel_bookings[$hotel_id]['hotel_address'] = $bookings[$rate_key]['hotel_address'];
                 $hotel_bookings[$hotel_id]['room_identity'] = $bookings[$rate_key]['room_identity'];
             }
+
         } else {
             $hotel_bookings = '';
         }
@@ -183,6 +220,7 @@ class BookingsController extends \BaseController
                         'excursion_cart_details' => $excursion_cart_details,
                     )
                 );
+
         return Redirect::to('/');
 
     }
@@ -550,15 +588,20 @@ class BookingsController extends \BaseController
 
         if (!Input::has('val')) {
             $rules = Booking::$agentRules;
+            Booking::whereHas('Voucher', function($q){
+                $q->where('val',0);
+            })->whereHas('');
         } else {
             $rules = ['val'];
         }
 
         $validator = Validator::make($data = Input::all(), $rules);
         if ($validator->fails()) {
-
+            dd($validator->errors());
             return Redirect::back()->withErrors($validator)->withInput();
         }
+
+        $data['user_id'] = Auth::id();
 
         $booking->update($data);
 

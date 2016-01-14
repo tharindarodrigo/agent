@@ -92,9 +92,36 @@ class AccountsController extends \BaseController
 
     public function getInvoices()
     {
-        $bookings = Booking::with('invoice')->where('user_id',Auth::id())->get();
-        return View::make('accounts.invoices',compact('bookings'));
+        $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
+
+        if (Entrust::hasRole('Admin')) {
+            $bookings = Booking::with('user')->with('invoice')
+                ->where('reference_number', 'like', '%' . $reference_number . '%');
+
+        } else {
+
+            $bookings = Booking::whereHas('user', function ($q) {
+                $q->where('users.id', $this->_user->id);
+            })->with('invoice')->where('reference_number', 'like', '%' . $reference_number . '%');
+        }
+
+        //$bookings = Booking::with('invoice')->where('user_id',Auth::id())->get();
+        if (Input::get('search')) {
+
+            $from = Input::get('from');
+            $to = Input::get('to');
+
+
+            $bookings = $bookings
+                ->where('arrival_date','>=',$from)
+                ->where('arrival_date','<=',$to);
+        }
+
+        $bookings = $bookings->get();
+        return View::make('accounts.invoices', compact('bookings', 'from', 'to','tour_type', 'status', 'reference_number'));
+
     }
+
 
 
 

@@ -50,7 +50,7 @@
                         {{link_to('vouchers/'.$voucher->id.'/cancel','Cancel',array('class' => 'btn btn-warning', 'onclick'=>'confirmDelete()'))}}
                     @endif
 
-                    <a href="{{URL::to('voucher/'.$voucher->id)}}" class="btn btn-default"><span
+                    <a href="{{URL::to('voucher/'.$voucher->id)}}" target="_blank" class="btn btn-default"><span
                                 class="glyphicon glyphicon-eye-open"></span></a>
                     {{--<button class="btn btn-sm" data-toggle="modal" data-target="#voucherModal_{{$voucher->id}}" ><span class="glyphicon glyphicon-eye-open"></span></button>--}}
                 </td>
@@ -63,7 +63,7 @@
 </div>
 
 
-<input data-toggle="modal" data-target="#new_voucher" class="btn bluebtn pull-right" type="button" id
+<input data-toggle="modal" data-target="#new_voucher" class="btn bluebtn pull-right"  type="button" id
        value="Add New Voucher">
 <div class="modal " id="new_voucher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -86,11 +86,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-
                 {{link_to_route('bookings.vouchers.create','Proceed',array($booking->id),array('class'=>'btn btn-primary'))}}
                 <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
             </div>
-
         </div>
     </div>
 </div>

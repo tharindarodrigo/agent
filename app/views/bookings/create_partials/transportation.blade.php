@@ -53,7 +53,7 @@
                         <td>{{$trip->id}}</td>
                         <td>{{$trip->pick_up_date_time}}</td>
                         <td>{{$trip->transportPackage->vehicle->vehicle_type}}</td>
-                        {{--                <td>{{$trip->vehicle->vehicle_type}}</td>--}}
+                        {{--<td>{{$trip->vehicle->vehicle_type}}</td>--}}
                         <td>{{$trip->transportPackage->destinationCity->city}}</td>
                         <td>{{number_format($trip->amount, 2)}}</td>
                         <td>{{$trip->val == 1 ? 'Active' : 'Cancelled'}}</td>
@@ -78,12 +78,9 @@
                             @endif
                         </td>
 
-
                     </tr>
                 @endforeach
             @endif
-
-
 
             </tbody>
         </table>

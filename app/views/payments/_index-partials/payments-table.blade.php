@@ -9,7 +9,7 @@
         <th>Controls</th>
     </tr>
     </thead>
-    @if(!empty($payments))
+    @if($payments->count())
         <tbody>
         @foreach($payments as $payment)
             <tr>
@@ -29,5 +29,8 @@
             </tr>
         @endforeach
         </tbody>
+
+    @else
+        <tbody><tr><th colspan="6" style="text-align: center;"><h3>No Records Found</h3></th></tr></tbody>
     @endif
 </table>

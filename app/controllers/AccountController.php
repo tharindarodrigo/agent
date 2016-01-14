@@ -227,7 +227,9 @@ class AccountController extends \BaseController
 
                 if ($user->save()) {
                     Session::flash('global', 'Your credentials have been updated');
+                    Auth::logout();
                     return Redirect::back();
+
                 }
 
                 return Redirect::route('profile-edit-user-post')
@@ -324,7 +326,6 @@ class AccountController extends \BaseController
                     return Redirect::back()->withErrors($validator);
                 }
 
-
                 $user->password = Hash::make($input['password']);
                 $user->code = '';
 
@@ -340,7 +341,6 @@ class AccountController extends \BaseController
 
         return Redirect::route('account/sign-in')
             ->with('global', 'Could not recover your account.');
-
 
     }
 

@@ -54,8 +54,8 @@
 
                             @if(Entrust::hasRole('Agent'))
                                 <span class="size12">Agent Reference Number *</span>
-                                {{Form::text('tour',null,array('class'=> 'form-control'))}}
-                                {{$errors->first('tour', '<span class="size12" style="color: red;">:message</span>') }}
+                                {{Form::text('agent_reference_number',null,array('class'=> 'form-control'))}}
+                                {{$errors->first('agent_reference_number', '<span class="size12" style="color: red;">:message</span>') }}
                                 <br/>
                             @endif
 
@@ -134,7 +134,7 @@
                                 href="#flightDetails" data-toggle="tab">Flight
                             Details</a></li>
                     <li class=""><a href="#transportation" data-toggle="tab">Transportation</a></li>
-                    <li class=""><a href="#excursions" data-toggle="tab">Excursions</a></li>
+                    {{--<li class=""><a href="#excursions" data-toggle="tab">Excursions</a></li>--}}
                     <li class=""><a href="#invoice" data-toggle="tab">Invoice</a></li>
                 </ul>
                 <div class="tab-content">
@@ -166,14 +166,14 @@
                             @include('bookings.create_partials.transportation')
                         </div>
                     </div>
-                    <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}"
-                         id="excursions">
-                        <div class="panel-body">
+                    {{--<div class="tab-pane --}}{{--Session::has('') ? 'active' : ''--}}{{--"--}}
+                         {{--id="excursions">--}}
+                        {{--<div class="panel-body">--}}
 
-                            @include('bookings.create_partials.excursions')
+                            {{--@include('bookings.create_partials.excursions')--}}
 
-                        </div>
-                    </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}" id="invoice">
                         <div class="panel-body">

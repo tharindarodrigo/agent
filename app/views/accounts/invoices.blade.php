@@ -39,45 +39,40 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="row">
-                                    {{Form::open(array('url'=>array('bookings/post-bookings')))}}
-                                    <div class="col-md-12">
+                                    <form action="">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{Form::text('reference_number',!empty($reference_number) && $reference_number!='%' ? $reference_number:null, array('class'=> 'form-control','placeholder'=> 'Reference Number'))}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{Form::submit('Search',array('class'=>'btn btn-block btn-primary', 'name'=>'search_reference_number'))}}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <form action="">
+                                <div class="col-lg-8">
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            {{Form::text('reference_number',null,array('class'=> 'form-control','placeholder'=> 'Reference Number'))}}
+                                            {{Form::input('date','from',!empty($from) ? $from : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'From', 'required'=>'true'))}}
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        {{Form::submit('Search',array('class'=>'btn btn-block btn-primary', 'name'=>'search_reference_number'))}}
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{Form::input('date','to',!empty($to) ? $to : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'To', 'required'=>'true'))}}
+                                        </div>
                                     </div>
-                                    {{Form::close()}}
+                                    <div class="col-md-4">
+                                        {{Form::submit('Search', array('name'=>'search', 'class'=>'btn btn-block btn-primary'))}}
 
-
-                                </div>
-                            </div>
-                            {{Form::open(array('url'=>array('bookings/post-invoices')))}}
-                            <div class="col-lg-6">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        {{Form::text('date',null,array('class'=> 'form-control','placeholder'=> 'From'))}}
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-
-                                    <div class="form-group">
-                                        {{Form::text('name',null,array('class'=> 'form-control','placeholder'=> 'To'))}}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-3 vertical-align">
-                                <button class="btn btn-block  btn-primary btn-lg" type="submit">
-                                    Search
-                                </button>
-                            </div>
-                            {{Form::close()}}
+                            </form>
                         </div>
 
                         <table class="table table-bordered">
@@ -96,9 +91,12 @@
                                 <tr>
                                     <td>{{$booking->invoice->id}}</td>
                                     <td>{{$booking->reference_number}}</td>
+                                    <td>{{$booking->arrival_date}}</td>
+                                    <td>{{$booking->booking_name}}</td>
                                     <td align="right">{{number_format($booking->invoice->amount,2)}}</td>
                                     <td>
-                                        <a href="{{URL::to('invoice/'.$booking->id)}}" class="btn btn-sm btn-default"><span class="fa fa-eye"></span></a>
+                                        <a href="{{URL::to('invoice/'.$booking->id)}}"
+                                           class="btn btn-sm btn-default" target="_blank"><span class="fa fa-eye"></span></a>
                                     </td>
                                 </tr>
                             @endforeach

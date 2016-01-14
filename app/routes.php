@@ -63,6 +63,7 @@ Route::group(array('before' => 'auth'), function () {
     Route::get('vouchers/{id}/cancel', 'VouchersController@cancelVoucher');
 
     Route::post('bookings/post-bookings', 'BookingsController@getSearchedBookings');
+
     Route::resource('bookings', 'BookingsController');
 
     Route::resource('bookings.custom-trip', 'CustomTripsController');
@@ -71,6 +72,7 @@ Route::group(array('before' => 'auth'), function () {
 
     Route::resource('bookings.clients', 'ClientsController');
     Route::resource('bookings.flightDetails', 'FlightDetailsController');
+    Route::post('accounts/get-payment-list', 'PaymentsController@getPaymentsList');
     Route::resource('accounts/payments', 'PaymentsController');
 
 
@@ -78,7 +80,7 @@ Route::group(array('before' => 'auth'), function () {
         return View::make('agent-bookings.bookings');
     });
 
-//Vouchers
+    //Vouchers
     Route::resource('bookings.vouchers', 'VouchersController');
     Route::get('accounts/balance-sheet/{reference_number?}', 'AccountsController@getBalanceSheet');
     Route::get('accounts/credit-limit', 'AccountsController@getCreditLimit');

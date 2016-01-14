@@ -11,7 +11,7 @@ class Booking extends \Eloquent
         'departure_date' => 'required|after:arrival_date',
         'adults' => 'required|numeric',
         'children' => 'required|numeric',
-        'user_id'=> 'required',
+//        'user_id'=> 'required',
         'email' => 'email'
     ];
 

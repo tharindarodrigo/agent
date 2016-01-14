@@ -19,11 +19,13 @@
                     </div>
                     <div class="ibox-content">
                         {{Form::open(array('route'=>array('accounts.payments.store')))}}
+                        @if(Entrust::hasRole('Admin'))
                         <div class="form-group">
                             <label for="amount">Agent</label>
                             {{Form::select('agent_id', [''=> 'Select agent']+Agent::orderBy('company')->lists('company','id'), null, array('class'=> 'form-control'))}}
                             <p>{{$errors->first('agent_id', '<span class="size12" style="color: red;">:message</span>') }}</p>
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="amount">Amount</label>
                             {{Form::text('amount', null, array('class'=> 'form-control'))}}

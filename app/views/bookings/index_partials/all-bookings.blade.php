@@ -1,30 +1,31 @@
 {{--{{dd($bookings->toArray())}}--}}
 
-@if(!empty($bookings))
-    <div class="">
 
-        <table class="table table-bordered table-striped" id="agent-bookings">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ref. No</th>
-                <th>Arrival</th>
-                <th>Departure</th>
-                <th>Name</th>
-                <th>Adults</th>
-                <th>Children</th>
-                <th>Status</th>
-                <th width="160px">Controls</th>
-            </tr>
-            </thead>
-            <tbody>
+<div class="">
+
+    <table class="table table-bordered table-striped" id="agent-bookings">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ref. No</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>Name</th>
+            <th>Adults</th>
+            <th>Children</th>
+            <th>Status</th>
+            <th width="160px">Controls</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if($bookings->count())
             @foreach($bookings as $booking)
                 <tr>
                     <td>{{$booking->id}}</td>
                     <td style="text-align: center">{{$booking->reference_number}}</td>
                     <td style="text-align: center">{{$booking->arrival_date}}</td>
                     <td style="text-align: center">{{date('Y-m-d', strtotime($booking->departure_date))}}</td>
-                    <td style="text-align: right">{{$booking->booking_name}}</td>
+                    <td>{{$booking->booking_name}}</td>
                     <td style="text-align: right">{{$booking->adults}}</td>
                     <td style="text-align: right">{{$booking->children}}</td>
                     <td>{{$booking->val ==0 ? 'Inactive': 'active' }}</td>
@@ -83,10 +84,14 @@
                     </td>
                 </tr>
             @endforeach
-            </tbody>
-        </table>
+        @else
+            <tr>
+                <th colspan="9">
+                    <h2 align=" center">No Bookings Available</h2>
+                </th>
+            </tr>
+        @endif
+        </tbody>
+    </table>
 
-    </div>
-@else
-    <h2>No Bookings Available</h2>
-@endif
+</div>

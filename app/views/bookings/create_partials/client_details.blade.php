@@ -78,7 +78,7 @@
                 {{$errors->first('passport_number', '<span class="size12" style="color: red;">:message</span>') }}
             </td>
             <td>
-                {{Form::text('dob',null,array('class'=>'form-control', 'placeholder'=> 'Date of Birth', 'id'=>'dob'))}}
+                {{Form::input('date','dob',null,array('class'=>'form-control', 'placeholder'=> 'Date of Birth', 'id'=>'dob'))}}
                 {{$errors->first('dob', '<span class="size12" style="color: red;">:message</span>') }}
             </td>
             <td>

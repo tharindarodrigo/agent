@@ -10,9 +10,59 @@ class PaymentsController extends \BaseController
      */
     public function index()
     {
-        $payments = Payment::all();
+        $data = Input::all();
+//        dd($data);
+        if (Input::get('search')) {
 
-        return View::make('payments.index', compact('payments'));
+            $validator = Validator::make($data, array(
+                'from_date' => 'required|date',
+                'to_date' => 'required|date',
+            ));
+
+            if ($validator->fails()) {
+                return Redirect::back()->with($validator->errors());
+            }
+
+            $from = Input::get('from_date');
+            $to = Input::get('to_date');
+
+            $payments = Payment::where('payment_date_time', '>=', $from)->where('payment_date_time', '<=', $to)->get();
+            return View::make('payments.index', compact('payments','from','to'));
+
+        } else {
+            $payments = Payment::all();
+            return View::make('payments.index', compact('payments'));
+        }
+
+    }
+
+    public function getPaymentsList()
+    {
+        $data = Input::all();
+//        dd($data);
+        if (Input::get('search')) {
+
+            $validator = Validator::make($data, array(
+                'from_date' => 'required|date',
+                'to_date' => 'required|date',
+            ));
+
+            if ($validator->fails()) {
+                return Redirect::back()->with($validator->errors());
+            }
+
+            $from = Input::get('from_date');
+            $to = Input::get('to_date');
+
+            $payments = Payment::where('payment_date_time', '>=', $from)->where('payment_date_time', '<=', $to)->get();
+//            dd($payments);
+
+        } else {
+            $payments = Payment::all();
+        }
+
+        return View::make('payments.index', compact('payments','from','to'));
+
     }
 
     /**
@@ -48,14 +98,17 @@ class PaymentsController extends \BaseController
          */
 
 
-        if ($x = Payment::find(Payment::max('id'))) {
 
+        if ($x = Payment::find(Payment::max('id'))) {
             $y = (int)substr($x->reference_number, 2);
             $data['reference_number'] = 'BK' . ++$y;
         } else {
             $data['reference_number'] = 'BK10000000';
         }
 
+        if(Entrust::hasRole('Agent')){
+            $data['agent_id'] = User::getAgentOfUser(Auth::id());
+        }
 
         Payment::create($data);
 

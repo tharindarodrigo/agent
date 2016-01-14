@@ -50,8 +50,8 @@
     @yield('payment-content')
 @endsection
 
-@section('scripts1')
+@section('scripts')
     {{ HTML::script('control-panel-assets/plugins/datepicker/bootstrap-datepicker.js')}}
-    @yield('script')
+    @yield('scripts')
 @endsection
 
