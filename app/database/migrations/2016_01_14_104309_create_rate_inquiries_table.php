@@ -19,6 +19,7 @@ class CreateRateInquiriesTable extends Migration
             $table->integer('room_type_id')->unsigned();
             $table->integer('meal_basis_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('room_specification_id')->unsigned();
             $table->date('from');
             $table->date('to');
             $table->integer('room_count')->unsigned();
@@ -26,6 +27,8 @@ class CreateRateInquiriesTable extends Migration
             $table->timestamps();
 
             $table->foreign('room_type_id')->references('id')->on('room_types');
+            $table->foreign('meal_basis_id')->references('id')->on('meal_bases');
+            $table->foreign('room_specification_id')->references('id')->on('room_specifications');
             $table->foreign('hotel_id')->references('id')->on('hotels');
             $table->foreign('user_id')->references('id')->on('users');
 

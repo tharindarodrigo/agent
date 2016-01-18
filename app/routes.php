@@ -75,7 +75,7 @@ Route::group(array('before' => 'auth'), function () {
     Route::post('accounts/get-payment-list', 'PaymentsController@getPaymentsList');
     Route::resource('accounts/payments', 'PaymentsController');
     Route::resource('inquiries/rate-inquiries', 'RateInquiriesController');
-    Route::post('hotel/get-room-list','HotelsController@getRoomList');
+    Route::post('hotel/get-room-list','HotelController@getRoomList');
 
 
     Route::get('/my-bookings', function () {
@@ -89,6 +89,7 @@ Route::group(array('before' => 'auth'), function () {
     Route::get('accounts/invoices', 'AccountsController@getInvoices');
 
     Route::resource('inquires/rate_inquiries', 'RateInquiriesController');
+    Route::resource('inquires/allotment_inquiries', 'AllotmentInquiriesController');
 
     Route::get('voucher/{id}', function ($id) {
         $voucher = Voucher::find($id);

@@ -1126,4 +1126,13 @@ class HotelController extends \BaseController
         return Response::json($get_hotel_lan_lot);
 
     }
+
+    public function getRoomList()
+    {
+        $hotel_id = Input::get('hotel_id');
+
+        $rooms = RoomType::where('hotel_id',$hotel_id)->lists('room_type','id');
+
+        return Response::json($rooms);
+    }
 }

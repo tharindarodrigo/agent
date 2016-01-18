@@ -1,0 +1,1 @@
+C:\wamp\www\agent\app/views/allotment_inquiries/show.blade.php

@@ -1,46 +1,44 @@
 <?php
 
-class RateInquiriesController extends \BaseController
+class AllotmentInquiriesController extends \BaseController
 {
 
     /**
-     * Display a listing of rateinquiries
+     * Display a listing of allotmentinquiries
      *
      * @return Response
      */
     public function index()
     {
-        $rateinquiries = RateInquiry::all();
+        $allotmentinquiries = AllotmentInquiry::all();
 
-        return View::make('inquiries.rate-inquiries.index', compact('rateinquiries'));
+        return View::make('inquiries.allotment-inquiries.index', compact('allotmentinquiries'));
     }
 
     /**
-     * Show the form for creating a new rateinquiry
+     * Show the form for creating a new allotmentinquiry
      *
      * @return Response
      */
     public function create()
     {
-        return View::make('inquiries.rate-inquiries.create');
+        return View::make('inquiries.allotment-inquiries.create');
     }
 
     /**
-     * Store a newly created rateinquiry in storage.
+     * Store a newly created allotmentinquiry in storage.
      *
      * @return Response
      */
     public function store()
     {
-        $validator = Validator::make($data = Input::all(), RateInquiry::$rules);
+        $validator = Validator::make($data = Input::all(), AllotmentInquiry::$rules);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $data->user_id = Auth::id();
-
-		if (RateInquiry::create($data)) {
+        if (AllotmentInquiry::create($data)) {
 
             $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
                 ->where('hotel_user.hotel_id', $data->hotel_id)
@@ -58,67 +56,67 @@ class RateInquiriesController extends \BaseController
             });
         }
 
-		return Redirect::route('inquiries.rate-inquiries.index');
-	}
+        return Redirect::route('inquiries.allotment-inquiries.index');
+    }
 
     /**
-     * Display the specified rateinquiry.
+     * Display the specified allotmentinquiry.
      *
      * @param  int $id
      * @return Response
      */
     public function show($id)
     {
-        $rateinquiry = RateInquiry::findOrFail($id);
+        $allotmentinquiry = AllotmentInquiry::findOrFail($id);
 
-        return View::make('inquiries.rate-inquiries.show', compact('rateinquiry'));
+        return View::make('inquiries.allotment-inquiries.show', compact('allotmentinquiry'));
     }
 
     /**
-     * Show the form for editing the specified rateinquiry.
+     * Show the form for editing the specified allotmentinquiry.
      *
      * @param  int $id
      * @return Response
      */
     public function edit($id)
     {
-        $rateinquiry = RateInquiry::find($id);
+        $allotmentinquiry = AllotmentInquiry::find($id);
 
-        return View::make('inquiries.rate-inquiries.edit', compact('rateinquiry'));
+        return View::make('inquiries.allotment-inquiries.edit', compact('allotmentinquiry'));
     }
 
     /**
-     * Update the specified rateinquiry in storage.
+     * Update the specified allotmentinquiry in storage.
      *
      * @param  int $id
      * @return Response
      */
     public function update($id)
     {
-        $rateinquiry = RateInquiry::findOrFail($id);
+        $allotmentinquiry = AllotmentInquiry::findOrFail($id);
 
-        $validator = Validator::make($data = Input::all(), RateInquiry::$rules);
+        $validator = Validator::make($data = Input::all(), AllotmentInquiry::$rules);
 
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $rateinquiry->update($data);
+        $allotmentinquiry->update($data);
 
-        return Redirect::route('inquiries.rate-inquiries.index');
+        return Redirect::route('inquiries.allotment-inquiries.index');
     }
 
     /**
-     * Remove the specified rateinquiry from storage.
+     * Remove the specified allotmentinquiry from storage.
      *
      * @param  int $id
      * @return Response
      */
     public function destroy($id)
     {
-        RateInquiry::destroy($id);
+        AllotmentInquiry::destroy($id);
 
-        return Redirect::route('inquiries.rate-inquiries.index');
+        return Redirect::route('inquiries.allotment-inquiries.index');
     }
 
 }

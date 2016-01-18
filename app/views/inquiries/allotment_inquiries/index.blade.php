@@ -21,14 +21,14 @@
                             <tr>
                             </thead>
                             <tbody>
-                            @foreach($rateinquiries as $rateinquiry)
+                            @foreach($allotmentinquiries as $allotmentinquiry)
                                 <tr>
-                                    <td>{{$rateinquiry->id}}</td>
-                                    <td>{{$rateinquiry->from}}</td>
-                                    <td>{{$rateinquiry->to}}</td>
-                                    <td>{{$rateinquiry->hotel->hotel}}</td>
-                                    <td>{{$rateinquiry->roomType->roomType}}</td>
-                                    <td>{{$rateinquiry->status}}</td>
+                                    <td>{{$allotmentinquiry->id}}</td>
+                                    <td>{{$allotmentinquiry->from}}</td>
+                                    <td>{{$allotmentinquiry->to}}</td>
+                                    <td>{{$allotmentinquiry->hotel->hotel}}</td>
+                                    <td>{{$allotmentinquiry->roomType->roomType}}</td>
+                                    <td>{{$allotmentinquiry->status}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
