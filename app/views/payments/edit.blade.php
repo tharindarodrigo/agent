@@ -1,5 +1,10 @@
 @extends('payments.payments')
 
+@section('bread-crumbs')
+    <li>Payments</li>
+    <li>Create</li>
+@endsection
+
 @section('payment-content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">

@@ -1,0 +1,1 @@
+C:\wamp\www\agent\app/views/rate_inquiries/index.blade.php

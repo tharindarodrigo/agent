@@ -13,9 +13,7 @@
 @endsection
 
 @section('bread-crumbs')
-    <li>/</li>
     <li>{{link_to_route('bookings.index', 'Bookings')}}</li>
-    <li>/</li>
     <li>{{link_to_route('bookings.create', 'create')}}</li>
 @endsection
 

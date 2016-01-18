@@ -8,6 +8,10 @@
     {{'active'}}
 @endsection
 
+@section('bread-crumbs')
+    <li>Payments</li>
+@endsection
+
 @section('payment-content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -32,7 +36,6 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 {{--<button class="btn btn-primary" name="search" type="submit"></button>--}}
-
                                 {{Form::submit('Search', array('name'=>'search', 'class'=> 'btn btn-primary'))}}
                             </div>
                         </div>

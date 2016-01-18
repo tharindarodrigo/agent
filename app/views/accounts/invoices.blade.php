@@ -17,8 +17,8 @@
 @endsection
 
 @section('bread-crumbs')
-    {{--<li>/</li>--}}
-    {{--<li><a href="#" class="active">Bookings</a></li>--}}
+    <li>Accounts</li>
+    <li>Invoices</li>
 @endsection
 
 @section('body-content')

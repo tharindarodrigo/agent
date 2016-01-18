@@ -33,6 +33,7 @@
                 <h2>@yield('main-title')</h2>
                 <ol class="breadcrumb">
                     @yield('bread-crumbs')
+
                 </ol>
             </div>
             <div class="col-sm-8">

@@ -43,7 +43,7 @@
                 <ul class="nav nav-second-level collapse">
 
                     <li>
-                        <a href="#">Room Inquiries</a></li>
+                        <a href="#">Rate Inquiries</a></li>
                     <li>
                         <a href="#">Allotment Inquiries </a></li>
                 </ul>

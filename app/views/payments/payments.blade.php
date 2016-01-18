@@ -46,9 +46,15 @@
     @yield('active-payments-create')
 @endsection
 
+@section('bread-crumbs')
+    @yield('bread-crumbs')
+@endsection
+
 @section('content')
     @yield('payment-content')
 @endsection
+
+
 
 @section('scripts')
     {{ HTML::script('control-panel-assets/plugins/datepicker/bootstrap-datepicker.js')}}
