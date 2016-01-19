@@ -7,6 +7,14 @@
 
 @endsection
 
+@section('active-inquiries')
+    active
+@endsection
+
+@section('active-inquiries-allotment-inquiries')
+    active
+@endsection
+
 @section('bread-crumbs')
     @yield('bread-crumbs')
 @endsection

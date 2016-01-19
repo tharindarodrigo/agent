@@ -11,7 +11,6 @@ class AllotmentInquiriesController extends \BaseController
     public function index()
     {
         $allotmentinquiries = AllotmentInquiry::all();
-
         return View::make('inquiries.allotment-inquiries.index', compact('allotmentinquiries'));
     }
 

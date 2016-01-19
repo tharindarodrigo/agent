@@ -17,20 +17,31 @@
                                 <th>To</th>
                                 <th>Hotel</th>
                                 <th>Room Type</th>
+                                <th>Meal Basis</th>
+                                <th>Room Spec</th>
                                 <th>Status</th>
                             <tr>
                             </thead>
                             <tbody>
-                            @foreach($rateinquiries as $rateinquiry)
+                            @if($rateinquiries->count())
+                                @foreach($rateinquiries as $rateinquiry)
+                                    <tr>
+                                        <td>{{$rateinquiry->id}}</td>
+                                        <td>{{$rateinquiry->from}}</td>
+                                        <td>{{$rateinquiry->to}}</td>
+                                        <td>{{$rateinquiry->hotel->hotel}}</td>
+                                        <td>{{$rateinquiry->roomType->roomType}}</td>
+                                        <td>{{$rateinquiry->mealBasis->meal_basis}}</td>
+                                        <td>{{$rateinquiry->roomSpecification->room_specification}}</td>
+                                        <td>{{$rateinquiry->status}}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+
                                 <tr>
-                                    <td>{{$rateinquiry->id}}</td>
-                                    <td>{{$rateinquiry->from}}</td>
-                                    <td>{{$rateinquiry->to}}</td>
-                                    <td>{{$rateinquiry->hotel->hotel}}</td>
-                                    <td>{{$rateinquiry->roomType->roomType}}</td>
-                                    <td>{{$rateinquiry->status}}</td>
+                                    <td colspan="8" align="center"><h3>No results Found</h3></td>
                                 </tr>
-                            @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>

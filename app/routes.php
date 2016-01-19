@@ -88,8 +88,8 @@ Route::group(array('before' => 'auth'), function () {
     Route::get('accounts/credit-limit', 'AccountsController@getCreditLimit');
     Route::get('accounts/invoices', 'AccountsController@getInvoices');
 
-    Route::resource('inquires/rate_inquiries', 'RateInquiriesController');
-    Route::resource('inquires/allotment_inquiries', 'AllotmentInquiriesController');
+    Route::resource('inquiries/rate-inquiries', 'RateInquiriesController');
+    Route::resource('inquiries/allotment-inquiries', 'AllotmentInquiriesController');
 
     Route::get('voucher/{id}', function ($id) {
         $voucher = Voucher::find($id);
