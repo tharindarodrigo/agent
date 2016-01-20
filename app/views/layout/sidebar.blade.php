@@ -38,15 +38,15 @@
                 <a href="{{URL::to('bookings')}}"><i class="fa fa-sitemap"></i> <span class="nav-label">Bookings </span></a>
             </li>
 
-            <li>
+            <li class="@yield('active-inquiries')">
                 <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Inquiries </span><span
                             class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
 
-                    <li>
-                        <a href="#">Room Inquiries</a></li>
-                    <li>
-                        <a href="#">Allotment Inquiries </a></li>
+                    <li class="@yield('active-inquiries-rate-inquiries')">
+                        <a href="{{URL::to('inquiries/rate-inquiries')}}">Rate Inquiries</a></li>
+                    <li class="@yield('active-inquiries-allotment-inquiries')">
+                        <a href="{{URL::to('inquiries/allotment-inquiries')}}">Allotment Inquiries </a></li>
                 </ul>
             </li>
 

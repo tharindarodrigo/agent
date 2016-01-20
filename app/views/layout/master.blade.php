@@ -35,12 +35,7 @@
                 <h2>@yield('main-title')</h2>
                 <ol class="breadcrumb">
                     @yield('bread-crumbs')
-                    <li>
-                        <a href="#">This is</a>
-                    </li>
-                    <li class="active">
-                        <strong>Breadcrumb</strong>
-                    </li>
+
                 </ol>
             </div>
             <div class="col-sm-8">
@@ -58,11 +53,17 @@
             @yield('content')
         </div>
 
-        {{--<div class="footer">--}}
-            {{--<div>--}}
-                {{--<strong>Copyright</strong> Exotic Holidays International (Pvt) LTD. &copy; {{date('Y')}}--}}
-            {{--</div>--}}
-        {{--</div>--}}
+        <div class="footer">
+            <div>
+                <div class="col-md-3">
+                    {{date('Y-m-d')}}
+                </div>
+                <div class="col-md-6">
+
+                    <strong>Copyright</strong> Exotic Holidays International (Pvt) LTD. &copy; {{date('Y')}}
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>

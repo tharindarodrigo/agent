@@ -17,8 +17,8 @@
 @endsection
 
 @section('bread-crumbs')
-    {{--<li>/</li>--}}
-    {{--<li><a href="#" class="active">Bookings</a></li>--}}
+    <li>Accounts</li>
+    <li>Invoices</li>
 @endsection
 
 @section('body-content')
@@ -38,12 +38,50 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <form action="">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{Form::text('reference_number',!empty($reference_number) && $reference_number!='%' ? $reference_number:null, array('class'=> 'form-control','placeholder'=> 'Reference Number'))}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{Form::submit('Search',array('class'=>'btn btn-block btn-primary', 'name'=>'search_reference_number'))}}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <form action="">
+                                <div class="col-lg-8">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{Form::input('date','from',!empty($from) ? $from : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'From', 'required'=>'true'))}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{Form::input('date','to',!empty($to) ? $to : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'To', 'required'=>'true'))}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{Form::submit('Search', array('name'=>'search', 'class'=>'btn btn-block btn-primary'))}}
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
 
                         <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <td>#</td>
                                 <td>Ref. No</td>
+                                <td>Date</td>
+                                <td>Name</td>
                                 <td>Amount</td>
                                 <td>Controls</td>
                             </tr>
@@ -53,15 +91,17 @@
                                 <tr>
                                     <td>{{$booking->invoice->id}}</td>
                                     <td>{{$booking->reference_number}}</td>
+                                    <td>{{$booking->arrival_date}}</td>
+                                    <td>{{$booking->booking_name}}</td>
                                     <td align="right">{{number_format($booking->invoice->amount,2)}}</td>
                                     <td>
-                                        <a href="{{URL::to('invoice/'.$booking->id)}}" class="btn btn-sm btn-default"><span class="fa fa-eye"></span></a>
+                                        <a href="{{URL::to('invoice/'.$booking->id)}}"
+                                           class="btn btn-sm btn-default" target="_blank"><span class="fa fa-eye"></span></a>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

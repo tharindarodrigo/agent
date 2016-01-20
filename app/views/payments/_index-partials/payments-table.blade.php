@@ -9,7 +9,7 @@
         <th>Controls</th>
     </tr>
     </thead>
-    @if(!empty($payments))
+    @if($payments->count())
         <tbody>
         @foreach($payments as $payment)
             <tr>
@@ -17,7 +17,7 @@
                 <td>{{$payment->id}}</td>
                 <td>{{$payment->reference_number}}</td>
                 <td>{{$payment->agent->company or 'individual'}}</td>
-                <td align="center">{{$payment->payment_date_time}}</td>
+                <td align="center">{{date('Y-m-d',strtotime($payment->payment_date_time))}}</td>
                 <td align="right">{{number_format($payment->amount,2)}}</td>
                 <td>
                     {{Form::open(array('route' => array('accounts.payments.destroy', $payment->id), 'method'=>'delete'))}}
@@ -29,5 +29,8 @@
             </tr>
         @endforeach
         </tbody>
+
+    @else
+        <tbody><tr><th colspan="6" style="text-align: center;"><h3>No Records Found</h3></th></tr></tbody>
     @endif
 </table>

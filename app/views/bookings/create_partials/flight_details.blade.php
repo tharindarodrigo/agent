@@ -71,11 +71,11 @@
             {{Form::open(array('route'=>array('bookings.flightDetails.store',$booking->id)))}}
             <td>&nbsp;</td>
             <td>
-                {{Form::text('date',null, array('class'=>'form-control date-control', 'placeholder'=> 'Date'))}}
+                {{Form::input('date','date',null, array('class'=>'form-control date-control', 'placeholder'=> 'Date'))}}
                 {{$errors->first('date', '<span class="size12" style="color: red;">:message</span>') }}
             </td>
             <td>
-                {{Form::text('time',null, array('class'=>'form-control time-control', 'placeholder'=> 'Time'))}}
+                {{Form::input('time','time',null, array('class'=>'form-control time-control', 'placeholder'=> 'Time'))}}
                 {{$errors->first('time', '<span class="size12" style="color: red;">:message</span>') }}
             </td>
             <td>
