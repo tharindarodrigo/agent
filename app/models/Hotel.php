@@ -31,6 +31,26 @@ class Hotel extends \Eloquent
         'check_out_time' => 'required',
     ];
 
+    public static function star_loop_blue($stars)
+    {
+        for ($x = 0; $x < $stars; $x++) {
+            $img_path = 'images/star_list.png';
+
+            echo HTML::image($img_path, '');
+
+        }
+    }
+
+    public static function star_loop_yellow($stars)
+    {
+        for ($x = 0; $x < $stars; $x++) {
+            $img_path = 'images/star_yellow.png';
+
+            echo HTML::image($img_path, '');
+
+        }
+    }
+
 
     // Don't forget to fill this array
     protected $fillable = ['name', 'country_id', 'city_id', 'address', 'star_category_id', 'user_id', 'longitude', 'latitude',
@@ -92,4 +112,13 @@ class Hotel extends \Eloquent
         return $this->hasMany('CancellationPolicy');
     }
 
+    public function roomSpecification()
+    {
+        return $this->hasMany('roomSpecification');
+    }
+
+    public function mealBasis()
+    {
+        return $this->hasMany('mealBasis');
+    }
 }

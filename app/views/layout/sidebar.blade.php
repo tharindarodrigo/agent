@@ -14,8 +14,9 @@
                                         {{Auth::user()->first_name.' '.Auth::user()->last_name}}
                                     </strong>
                                 </span>
-                                <span class="text-muted text-xs block">Art Director <b
-                                            class="caret"></b></span> </span> </a>
+                                <span class="text-muted text-xs block">Art Director
+                                    <b class="caret"></b></span> </span>
+                    </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="{{URL::to('accounts/profile')}}">My Profile</a></li>
                         <li><a href="{{URL::to('account/profile/change-password')}}">Change Password</a></li>
@@ -30,7 +31,7 @@
             </li>
 
             <li>
-                <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">Reservations </span></a>
+                <a href="{{URL::to('/reservations')}}"><i class="fa fa-sitemap"></i> <span class="nav-label">Reservations </span></a>
             </li>
 
             <li class="@yield('active-bookings')">

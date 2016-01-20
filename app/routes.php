@@ -149,6 +149,86 @@ Route::group(array('before' => 'auth'), function () {
 });
 
 
+//auto complete route
+
+Route::post('auto-complete', array(
+    'as' => 'auto-complete',
+    'uses' => 'HotelController@autoComplete'
+));
+
+
+//Reservations
+
+//my testing page
+
+Route::get('/11', function () {
+    return View::make('11');
+});
+
+
+// search link
+
+Route::any('sri-lanka/search', array(
+    'as' => 'hotel-search',
+    'uses' => 'HotelController@viewSearch'
+));
+
+
+// Reservation Index
+
+Route::any('/reservations', array(
+    'as' => 'reservations',
+    'uses' => 'HotelController@getReservations'
+));
+
+
+// Get Hotel Details
+
+Route::any('/get_hotel_details', array(
+    'as' => 'get-hotel-details',
+    'uses' => 'HotelController@hotelDetail'
+));
+
+
+// Get The Lowest Rate
+
+Route::any('/get-lowest-rate', array(
+    'as' => 'get-lowest-rate',
+    'uses' => 'HotelController@lowestRate'
+));
+
+
+// booking add to cart
+
+Route::any('/add-to-cart', array(
+    'as' => 'add-to-cart',
+    'uses' => 'HotelController@addToCart'
+));
+
+
+// add to the cart
+
+Route::any('/booking-aad-to-cart', array(
+    'as' => 'booking-cart-get',
+    'uses' => 'CartController@addToCart'
+));
+
+// add to the cart
+
+Route::any('/booking-cart', array(
+    'as' => 'booking-cart',
+    'uses' => 'CartController@bookingCart'
+));
+
+
+// Reservation List
+
+Route::any('/reservations/{?cityORhotel}', array(
+    'as' => 'reservations',
+    'uses' => 'HotelController@getReservations'
+));
+
+
 Route::group(array('prefix' => 'account'), function () {
     Route::get('sign-up', 'AccountController@signUp');
     Route::post('create', 'AccountController@createAccount');

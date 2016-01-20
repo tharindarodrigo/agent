@@ -15,10 +15,12 @@ class CartController extends \BaseController
 
             $bookings = Session::get('rate_box_details');
             $hotel_bookings = [];
+           // dd($bookings);
+
             $rate_keys = array_keys($bookings);
 
             foreach ($rate_keys as $rate_key) {
-                $hotel_id = explode('_', $rate_key)[2];
+                $hotel_id = explode('_', $rate_key)[0];
 
                 $hotel_bookings[$hotel_id][] = $bookings[$rate_key];
                 $hotel_bookings[$hotel_id]['hotel_name'] = $bookings[$rate_key]['hotel_name'];
@@ -29,27 +31,12 @@ class CartController extends \BaseController
             $hotel_bookings = '';
         }
 
-        if (Session::has('predefined_transport')) {
-            $predefined_transports = Session::get('predefined_transport');
-        } else {
-            $predefined_transports = '';
-        }
 
-        if (Session::has('transport_cart_box')) {
-            $transport_bookings = Session::get('transport_cart_box');
-        } else {
-            $transport_bookings = '';
-        }
-
-//dd($hotel_bookings);
-
-        if ((Session::has('rate_box_details')) || (Session::has('transport_cart_box')) || (Session::has('predefined_transport')) || (Session::has('excursion_cart_details'))) {
-            return View::make('payments.booking_cart')
+        if ((Session::has('rate_box_details'))) {
+            return View::make('reservations.booking_cart')
                 ->with(
                     array(
                         'hotel_bookings' => $hotel_bookings,
-                        'predefined_transport' => $predefined_transports,
-                        'transport_bookings' => $transport_bookings,
                     )
                 );
         } else {
@@ -192,18 +179,21 @@ class CartController extends \BaseController
 
     }
 
-    public function addToCart($hotel_id)
+    public function addToCart()
     {
+        //Session::flush();
+
+        $hotel_id = Input::get('hotel_id');
 
         $x = Session::pull('rate_box_details_' . $hotel_id);
         $y = Session::get('rate_box_details');
 
+       // dd($y);
+
         if (Session::has('rate_box_details')) {
             Session::put('rate_box_details', $x + $y);
-
         } else {
             Session::put('rate_box_details', $x);
-
         }
 
         return Response::json(true);

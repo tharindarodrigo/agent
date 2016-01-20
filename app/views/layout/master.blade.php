@@ -14,6 +14,8 @@
     {{HTML::style("css/animate.css")}}
     {{HTML::style("css/style.css")}}
 
+    {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css' , array('rel' => 'stylesheet' , 'media' => 'screen')) }}
+
     @yield('css')
 
 </head>
@@ -43,7 +45,11 @@
             </div>
             <div class="col-sm-8">
                 <div class="title-action">
-
+                    {{ Form::open(array('url' => '/booking-cart', 'files'=> true, 'id' => 'view_booking_cart', 'class' => 'wizard-big', 'method' => 'POST', )) }}
+                    <button class="pull-right book_hotel btn-xs btn-primary" type="submit">
+                        <i class="fa fa-check"></i>&nbsp;Book
+                    </button>
+                    {{Form::close()}}
                 </div>
             </div>
         </div>
@@ -68,6 +74,10 @@
 
 {{HTML::script("js/inspinia.js")}}
 {{HTML::script("js/plugins/pace/pace.min.js")}}
+
+<!-- Custom js -->
+{{ HTML::script('js/toastr.js') }}
+{{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js') }}
 
 @yield('script')
 
