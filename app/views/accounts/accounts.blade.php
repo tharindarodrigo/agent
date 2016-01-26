@@ -46,10 +46,10 @@
 
     @yield('body-content')
 
-    {{ HTML::script('assets/js/js-about.js') }}
+    {{--{{ HTML::script('js/js-about.js') }}--}}
 
             <!-- Easy Pie Chart  -->
-    {{ HTML::script('assets/js/jquery.easy-pie-chart.js') }}
+    {{--{{ HTML::script('js/jquery.easy-pie-chart.js') }}--}}
     {{ HTML::script('js/functions/add_clients.js') }}
 
 @endsection
@@ -63,76 +63,76 @@
     <script type="text/javascript">
 
 
-        $(document).ready(function () {
+        {{--$(document).ready(function () {--}}
 
-            confirmDeleteItem();
+            {{--confirmDeleteItem();--}}
 
-            $('#date1, #date2, #date3, #date4').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true
-            });
+            {{--$('#date1, #date2, #date3, #date4').datepicker({--}}
+                {{--dateFormat: 'yy-mm-dd',--}}
+                {{--changeMonth: true,--}}
+                {{--changeYear: true--}}
+            {{--});--}}
 
-            $('#dob').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                minDate: new Date(1900),
-                maxDate: new Date(),
-                numberOfMonths: 1
-            });
-            $('.payment-date-control').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                minDate: new Date(1900),
-                numberOfMonths: 1
-            });
+            {{--$('#dob').datepicker({--}}
+                {{--dateFormat: 'yy-mm-dd',--}}
+                {{--changeMonth: true,--}}
+                {{--changeYear: true,--}}
+                {{--minDate: new Date(1900),--}}
+                {{--maxDate: new Date(),--}}
+                {{--numberOfMonths: 1--}}
+            {{--});--}}
+            {{--$('.payment-date-control').datepicker({--}}
+                {{--dateFormat: 'yy-mm-dd',--}}
+                {{--changeMonth: true,--}}
+                {{--changeYear: true,--}}
+                {{--minDate: new Date(1900),--}}
+                {{--numberOfMonths: 1--}}
+            {{--});--}}
 
-//        $('.my_dob').datepicker({
-//            dateFormat: 'yy-mm-dd',
-//            changeMonth: true,
-//            changeYear: true,
-//            minDate: new Date(1900),
-//            maxDate: new Date(),
-//            numberOfMonths: 1
-//        });
+{{--//        $('.my_dob').datepicker({--}}
+{{--//            dateFormat: 'yy-mm-dd',--}}
+{{--//            changeMonth: true,--}}
+{{--//            changeYear: true,--}}
+{{--//            minDate: new Date(1900),--}}
+{{--//            maxDate: new Date(),--}}
+{{--//            numberOfMonths: 1--}}
+{{--//        });--}}
 
-            $('.date-control').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true
-            });
+            {{--$('.date-control').datepicker({--}}
+                {{--dateFormat: 'yy-mm-dd',--}}
+                {{--changeMonth: true,--}}
+                {{--changeYear: true--}}
+            {{--});--}}
 
-            $('.time-control').timepicker();
-            $('#time1, #time2').timepicker();
-            $('.update_client').hide();
+            {{--$('.time-control').timepicker();--}}
+            {{--$('#time1, #time2').timepicker();--}}
+            {{--$('.update_client').hide();--}}
 
 
-            var url = 'http://' + window.location.host + '/bookings/get-clients';
-            //alert(url);
-            sendData(url, null);
+            {{--var url = 'http://' + window.location.host + '/bookings/get-clients';--}}
+            {{--//alert(url);--}}
+            {{--sendData(url, null);--}}
 
             {{--client details--}}
 
-            $('.clients').attr('disabled', true);
-            $('.edit_client').click(function () {
-                var a = $(this);
-                $('.clients').attr('disabled', true);
-                $('tr').css('background', 'none');
+            {{--$('.clients').attr('disabled', true);--}}
+            {{--$('.edit_client').click(function () {--}}
+                {{--var a = $(this);--}}
+                {{--$('.clients').attr('disabled', true);--}}
+                {{--$('tr').css('background', 'none');--}}
 
-                var client_id = client_class = $(this).val();
-                $('.' + client_class).attr('disabled', false);
-                $('.' + client_class).change(function () {
-                    alert($('#update_' + client_id).attr('hidden'));
-                    if (true) {
+                {{--var client_id = client_class = $(this).val();--}}
+                {{--$('.' + client_class).attr('disabled', false);--}}
+                {{--$('.' + client_class).change(function () {--}}
+                    {{--alert($('#update_' + client_id).attr('hidden'));--}}
+                    {{--if (true) {--}}
 
-                    }
-                    $('#update_' + client_id).effect('slide')(200);
-                });
-                $(this).closest('tr').css('background', '#B9F097').fadeIn(200);
-            });
-        });
+                    {{--}--}}
+                    {{--$('#update_' + client_id).effect('slide')(200);--}}
+                {{--});--}}
+                {{--$(this).closest('tr').css('background', '#B9F097').fadeIn(200);--}}
+            {{--});--}}
+        {{--});--}}
 
         $('#add_client_btn').click(function () {
             var name = $('#name').val();

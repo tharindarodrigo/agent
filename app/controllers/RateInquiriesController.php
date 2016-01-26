@@ -10,7 +10,10 @@ class RateInquiriesController extends \BaseController
      */
     public function index()
     {
-        $rateinquiries = RateInquiry::all();
+
+        RateInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
+
+        $rateinquiries = RateInquiry::orderBy('updated_at', 'desc')->get();
 
         return View::make('inquiries.rate-inquiries.index', compact('rateinquiries'));
     }

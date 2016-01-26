@@ -33,7 +33,14 @@
                                         <td>{{$rateinquiry->roomType->roomType}}</td>
                                         <td>{{$rateinquiry->mealBasis->meal_basis}}</td>
                                         <td>{{$rateinquiry->roomSpecification->room_specification}}</td>
-                                        <td>{{$rateinquiry->status}}</td>
+                                        <td>
+                                            @if($rateinquiry->status == 0)
+                                                <small class="label label-warning"> Pending</small>
+
+                                            @elseif($rateinquiry->status=1)
+                                                <small class="label label-primary"> Confirmed</small>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else

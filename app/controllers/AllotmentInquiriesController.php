@@ -10,7 +10,10 @@ class AllotmentInquiriesController extends \BaseController
      */
     public function index()
     {
-        $allotmentinquiries = AllotmentInquiry::all();
+        RateInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
+
+        $allotmentinquiries = AllotmentInquiry::orderBy('updated_at', 'desc')->get();
+
         return View::make('inquiries.allotment-inquiries.index', compact('allotmentinquiries'));
     }
 
