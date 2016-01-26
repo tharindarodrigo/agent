@@ -44,7 +44,7 @@ class Rate extends \Eloquent
         $from_date = date('Y-m-d', strtotime(str_replace('-', '/', $st_date)));
         $to_date = date('Y-m-d', strtotime(str_replace('-', '/', $ed_date)));
 
-       // dd($st_date.'*************'.$from_date);
+        // dd($st_date.'*************'.$from_date);
 
         if (Session::has('market')) {
             $market = 1;
@@ -123,18 +123,22 @@ class Rate extends \Eloquent
 
         $dates = (strtotime($ed_date) - strtotime($st_date)) / 86400;
 
+        // dd($hotel_id .'/'. $room_type_id .'/'. $specification_id .'/'. $meal_basis_id .'/'. $st_date .'/'. $ed_date);
+
         for ($x = 1; $x <= $dates; $x++) {
 
-            $get_room_rate = Rate::where('hotel_id', $hotel_id)
-                ->where('room_type_id', $room_type_id)
-                ->where('room_specification_id', $specification_id)
-                ->where('meal_basis_id', $meal_basis_id)
-                //->where('from', '<=', $from_date)
-                //->where('to', '>', $from_date)
+            $get_room_rate = Rate::where('hotel_id', '=' ,$hotel_id)
+                ->where('room_type_id', 'LIKE', $room_type_id)
+                ->where('room_specification_id', 'LIKE', $specification_id)
+                ->where('meal_basis_id', 'LIKE', $meal_basis_id)
+                ->where('from', '<=', $from_date)
+                ->where('to', '>', $from_date)
                 ->where('market_id', $market)
                 ->get();
-//dd($get_room_rate);
-  //          dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
+
+             //dd($get_room_rate);
+
+            //dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
             foreach ($get_room_rate as $low_rates) {
 
                 $room_rate = $low_rates->rate;
@@ -197,6 +201,7 @@ class Rate extends \Eloquent
         $to_date = date('Y-m-d', strtotime(str_replace('-', '/', $ed_date)));
 
         $dates = (strtotime($ed_date) - strtotime($st_date)) / 86400;
+       // dd($hotel_id .'/'. $room_type_id .'/'. $specification_id .'/'. $meal_basis_id .'/'. $st_date .'/'. $ed_date);
 
         for ($x = 1; $x <= $dates; $x++) {
 
@@ -204,8 +209,8 @@ class Rate extends \Eloquent
                 ->where('room_type_id', $room_type_id)
                 ->where('room_specification_id', $specification_id)
                 ->where('meal_basis_id', $meal_basis_id)
-                //// ->where('from', '<=', $from_date)
-                //  ->where('to', '>', $from_date)
+                ->where('from', '<=', $from_date)
+                ->where('to', '>', $from_date)
                 ->where('market_id', $market)
                 ->get();
 

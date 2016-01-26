@@ -54,7 +54,7 @@ function generateRoomRateTable(data) {
 
     if (data != null) {
 
-        $('#hotel_name_h5').html(data.hotel_name);
+        $('#hotel_name_h5').html('&nbsp;&nbsp;&nbsp;' + data.hotel_name);
 
         $.each(data.rooms, function (index, item) {
 
@@ -112,7 +112,6 @@ function sendBookingCartData(url, cartData) {
         success: function (data) {
 
             if (data == null) {
-                alert('asd');
                 toastr.success('Sorry No Rate Available...!!');
             }else {
 
@@ -146,6 +145,7 @@ function bookingCartDataAddToCart(url, bookingData) {
         data: bookingData,
         success: function (data) {
             toastr.success('Successfully Added To The Cart...!!');
+            $('#room_rates_list').hide("blind");
         },
 
         error: function () {

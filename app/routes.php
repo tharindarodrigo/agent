@@ -204,6 +204,13 @@ Route::any('/get-lowest-rate', array(
     'uses' => 'HotelController@lowestRate'
 ));
 
+// Get The Lowest Rate
+
+Route::post('/get_hotel_star', array(
+    'as' => '/get_hotel_star',
+    'uses' => 'HotelController@getReservationsStar'
+));
+
 
 // booking add to cart
 
@@ -226,6 +233,10 @@ Route::any('/booking-cart', array(
     'as' => 'booking-cart',
     'uses' => 'CartController@bookingCart'
 ));
+
+// Delete Hotel From Cart
+
+Route::post('/get_cart_item/delete', 'CartController@cartItemDelete');
 
 
 // Reservation List

@@ -8,6 +8,7 @@ class HotelController extends \BaseController
     public function getReservations()
     {
 
+
         if (Input::has('st_date')) {
             $st_date = Input::get('st_date');
         } else {
@@ -27,8 +28,10 @@ class HotelController extends \BaseController
 
         if (Input::has('txt-search')) {
             $get_city_or_hotel = Input::get('txt-search');
+            Session::put('reservation', 2);
         } else {
             $get_city_or_hotel = 'Kandy';
+            Session::put('reservation', 3);
         }
 
         if (Input::has('availability')) {
@@ -61,6 +64,18 @@ class HotelController extends \BaseController
         Session::put('meal_basis', $meal_basis);
         Session::put('room_count', $room_count);
 
+        if (Input::has('hotel_star')) {
+            Session::put('reservation', 2);
+            $star = Input::get('hotel_star');
+            if ($star == 5) {
+                $star = 4;
+            } else if ($star == 7) {
+                $star = 5;
+            }
+        } else {
+            $star = '%';
+        }
+
         if (!empty($get_city_or_hotel)) {
 
             $city_or_hotel = $get_city_or_hotel;
@@ -71,8 +86,9 @@ class HotelController extends \BaseController
                 $city_id = $get_city_or_hotel_id->id;
 
                 $hotels = Rate::With('MealBasis', 'RoomSpecification')
-                    ->WhereHas('Hotel', function ($q) use ($city_id) {
+                    ->WhereHas('Hotel', function ($q) use ($city_id, $star) {
                         $q->where('val', 1);
+                        $q->where('star_category_id', 'LIKE', $star);
                         $q->where('city_id', $city_id);
                     })
                     ->where('room_specification_id', 'LIKE', $room_type)
@@ -103,6 +119,7 @@ class HotelController extends \BaseController
 
         }
 
+
         return View::make('reservations.index')
             ->with(
                 array(
@@ -114,17 +131,99 @@ class HotelController extends \BaseController
             );
     }
 
+    // Reservation hotel star filter
+
+    public function getReservationsStar()
+    {
+
+
+        if (Input::has('star')) {
+            $star = Input::get('star');
+            if ($star == 5) {
+                $star = 4;
+            } else if ($star == 7) {
+                $star = 5;
+            }
+        } else {
+            $star = '%';
+        }
+
+//dd($star);
+
+        if (!empty($get_city_or_hotel)) {
+
+            $city_or_hotel = $get_city_or_hotel;
+
+            $get_city_or_hotel_id = DB::table('cities')->where('city', 'LIKE', $city_or_hotel)->where('val', 1)->first();
+
+            if (!is_null($get_city_or_hotel_id)) {
+                $city_id = $get_city_or_hotel_id->id;
+
+                $hotels = Rate::With('MealBasis', 'RoomSpecification')
+                    ->WhereHas('Hotel', function ($q) use ($city_id, $star) {
+                        $q->where('val', 1);
+                        $q->where('star_category_id', 'LIKE', $star);
+                        $q->where('city_id', $city_id);
+                    })
+                    ->where('room_specification_id', 'LIKE', $room_type)
+                    ->where('meal_basis_id', 'LIKE', $meal_basis)
+                    ->groupBy('hotel_id')
+                    ->orderBy('hotel_id', 'desc')
+                    ->paginate(30);
+
+                //dd($hotels);
+
+            } else {
+
+                $get_city_or_hotel_id = DB::table('hotels')->where('name', 'LIKE', $city_or_hotel)->first();
+                $hotel_id = $get_city_or_hotel_id->id;
+
+                $city_id = $get_city_or_hotel_id->city_id;
+                $get_city = DB::table('cities')->where('id', '=', $city_id)->first();
+                $city_name = $get_city->city;
+
+
+                $hotels = Rate::WhereHas('Hotel', function ($q) use ($hotel_id) {
+                    $q->where('val', 1);
+                    $q->where('hotel_id', $hotel_id);
+                })
+                    ->groupBy('hotel_id')
+                    ->get();
+            }
+
+        }
+
+        if (Input::has('star')) {
+            return Response::json(true);
+        }
+
+        return View::make('reservations.index')
+            ->with(
+                array(
+                    'hotels' => $hotels,
+                    'city_or_hotel' => $city_or_hotel,
+
+                )
+            );
+    }
 
     /* Hotel Details */
 
     public function hotelDetail()
     {
 
-        $hotel_id = Input::get('hotel_id');
+        if (Input::has('hotel_id')) {
+            $hotel_id = Input::get('hotel_id');
+            Session::put('hotel_id', $hotel_id);
+        } else {
+            $hotel_id = Session::get('hotel_id');
+        }
+
 
         if (Session::has('market')) {
             $market = Session::get('market');
         }
+
 
         $st_date = Session::get('st_date');
         $ed_date = Session::get('ed_date');
@@ -136,9 +235,24 @@ class HotelController extends \BaseController
         $date_gap = $date_difference->d;
         Session::put('date_gap', $date_gap);
 
-        $room_type = Session::get('room_type');
-        $meal_basis = Session::get('meal_basis');
 
+        if (Input::has('room_type')) {
+            $room_type = Input::get('room_type');
+            Session::put('filter_room_type', $room_type);
+            $meal_basis = Session::get('filter_meal_type');
+        } else {
+            $room_type = Session::get('room_type');
+        }
+
+        if (Input::has('meal_type')) {
+            $meal_basis = Input::get('meal_type');
+            Session::put('filter_meal_type', $meal_basis);
+            $room_type = Session::get('filter_room_type');
+        } else {
+            $meal_basis = Session::get('meal_basis');
+        }
+
+//dd($meal_basis.'/'.$room_type);
 
         $from_date = date('Y-m-d', strtotime(str_replace('-', '/', $st_date)));
         $to_date = date('Y-m-d', strtotime(str_replace('-', '/', $ed_date)));
@@ -151,7 +265,7 @@ class HotelController extends \BaseController
         foreach ($images as $image) {
             $path[] = $image;
         }
-
+//dd($hotel_id);
         $hotel_name = Hotel::Where('id', $hotel_id)->first()->name;
 
         $get_rooms = DB::table('rates')
@@ -176,9 +290,9 @@ class HotelController extends \BaseController
             //->orderBy('rates.meal_basis_id', 'desc')
             ->get();
 
-       //   dd($get_rooms);
+        //dd($get_rooms);
 
-        if(!empty($get_rooms)) {
+        if (!empty($get_rooms)) {
             foreach ($get_rooms as $room) {
 
                 $hotel_id = $room->hotel_id;
@@ -189,9 +303,12 @@ class HotelController extends \BaseController
                 $meal_basis = $room->meal_basis;
                 $room_specification = $room->room_specification;
 
-                $get_low_hotel_rate = Rate::lowestRoomRateWithTax($hotel_id, $room_type_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);
+//dd($room_type_id.'/'.$room_specification_id.'/'.$meal_basis_id);
 
-                if ($get_low_hotel_rate) {
+                $get_low_hotel_rate = Rate::lowestRoomRateWithTax($hotel_id, $room_type_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);
+//dd($get_low_hotel_rate);
+
+                if (!empty($get_low_hotel_rate)) {
                     $low_hotel_rate = $get_low_hotel_rate;
                 } else {
                     $low_hotel_rate = 'No Rate';
@@ -212,7 +329,7 @@ class HotelController extends \BaseController
                 //array_push($rooms, $room_array);
                 array_merge($rooms, $room_array);
             }
-        }else{
+        } else {
             return null;
         }
 
@@ -329,8 +446,8 @@ class HotelController extends \BaseController
 
             $hotel_id = $room_identity_array[0];
             $room_id = $room_identity_array[1];
-            $meal_basis_id = $room_identity_array[2];
-            $room_specification_id = $room_identity_array[3];
+            $room_specification_id = $room_identity_array[2];
+            $meal_basis_id = $room_identity_array[3];
             $room_count = Session::get('room_count');
 
 
@@ -352,6 +469,8 @@ class HotelController extends \BaseController
 
 
             $date_count = Voucher::getNights($st_date, $ed_date)->days;
+
+            //dd($room_id.'/'.$room_specification_id.'/'.$meal_basis_id);
 
             $room_rate = Rate::lowestRoomRate($hotel_id, $room_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);
             $room_rate_with_tax = Rate::lowestRoomRateWithTax($hotel_id, $room_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);

@@ -6,3 +6,10 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+bootstrap/start.php
+config/local/database.php
+config/database.php
+myfile.txt
+
+public/images/hotel_images
+app/controllers/HotelController - Copy.php

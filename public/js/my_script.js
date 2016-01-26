@@ -82,9 +82,7 @@ $('.city_select').click(function () {
 });
 
 $('.hot_facility').click(function () {
-    var facilities = $('input[name=facility]:checked').map(function () {
-        return $(this).val();
-    }).get();
+
     $('#facility_form').submit();
 });
 

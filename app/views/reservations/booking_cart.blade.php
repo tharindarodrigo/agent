@@ -1,5 +1,6 @@
 <?php
 $total_cost = 0;
+$total_hotel_amount = 0;
 ?>
 
 @extends('reservations.reservations')
@@ -41,13 +42,12 @@ $total_cost = 0;
 
                 <div class="ibox">
                     <div class="ibox-title">
-                        <span class="pull-right">(<strong>5</strong>) items</span>
+                        <span class="pull-right">(<strong>{{ count(Session::get('rate_box_details')) }}</strong>) items</span>
                         <h5>Items in your cart</h5>
                     </div>
 
                     <div class="ibox-content">
                         @if(Session::has('rate_box_details'))
-
                             <div class="table-responsive">
                                 <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                                     <thead>
@@ -73,13 +73,14 @@ $total_cost = 0;
                                                     <button type="button" class="btn btn-success btn-outline"
                                                             data-toggle="collapse"
                                                             data-target="#{{ $hotel_booking[$c]['room_identity'] }}">
-                                                        {{ $hotel_booking[$c]['room_specification'] .'/'. $hotel_booking[$c]['meal_basis'] }}
+                                                        {{ $hotel_booking[$c]['room_specification'] .' Room ' . ' / '. $hotel_booking[$c]['meal_basis'] }}
                                                     </button>
                                                     <br/><br/>
 
                                                     <div style="width: 500px"
                                                          id="{{ $hotel_booking[$c]['room_identity'] }}"
                                                          class="collapse">
+
                                                         <div class="row ">
                                                             <div class="col-md-6">
                                                                 <div><strong> Check In
@@ -108,19 +109,37 @@ $total_cost = 0;
                                                             </div>
 
                                                         </div>
-                                                        <div>
+                                                        <br/>
 
-                                                        </div>
-                                                        {{ number_format(($hotel_booking[$c]['room_cost']), 2, '.', '') }}
-                                                        <div>
+                                                        <div class="row">
+                                                            <div class="col-md-3"></div>
+                                                            <div class="col-md-9">
+                                                                <div>
+                                                                    <strong> Room Cost :
+                                                                        {{ number_format(($hotel_booking[$c]['room_cost']), 2, '.', '') }}</strong>
+                                                                </div>
 
-                                                        </div>
-                                                        {{ number_format((($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee']) * Session::get('currency_rate') ) , 2, '.', '') }}
+                                                                <div>
+                                                                    <strong> Tax and Handling Fee :
+                                                                        {{ number_format((($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee']) ) , 2, '.', '') }} </strong>
+                                                                </div>
 
-                                                        <div>
-                                                            {{ number_format(($hotel_booking[$c]['supplement_rate'] ), 2, '.', '') }}
+                                                                @if($hotel_booking[$c]['supplement_rate'] > 0)
+                                                                    <div>
+                                                                        <strong> Supplement Rate :
+                                                                            {{ number_format(($hotel_booking[$c]['supplement_rate']), 2, '.', '') }}</strong>
+                                                                    </div>
+                                                                @endif
+
+                                                                <div>
+                                                                    <strong> Room
+                                                                        Total  {{ number_format(($hotel_booking[$c]['room_cost'] + ($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee'] + $hotel_booking[$c]['supplement_rate'])), 2, '.', '') }} </strong>
+                                                                </div>
+
+                                                            </div>
                                                         </div>
                                                         <br/>
+
                                                     </div>
                                                     <?php $total_cost = $total_cost + $hotel_booking[$c]['room_cost'] + ($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee'] + $hotel_booking[$c]['supplement_rate']); ?>
                                                 @endfor
@@ -131,31 +150,35 @@ $total_cost = 0;
                                             </td>
 
                                             <td class="text-right">
+                                                {{ Form::open(array('url' => '/get_cart_item/delete', 'method' => 'POST', 'id'=>'booking_cart_item_delete')) }}
                                                 <div class="btn-group">
-                                                    <button class="btn-white btn btn-xs">View</button>
-                                                    <button class="btn-white btn btn-xs">Edit</button>
+                                                    <button id="delete_cart_item" type="submit" name="delete_item"
+                                                            class="btn-danger btn btn-xs"  value="{{ $hotel_booking['room_identity'] }}">
+                                                        Delete
+                                                    </button>
                                                 </div>
+                                                {{ Form::close() }}
                                             </td>
                                         </tr>
+                                        <?php $total_hotel_amount = $total_hotel_amount + $total_cost ?>
                                     @endforeach
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="6">
-                                            <ul class="pagination pull-right"></ul>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
+                                    {{--<tfoot>--}}
+                                    {{--<tr>--}}
+                                        {{--<td colspan="6">--}}
+                                            {{--<ul class="pagination pull-right"></ul>--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                    {{--</tfoot>--}}
                                 </table>
                             </div>
-
                         @endif
                     </div>
 
                     <div class="ibox-content">
                         <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout
                         </button>
-                        <button class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+                        <a href="{{ URL::to('/reservations') }}" class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</a>
                     </div>
                 </div>
 
@@ -168,16 +191,16 @@ $total_cost = 0;
                     </div>
                     <div class="ibox-content">
                             <span>
-                                Total
+                               Total
                             </span>
 
-                        <h2 class="font-bold">
-                            $390,00
+                        <h2 style="color: #1ab394" class="font-bold">
+                            USD  {{ number_format(($total_hotel_amount), 2, '.', '') }}
                         </h2>
 
                         <hr/>
                             <span class="text-muted small">
-                                *For United States, France and Germany applicable sales tax will be applied
+                                *For Online Payments, applicable sales tax will be applied
                             </span>
 
                         <div class="m-t-sm">
@@ -195,47 +218,13 @@ $total_cost = 0;
                     </div>
                     <div class="ibox-content text-center">
 
-                        <h3><i class="fa fa-phone"></i> +43 100 783 001</h3>
+
+                        <h3><i class="fa fa-phone"></i> + 94 (0) 11 5235872</h3>
+
+                        <h3><i class="fa fa-phone"></i> + 94 (0) 11 4324221</h3>
                             <span class="small">
-                                Please contact with us if you have any questions. We are avalible 24h.
+                                Please contact with us if you have any questions. We are available 24h.
                             </span>
-
-                    </div>
-                </div>
-
-                <div class="ibox">
-                    <div class="ibox-content">
-
-                        <p class="font-bold">
-                            Other products you may be interested
-                        </p>
-
-                        <hr/>
-                        <div>
-                            <a href="#" class="product-name"> Product 1</a>
-
-                            <div class="small m-t-xs">
-                                Many desktop publishing packages and web page editors now.
-                            </div>
-                            <div class="m-t text-righ">
-
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i
-                                            class="fa fa-long-arrow-right"></i> </a>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div>
-                            <a href="#" class="product-name"> Product 2</a>
-
-                            <div class="small m-t-xs">
-                                Many desktop publishing packages and web page editors now.
-                            </div>
-                            <div class="m-t text-righ">
-
-                                <a href="#" class="btn btn-xs btn-outline btn-primary">Info <i
-                                            class="fa fa-long-arrow-right"></i> </a>
-                            </div>
-                        </div>
 
                     </div>
                 </div>

@@ -94,7 +94,7 @@ class CartController extends \BaseController
 
         $deletable = Input::get('delete_item');
 
-        $hotel_id = explode('_', $deletable)[2];
+        $hotel_id = explode('_', $deletable)[0];
 
         $bookings = Session::get('rate_box_details');
         $rate_keys = array_keys($bookings);
@@ -102,15 +102,13 @@ class CartController extends \BaseController
         for ($a = 0; $a < count($rate_keys); $a++) {
 
             $get_element_hotel_id = $rate_keys[$a];
-            $element_hotel_id = explode('_', $get_element_hotel_id)[2];
+            $element_hotel_id = explode('_', $get_element_hotel_id)[0];
 
             if ($element_hotel_id == $hotel_id) {
 
                 if (Session::has('rate_box_details')) {
                     $data = Session::get('rate_box_details');
-                    //dd($data);
-                    //dd($data[$deletable]);
-                    // dd($data[$hotel_id]);
+
                     unset($data[$get_element_hotel_id]);
 
                     if (!empty($data)) {
