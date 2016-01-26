@@ -130,5 +130,57 @@ class HomeController extends BaseController
         return Response::json(true);
 
     }
+
+    public function getConfirmedInquiries()
+    {
+        $allotment_inquiries = null;
+        $rate_inquiries = null;
+        $rInq = RateInquiry::where('status',1)->where('viewed',0)->where('user_id',Auth::id())->get();
+        $aInq = AllotmentInquiry::where('status',1)->where('viewed',0)->where('user_id',Auth::id())->get();
+        $inquiry_count = $rInq->count() + $aInq->count();
+
+//        dd($rInq);
+
+        if ($rInq->count()) {
+            $rate_inquiries =[];
+            foreach ($rInq as $inq) {
+                $rate_inquiries[] = [
+                    'id' => $inq->id,
+                    'hotel' => $inq->hotel->name,
+                    'room_type' => $inq->roomType->room_type,
+                    'meal_basis' => $inq->mealBasis->meal_basis,
+                    'room_specification' => $inq->roomSpecification->room_specification,
+                    'from' => $inq->from,
+                    'to' => $inq->to,
+                    'rateinquiries_url'=> URL::to('inquiries/rate-inquiries')
+                ];
+            }
+        }
+
+        if ($aInq->count()) {
+            $allotment_inquiries=[];
+            foreach ($rInq as $inq) {
+                $inq[] = [
+                    'id' => $aInq->id,
+                    'hotel' => $aInq->hotel->name,
+                    'room_type' => $aInq->roomType->room_type,
+                    'from' => $aInq->from,
+                    'to' => $aInq->to
+                ];
+            };
+        }
+
+
+        $inquiries = [
+            'rate_inquiries' => $rate_inquiries,
+
+            'allotment_inquiries' => $allotment_inquiries,
+
+            'inquiry_count' => $a = $inquiry_count == 0 ? null: $inquiry_count
+        ];
+
+        return Response::json($inquiries);
+
+    }
 }
 

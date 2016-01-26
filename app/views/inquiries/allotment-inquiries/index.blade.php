@@ -29,10 +29,15 @@
                                     <td>{{$allotmentinquiry->id}}</td>
                                     <td>{{$allotmentinquiry->from}}</td>
                                     <td>{{$allotmentinquiry->to}}</td>
-                                    <td>{{$allotmentinquiry->hotel->hotel}}</td>
+                                    <td>{{$allotmentinquiry->hotel->name}}</td>
                                     <td>{{$allotmentinquiry->roomType->roomType}}</td>
-                                    <td>{{$allotmentinquiry->status}}</td>
-                                    <td></td>
+                                    <td>
+                                        @if($rateinquiry->status == 0)
+                                            <small class="label label-warning"> Pending</small>
+                                        @elseif($rateinquiry->status==1)
+                                            <small class="label label-primary"> Confirmed</small>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             @else

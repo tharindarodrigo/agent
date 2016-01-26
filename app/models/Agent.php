@@ -22,9 +22,28 @@ class Agent extends \Eloquent
         return Agent::with(['user', 'market'])->get();
     }
 
-    public static function getUsersWithAgents()
+    /**
+     * Use this method to check if the agent can proceed with credit
+     *
+     * returns true
+     */
+    public static function canProceedWithCredit($currentAmount)
     {
+        $payments = Payment::where('user_id', Auth::id())->sum();
+        $totalCredit = self::totalCreditFromAllBookings();
 
+        return ($totalCredit-$payments) > $currentAmount;
+    }
+
+    public static function totalCreditFromAllBookings()
+    {
+        $bookings = Booking::where('agent_id',Auth::id())->get();
+        $total = 0;
+        foreach($bookings as $booking){
+            $total +=Booking::getTotalBookingAmount($booking);
+        }
+
+        return $total;
     }
 
     public static function getCreditLimit($agent_id)

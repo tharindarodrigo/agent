@@ -9,27 +9,30 @@ class RateInquiry extends \Eloquent
     ];
 
     // Don't forget to fill this array
-    protected $fillable = [];
-
-    public function roomType()
-    {
-        return $this->belongsTo('RoomType');
-    }
+    protected $fillable = ['hotel_id', 'room_type_id','meal_basis_id','status', 'room_specification_id','from','to'];
 
     public function hotel()
     {
         return $this->belongsTo('Hotel');
     }
 
+    public function roomSpecification()
+    {
+        return $this->belongsTo('roomSpecification');
+    }
+
+    public function market()
+    {
+        return $this->belongsTo('market');
+    }
+
     public function mealBasis()
     {
-        return $this->belongsTo('MealBasis');
+        return $this->belongsTo('mealBasis');
     }
 
-    public function roomSpecifiation()
+    public function roomType()
     {
-        return $this->belongsTo('RoomSpecifiation');
+        return $this->belongsTo('roomType');
     }
-
-
 }

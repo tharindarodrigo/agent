@@ -90,6 +90,7 @@ Route::group(array('before' => 'auth'), function () {
 
     Route::resource('inquiries/rate-inquiries', 'RateInquiriesController');
     Route::resource('inquiries/allotment-inquiries', 'AllotmentInquiriesController');
+    Route::post('inquiries/get-inquiry-notifications', 'HomeController@getConfirmedInquiries');
 
     Route::get('voucher/{id}', function ($id) {
         $voucher = Voucher::find($id);
