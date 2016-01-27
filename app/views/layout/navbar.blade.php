@@ -27,7 +27,6 @@
 
         @if(Session::has('rate_box_details'))
             <?php
-            $total_cost = 0;
             $total_hotel_amount = 0;
             $bookings = Session::get('rate_box_details');
             $hotel_bookings = [];
@@ -54,6 +53,7 @@
 
                 <ul class="dropdown-menu dropdown-alerts">
                     @foreach($hotel_bookings as $booking)
+                        <?php  $total_cost = 0; ?>
                         <li>
                             <a href="{{URL::to('/booking-cart')}}">
                                 <div>
@@ -62,7 +62,7 @@
                                         <?php $total_cost = $total_cost + $booking[$c]['room_cost'] + ($booking[$c]['hotel_tax'] + $booking[$c]['hotel_handling_fee'] + $booking[$c]['supplement_rate']); ?>
                                     @endfor
                                     <span style="color: #1ab394" class="pull-right text-muted small">
-                                        USD {{  number_format(($total_hotel_amount), 2, '.', '')  }}
+                                        USD {{  number_format(($total_cost), 2, '.', '')  }}
                                     </span>
                                 </div>
                             </a>
@@ -72,6 +72,8 @@
                     @endforeach
                     <li>
                         <div class="text-center link-block">
+                            <span style="color: #1ab394">Total : USD {{  number_format(($total_hotel_amount), 2, '.', '')  }}</span>
+
                             <a href="{{URL::to('/booking-cart')}}">
                                 <i class="fa-shopping-cart"></i>
                                 <strong>View Cart</strong>

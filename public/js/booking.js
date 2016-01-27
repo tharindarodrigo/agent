@@ -19,9 +19,9 @@ function sendBookingData(url, formData) {
                 $('#room_rates_list').hide("blind");
             } else {
 
-                $('#room_rates_list').show("blind", 500);
                 var tablecontent = generateRoomRateTable(data);
                 $('#room_rates').html(tablecontent);
+                $('#room_rates_list').show("blind", 500);
 
                 $('.room_add_to_cart').click(function () {
 
@@ -154,6 +154,7 @@ function bookingCartDataAddToCart(url, bookingData) {
     });
 
 }
+
 function getLowestRate(url, rateData) {
     $.ajax({
         url: url,

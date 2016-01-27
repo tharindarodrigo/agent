@@ -22,7 +22,7 @@
             height: 34px;
         }
 
-        .hotel_star {
+        .hotel_star, .filter_room_type, .filter_meal_type {
             margin: 0px !important;
         }
 
@@ -126,7 +126,7 @@
 
                                     <div class="room_type form-group row">
                                         <div class="col-lg-6">
-                                            <label>Room Type </label>
+                                            <label> Room Type </label>
 
                                             <div class="form-group">
                                                 {{ Form::select('room_type', RoomSpecification::lists('room_specification', 'id'), null, array('class' => 'form-control m-b', 'id' => '')) }}
@@ -160,14 +160,14 @@
             </div>
 
             @if(Session::has('reservation'))
-                @if(Session::get('reservation') == 3 || Session::get('reservation') == 2)
+                @if(Session::get('reservation') == 2 || Session::get('reservation') == 2)
                     <div class="hotel_list col-lg-4">
                         <div class="ibox">
                             <div class="ibox-title">
                                 <div class="row">
                                     <div class="row">
                                         <div class="container col-md-12">
-                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }}</h5>
+                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }} / From : {{ Session::get('st_date') .' to : '. Session::get('ed_date'); }}</h5>
                                         </div>
                                     </div>
                                     <hr/>
@@ -183,7 +183,6 @@
                                                 {{ Form::selectRange('hotel_star', 1, 5, null, ['class' => 'col-md-4 form-control m-b hotel_star', 'id' => '']) }}
                                             </div>
                                             {{Form::close()}}
-
                                         </div>
                                     </div>
                                 </div>
@@ -263,32 +262,33 @@
                                 </div>
                             </div>
                             <hr/>
-                            <div class="row">
-                                <div style="height: 20px !important;" class="col-md-12">
 
-                                    {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_room_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
+                            <div class="row">
+                                <div class="col-md-12">
+
                                     <div class="col-md-6">
                                         <div class="col-md-5">
                                             <strong> Room </strong>
                                         </div>
 
-                                        <div style="margin: -10px;" class="col-md-7">
+                                        {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_room_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
+                                        <div class="col-md-7">
                                             {{ Form::select('filter_room_type', RoomSpecification::lists('room_specification', 'id'), null, array('class' => 'form-control m-b filter_room_type', 'id' => '')) }}
                                         </div>
+                                        {{Form::close()}}
                                     </div>
-                                    {{Form::close()}}
 
-                                    {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_meal_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
                                     <div class="col-md-6">
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <strong> Meal </strong>
                                         </div>
 
-                                        <div style="margin: -10px;" class="col-md-6">
+                                        {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_meal_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
+                                        <div class="col-md-7">
                                             {{ Form::select('filter_meal_type', MealBasis::lists('meal_basis_name', 'id'), null, array('class' => 'form-control m-b filter_meal_type', 'id' => '')) }}
                                         </div>
+                                        {{Form::close()}}
                                     </div>
-                                    {{Form::close()}}
 
                                 </div>
                             </div>
