@@ -21,7 +21,6 @@ function sendBookingData(url, formData) {
 
                 var tablecontent = generateRoomRateTable(data);
                 $('#room_rates').html(tablecontent);
-                $('#room_rates_list').show("blind", 500);
 
                 $('.room_add_to_cart').click(function () {
 
@@ -36,6 +35,10 @@ function sendBookingData(url, formData) {
                     sendBookingCartData(url, cartData);
 
                 });
+
+                $('#room_rates_list').show("blind", 500);
+
+
 
                 //deleteRoom();
             }

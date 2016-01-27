@@ -160,14 +160,15 @@
             </div>
 
             @if(Session::has('reservation'))
-                @if(Session::get('reservation') == 2 || Session::get('reservation') == 2)
+                @if(Session::get('reservation') == 1 || Session::get('reservation') == 2)
                     <div class="hotel_list col-lg-4">
                         <div class="ibox">
                             <div class="ibox-title">
                                 <div class="row">
                                     <div class="row">
                                         <div class="container col-md-12">
-                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }} / From : {{ Session::get('st_date') .' to : '. Session::get('ed_date'); }}</h5>
+                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }} / From
+                                                : {{ Session::get('st_date') .' to : '. Session::get('ed_date'); }}</h5>
                                         </div>
                                     </div>
                                     <hr/>
@@ -226,7 +227,11 @@
                                                         <i class="fa fa-check"></i>&nbsp;Book
                                                     </button>
                                                 @else
-                                                    <small class="pull-right">No Rate</small>
+                                                        <button hotel_id="{{ $hotel->hotel_id }}"
+                                                                class="pull-right request_hotel btn-xs btn-info"
+                                                                type="submit">
+                                                            <i class="fa fa-check"></i>&nbsp;Request
+                                                        </button>
                                                 @endif
 
                                                 <strong>{{ Hotel::Where('id', $hotel->hotel_id)->first()->name }}</strong>
@@ -241,9 +246,9 @@
                                     {{--@endif--}}
                                 @endforeach
 
-                                {{--<div class="btn-group">--}}
-                                {{--{{ $hotels->links() }}--}}
-                                {{--</div>--}}
+                                <div class="btn-group">
+                                    {{ $hotels->links() }}
+                                </div>
 
                             </div>
 
@@ -348,9 +353,7 @@
             var hotel_id = $(this).attr('hotel_id');
 
             var url = 'http://' + window.location.host + '/get_hotel_details';
-
             var formData = new FormData();
-
             formData.append('hotel_id', hotel_id);
 
             sendBookingData(url, formData);
@@ -377,9 +380,7 @@
             var room_type = $(this).val();
 
             var url = 'http://' + window.location.host + '/get_hotel_details';
-
             var formData = new FormData();
-
             formData.append('room_type', room_type);
 
             sendBookingData(url, formData);
@@ -390,9 +391,7 @@
             var meal_type = $(this).val();
 
             var url = 'http://' + window.location.host + '/get_hotel_details';
-
             var formData = new FormData();
-
             formData.append('meal_type', meal_type);
 
             sendBookingData(url, formData);

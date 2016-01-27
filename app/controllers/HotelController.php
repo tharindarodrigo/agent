@@ -95,7 +95,7 @@ class HotelController extends \BaseController
                     ->where('meal_basis_id', 'LIKE', $meal_basis)
                     ->groupBy('hotel_id')
                     ->orderBy('hotel_id', 'desc')
-                    ->paginate(30);
+                    ->paginate(9);
 
                 //dd($hotels);
 
@@ -131,81 +131,6 @@ class HotelController extends \BaseController
             );
     }
 
-    // Reservation hotel star filter
-
-    public function getReservationsStar()
-    {
-
-
-        if (Input::has('star')) {
-            $star = Input::get('star');
-            if ($star == 5) {
-                $star = 4;
-            } else if ($star == 7) {
-                $star = 5;
-            }
-        } else {
-            $star = '%';
-        }
-
-//dd($star);
-
-        if (!empty($get_city_or_hotel)) {
-
-            $city_or_hotel = $get_city_or_hotel;
-
-            $get_city_or_hotel_id = DB::table('cities')->where('city', 'LIKE', $city_or_hotel)->where('val', 1)->first();
-
-            if (!is_null($get_city_or_hotel_id)) {
-                $city_id = $get_city_or_hotel_id->id;
-
-                $hotels = Rate::With('MealBasis', 'RoomSpecification')
-                    ->WhereHas('Hotel', function ($q) use ($city_id, $star) {
-                        $q->where('val', 1);
-                        $q->where('star_category_id', 'LIKE', $star);
-                        $q->where('city_id', $city_id);
-                    })
-                    ->where('room_specification_id', 'LIKE', $room_type)
-                    ->where('meal_basis_id', 'LIKE', $meal_basis)
-                    ->groupBy('hotel_id')
-                    ->orderBy('hotel_id', 'desc')
-                    ->paginate(30);
-
-                //dd($hotels);
-
-            } else {
-
-                $get_city_or_hotel_id = DB::table('hotels')->where('name', 'LIKE', $city_or_hotel)->first();
-                $hotel_id = $get_city_or_hotel_id->id;
-
-                $city_id = $get_city_or_hotel_id->city_id;
-                $get_city = DB::table('cities')->where('id', '=', $city_id)->first();
-                $city_name = $get_city->city;
-
-
-                $hotels = Rate::WhereHas('Hotel', function ($q) use ($hotel_id) {
-                    $q->where('val', 1);
-                    $q->where('hotel_id', $hotel_id);
-                })
-                    ->groupBy('hotel_id')
-                    ->get();
-            }
-
-        }
-
-        if (Input::has('star')) {
-            return Response::json(true);
-        }
-
-        return View::make('reservations.index')
-            ->with(
-                array(
-                    'hotels' => $hotels,
-                    'city_or_hotel' => $city_or_hotel,
-
-                )
-            );
-    }
 
     /* Hotel Details */
 
