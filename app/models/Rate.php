@@ -136,7 +136,6 @@ class Rate extends \Eloquent
                 ->where('market_id', $market)
                 ->get();
 
-             //dd($get_room_rate);
 
             //dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
             foreach ($get_room_rate as $low_rates) {
@@ -156,7 +155,7 @@ class Rate extends \Eloquent
                         $low_rate = $room_rate + $handling_fee;
                     }
                 }
-
+//dd($low_rate);
             }
 
             $from_date = date('Y-m-d', strtotime($from_date . ' + 1 days'));

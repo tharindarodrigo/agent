@@ -143,7 +143,7 @@ class AccountController extends \BaseController
 
                 }
 
-                return Redirect::intended('/');
+                return Redirect::intended('/reservations');
 
             } else {
                 return Redirect::back()

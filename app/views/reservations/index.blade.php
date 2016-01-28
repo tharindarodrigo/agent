@@ -160,7 +160,7 @@
             </div>
 
             @if(Session::has('reservation'))
-                @if(Session::get('reservation') == 1 || Session::get('reservation') == 2)
+                @if(Session::get('reservation') == 3 || Session::get('reservation') == 2)
                     <div class="hotel_list col-lg-4">
                         <div class="ibox">
                             <div class="ibox-title">

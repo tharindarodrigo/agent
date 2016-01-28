@@ -30,7 +30,7 @@ class HotelController extends \BaseController
             $get_city_or_hotel = Input::get('txt-search');
             Session::put('reservation', 2);
         } else {
-            $get_city_or_hotel = 'Kandy';
+            $get_city_or_hotel = 'NEGOMBO';
             Session::put('reservation', 3);
         }
 
@@ -233,7 +233,7 @@ class HotelController extends \BaseController
                 $get_low_hotel_rate = Rate::lowestRoomRateWithTax($hotel_id, $room_type_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);
 //dd($get_low_hotel_rate);
 
-                if (!empty($get_low_hotel_rate)) {
+                if ($get_low_hotel_rate > 0) {
                     $low_hotel_rate = $get_low_hotel_rate;
                 } else {
                     $low_hotel_rate = 'No Rate';
@@ -253,6 +253,7 @@ class HotelController extends \BaseController
                 $rooms[] = $room_array;
                 //array_push($rooms, $room_array);
                 array_merge($rooms, $room_array);
+                dd(count($get_rooms));
             }
         } else {
             return null;
