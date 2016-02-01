@@ -41,12 +41,12 @@
                         </div>
                         <div class="form-group">
                             <label for="">Arrival Date</label>
-                            {{Form::text('arrival_date',null,array('class'=> 'form-control', 'id'=>'date1'))}}
+                            {{Form::input('date','arrival_date',null,array('class'=> 'form-control', 'id'=>'date1'))}}
                             {{$errors->first('arrival_date', '<span class="size12" style="color: red;">:message</span>') }}
                         </div>
                         <div class="form-group">
                             <label for="">Departure Date</label>
-                            {{Form::text('departure_date', null, array('class'=> 'form-control', 'id'=>'date2'))}}
+                            {{Form::input('date','departure_date', null, array('class'=> 'form-control', 'id'=>'date2'))}}
                             {{$errors->first('departure_date', '<span class="size12" style="color: red;">:message</span>') }}
                         </div>
                         <div class="form-group">
@@ -88,20 +88,33 @@
 
                             <div class="row">
                                 <div class="col-md-3">
-                                    {{--<span class="size12" style="text-align: center">Name</span>--}}
-                                    {{Form::text('client_name',null,array('class'=> 'form-control client_form', 'id'=>'name'))}}
+                                    <div class="form-group">
+
+                                        <span class="size12" style="text-align: center">Name</span>
+
+                                        {{Form::text('client_name',null,array('class'=> 'form-control client_form', 'id'=>'name'))}}
+
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    {{--<span class="size12">Date of Birth</span>--}}
-                                    {{Form::input('date', 'dob',null,array('class'=> 'form-control client_form', 'id'=> 'dob'))}}
+                                    <div class="form-group">
+
+                                        <span class="size12">Date of Birth</span>
+                                        {{Form::input('date', 'dob',null,array('class'=> 'form-control client_form', 'id'=> 'dob'))}}
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    {{--<span class="size12">Passport No.</span>--}}
-                                    {{Form::text('passport_number',null,array('class'=> 'form-control client_form', 'id'=>'passport_number'))}}
+                                    <div class="form-group">
+                                        <span class="size12">Passport No.</span>
+                                        {{Form::text('passport_number',null,array('class'=> 'form-control client_form', 'id'=>'passport_number'))}}
+                                    </div>
                                 </div>
                                 <div class="col-md-2">
-                                    {{--<span class="size12">Gender</span>--}}
-                                    {{Form::select('gender',array('male' => 'Male', 'female'=>'Female'),null,array('class'=> 'form-control client_form', 'id'=>'gender'))}}
+                                    <div class="form-group">
+
+                                        <span class="size12">Gender</span>
+                                        {{Form::select('gender',array('male' => 'Male', 'female'=>'Female'),null,array('class'=> 'form-control client_form', 'id'=>'gender'))}}
+                                    </div>
                                 </div>
 
                             </div>
