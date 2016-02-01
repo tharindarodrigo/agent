@@ -8,7 +8,6 @@ class HotelController extends \BaseController
     public function getReservations()
     {
 
-
         if (Input::has('st_date')) {
             $st_date = Input::get('st_date');
         } else {
@@ -29,8 +28,14 @@ class HotelController extends \BaseController
         if (Input::has('txt-search')) {
             $get_city_or_hotel = Input::get('txt-search');
             Session::put('reservation', 2);
+            Session::put('txt-search', $get_city_or_hotel);
         } else {
-            $get_city_or_hotel = 'NEGOMBO';
+            if (Session::has('txt-search')) {
+                $get_city_or_hotel = Session::get('txt-search');;
+            }else{
+                $get_city_or_hotel ='Kandy';
+            }
+
             Session::put('reservation', 3);
         }
 
@@ -114,7 +119,7 @@ class HotelController extends \BaseController
                     $q->where('hotel_id', $hotel_id);
                 })
                     ->groupBy('hotel_id')
-                    ->get();
+                    ->paginate(5);
             }
 
         }
@@ -215,7 +220,7 @@ class HotelController extends \BaseController
             //->orderBy('rates.meal_basis_id', 'desc')
             ->get();
 
-        //dd($get_rooms);
+        //     dd(count($get_rooms));
 
         if (!empty($get_rooms)) {
             foreach ($get_rooms as $room) {
@@ -253,8 +258,9 @@ class HotelController extends \BaseController
                 $rooms[] = $room_array;
                 //array_push($rooms, $room_array);
                 array_merge($rooms, $room_array);
-                dd(count($get_rooms));
+                // dd(count($get_rooms));
             }
+
         } else {
             return null;
         }
@@ -265,7 +271,7 @@ class HotelController extends \BaseController
                 'rooms' => $rooms
             )
         );
-
+        //
     }
 
 

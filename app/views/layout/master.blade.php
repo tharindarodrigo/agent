@@ -41,11 +41,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="title-action">
-                    {{ Form::open(array('url' => '/booking-cart', 'files'=> true, 'id' => 'view_booking_cart', 'class' => 'wizard-big', 'method' => 'POST', )) }}
-                    <button class="pull-right book_hotel btn-xs btn-primary" type="submit">
-                        <i class="fa fa-check"></i>&nbsp;Book
-                    </button>
-                    {{Form::close()}}
+
                 </div>
             </div>
         </div>

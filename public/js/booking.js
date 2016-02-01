@@ -39,7 +39,6 @@ function sendBookingData(url, formData) {
                 $('#room_rates_list').show("blind", 500);
 
 
-
                 //deleteRoom();
             }
 
@@ -62,14 +61,47 @@ function generateRoomRateTable(data) {
         $.each(data.rooms, function (index, item) {
 
             table += '<div style="padding-top: 10px; padding-bottom: 10px" class="feed-element">' +
-            '<a href="#" class="pull-left">' +
-            '<img alt="image" class="img-circle" src="img/a7.jpg">' +
-            '</a>' +
-            '<div class="media-body ">' +
-            '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_add_to_cart pull-right btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Book </a>' +
-            '<strong style="color: #1ab394" class="pull-right"> USD' + data.rooms[index]['low_hotel_rate'] + '&nbsp;&nbsp; </strong>' +
+            ' <div class="row">' ;
+            //'<div class="col-md-1">' +
+            //'<a href="#" >' +
+            //'<img alt="image" class="img-circle" src="img/a7.jpg">' +
+            //'</a>' +
+            //'</div>';
+
+
+            table += '<div class="col-md-3">';
+
+            for ($x = 0; $x < 2; $x++) {
+                table += '<img alt="image" src="images/site/adult.png">';
+            }
+            for ($x = 0; $x < 1; $x++) {
+                table += '<img alt="image" src="images/site/child.png">';
+            }
+
+
+            table += '</div>' +
+                '<div class="col-md-5">' +
             '<strong>' + data.rooms[index]['room_type'] + '</strong> <br>' +
             '<strong>' + data.rooms[index]['meal_basis'] + '</strong> - <strong>' + data.rooms[index]['room_specification'] + ' room</strong> <br>' +
+            '</div>';
+
+
+            table +=
+            '<div class="col-md-3">' ;
+
+            if (data.rooms[index]['low_hotel_rate'] != 'No Rate') {
+                table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_hotel_rate'] + '&nbsp;&nbsp; </strong>';
+            } else {
+
+            }
+
+            if (data.rooms[index]['low_hotel_rate'] != 'No Rate') {
+                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_add_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Book </a>';
+            } else {
+                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary"> Request </a>';
+            }
+
+            table += '</div>' +
             '</div>' +
             '</div>';
 
@@ -116,7 +148,7 @@ function sendBookingCartData(url, cartData) {
 
             if (data == null) {
                 toastr.success('Sorry No Rate Available...!!');
-            }else {
+            } else {
 
                 var hotel_id = data;
                 var url = 'http://' + window.location.host + '/booking-aad-to-cart';

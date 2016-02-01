@@ -127,7 +127,8 @@ class Rate extends \Eloquent
 
         for ($x = 1; $x <= $dates; $x++) {
 
-            $get_room_rate = Rate::where('hotel_id', '=' ,$hotel_id)
+
+            $get_room_rate = Rate::where('hotel_id', '=', $hotel_id)
                 ->where('room_type_id', 'LIKE', $room_type_id)
                 ->where('room_specification_id', 'LIKE', $specification_id)
                 ->where('meal_basis_id', 'LIKE', $meal_basis_id)
@@ -135,38 +136,43 @@ class Rate extends \Eloquent
                 ->where('to', '>', $from_date)
                 ->where('market_id', $market)
                 ->get();
+//dd(count($get_room_rate));
+            if (count($get_room_rate) > 0) {
+                //dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
+                foreach ($get_room_rate as $low_rates) {
 
+                    $room_rate = $low_rates->rate;
 
-            //dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
-            foreach ($get_room_rate as $low_rates) {
-
-                $room_rate = $low_rates->rate;
-
-                if ($market == 1) {
-                    if ($tax_type == 0) {
-                        $low_rate = ($room_rate / $tax) * 100;
+                    if ($market == 1) {
+                        if ($tax_type == 0) {
+                            $low_rate = ($room_rate / $tax) * 100;
+                        } else {
+                            $low_rate = $room_rate - $tax;
+                        }
                     } else {
-                        $low_rate = $room_rate - $tax;
+                        if ($handling_fee_type == 0) {
+                            $low_rate = ($room_rate / 100) * (100 + $handling_fee);
+                        } else {
+                            $low_rate = $room_rate + $handling_fee;
+                        }
                     }
-                } else {
-                    if ($handling_fee_type == 0) {
-                        $low_rate = ($room_rate / 100) * (100 + $handling_fee);
-                    } else {
-                        $low_rate = $room_rate + $handling_fee;
-                    }
+
                 }
-//dd($low_rate);
+
+                $from_date = date('Y-m-d', strtotime($from_date . ' + 1 days'));
+                $room_rates = $room_rates + $low_rate;
+
+
+                $lowest_room_rate = number_format(($room_rates / $dates), 2);
+                return ($lowest_room_rate);
+            } else {
+                $lowest_room_rate = 0;
+                return ($lowest_room_rate);
             }
 
-            $from_date = date('Y-m-d', strtotime($from_date . ' + 1 days'));
-            $room_rates = $room_rates + $low_rate;
-
         }
-
-        $lowest_room_rate = number_format(($room_rates / $dates), 2);
-        return ($lowest_room_rate);
-
     }
+
 
     public static function lowestRoomRate($hotel_id, $room_type_id, $specification_id, $meal_basis_id, $st_date, $ed_date)
     {
@@ -200,7 +206,7 @@ class Rate extends \Eloquent
         $to_date = date('Y-m-d', strtotime(str_replace('-', '/', $ed_date)));
 
         $dates = (strtotime($ed_date) - strtotime($st_date)) / 86400;
-       // dd($hotel_id .'/'. $room_type_id .'/'. $specification_id .'/'. $meal_basis_id .'/'. $st_date .'/'. $ed_date);
+        // dd($hotel_id .'/'. $room_type_id .'/'. $specification_id .'/'. $meal_basis_id .'/'. $st_date .'/'. $ed_date);
 
         for ($x = 1; $x <= $dates; $x++) {
 

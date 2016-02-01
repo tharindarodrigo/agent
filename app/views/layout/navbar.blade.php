@@ -86,14 +86,13 @@
         @else
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                    <i class="fa fa-shopping-cart"></i> <span class="label label-primary">8</span>
+                    <i class="fa fa-shopping-cart"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     <li>
-                        <a href="mailbox.html">
+                        <a href="#">
                             <div>
-                                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                <span class="pull-right text-muted small">4 minutes ago</span>
+                                <i class="fa fa-envelope fa-fw"></i>  No Items In Your Cart
                             </div>
                         </a>
                     </li>

@@ -30,6 +30,21 @@
             margin-top: 10px !important;
             margin-bottom: 10px !important;
         }
+
+        select {
+            height: 20px !important;
+            -webkit-appearance: none;
+            font-size: 6px !important;
+        }
+
+        select option {
+            font-size: 12px !important;
+        }
+
+        /*.filter_room_type, .filter_meal_type , .hotel_star{*/
+        /*height: 20px;*/
+        /*}*/
+
     </style>
 
 @endsection
@@ -160,7 +175,7 @@
             </div>
 
             @if(Session::has('reservation'))
-                @if(Session::get('reservation') == 3 || Session::get('reservation') == 2)
+                @if(Session::get('reservation') == 1 || Session::get('reservation') == 2 || Session::has('txt-search'))
                     <div class="hotel_list col-lg-4">
                         <div class="ibox">
                             <div class="ibox-title">
@@ -224,14 +239,13 @@
                                                     <button hotel_id="{{ $hotel->hotel_id }}"
                                                             class="pull-right book_hotel btn-xs btn-primary"
                                                             type="submit">
-                                                        <i class="fa fa-check"></i>&nbsp;Book
+                                                        <i class="fa fa-check"></i>&nbsp;View
                                                     </button>
                                                 @else
-                                                        <button hotel_id="{{ $hotel->hotel_id }}"
-                                                                class="pull-right request_hotel btn-xs btn-info"
-                                                                type="submit">
-                                                            <i class="fa fa-check"></i>&nbsp;Request
-                                                        </button>
+                                                    <button hotel_id="{{ $hotel->hotel_id }}"
+                                                            class="pull-right request_hotel btn-xs btn-info"
+                                                            type="submit"> Request
+                                                    </button>
                                                 @endif
 
                                                 <strong>{{ Hotel::Where('id', $hotel->hotel_id)->first()->name }}</strong>
@@ -271,29 +285,18 @@
                             <div class="row">
                                 <div class="col-md-12">
 
+                                    {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_room_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
                                     <div class="col-md-6">
-                                        <div class="col-md-5">
-                                            <strong> Room </strong>
-                                        </div>
-
-                                        {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_room_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
-                                        <div class="col-md-7">
-                                            {{ Form::select('filter_room_type', RoomSpecification::lists('room_specification', 'id'), null, array('class' => 'form-control m-b filter_room_type', 'id' => '')) }}
-                                        </div>
-                                        {{Form::close()}}
+                                        {{ Form::select('filter_room_type', RoomSpecification::lists('room_specification', 'id'), null, array('class' => 'form-control m-b filter_room_type', 'id' => '')) }}
                                     </div>
+                                    {{Form::close()}}
 
+
+                                    {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_meal_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
                                     <div class="col-md-6">
-                                        <div class="col-md-5">
-                                            <strong> Meal </strong>
-                                        </div>
-
-                                        {{ Form::open(array('url' => '/get_hotel_details', 'files'=> true, 'id' => 'filter_meal_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
-                                        <div class="col-md-7">
-                                            {{ Form::select('filter_meal_type', MealBasis::lists('meal_basis_name', 'id'), null, array('class' => 'form-control m-b filter_meal_type', 'id' => '')) }}
-                                        </div>
-                                        {{Form::close()}}
+                                        {{ Form::select('filter_meal_type', MealBasis::lists('meal_basis_name', 'id'), null, array('class' => 'form-control m-b filter_meal_type', 'id' => '')) }}
                                     </div>
+                                    {{Form::close()}}
 
                                 </div>
                             </div>
@@ -312,6 +315,8 @@
             </div>
 
         </div>
+
+
     </div>
 
 @endsection
