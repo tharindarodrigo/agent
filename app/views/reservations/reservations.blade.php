@@ -19,7 +19,6 @@
     @yield('bread-crumbs')
 @endsection
 
-
 @section('content')
     @yield('reservations-content')
 @endsection
@@ -27,7 +26,6 @@
 @section('script')
     <!-- Data picker -->
     <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
     @yield('footer-scripts')
 @endsection
 

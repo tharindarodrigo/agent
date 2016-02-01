@@ -41,27 +41,27 @@
 
             confirmDeleteItem();
 
-            $('#date1, #date2, #date3, #date4').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true
-            });
-
-            $('#dob').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                minDate: new Date(1900),
-                maxDate: new Date(),
-                numberOfMonths: 1
-            });
-            $('.payment-date-control').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                minDate: new Date(1900),
-                numberOfMonths: 1
-            });
+//            $('#date1, #date2, #date3, #date4').datepicker({
+//                dateFormat: 'yy-mm-dd',
+//                changeMonth: true,
+//                changeYear: true
+//            });
+//
+//            $('#dob').datepicker({
+//                dateFormat: 'yy-mm-dd',
+//                changeMonth: true,
+//                changeYear: true,
+//                minDate: new Date(1900),
+//                maxDate: new Date(),
+//                numberOfMonths: 1
+//            });
+//            $('.payment-date-control').datepicker({
+//                dateFormat: 'yy-mm-dd',
+//                changeMonth: true,
+//                changeYear: true,
+//                minDate: new Date(1900),
+//                numberOfMonths: 1
+//            });
 
 //        $('.my_dob').datepicker({
 //            dateFormat: 'yy-mm-dd',
@@ -72,15 +72,15 @@
 //            numberOfMonths: 1
 //        });
 
-            $('.date-control').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true
-            });
-
-            $('.time-control').timepicker();
-            $('#time1, #time2').timepicker();
-            $('.update_client').hide();
+//            $('.date-control').datepicker({
+//                dateFormat: 'yy-mm-dd',
+//                changeMonth: true,
+//                changeYear: true
+//            });
+//
+//            $('.time-control').timepicker();
+//            $('#time1, #time2').timepicker();
+//            $('.update_client').hide();
 
 
             var url = 'http://' + window.location.host + '/bookings/get-clients';
