@@ -29,20 +29,21 @@ class Agent extends \Eloquent
      */
     public static function canProceedWithCredit($currentAmount)
     {
-        $payments = Payment::where('user_id', Auth::id())->sum();
+        $payments = Payment::where('user_id', Auth::id())->sum('amount');
         $totalCredit = self::totalCreditFromAllBookings();
+        $creditLimit = self::getCreditLimit(Auth::id());
+        $creditLeft =$totalCredit + $currentAmount - $payments;
 
-        return ($totalCredit-$payments) > $currentAmount;
+        return $creditLimit >= $creditLeft;
     }
 
     public static function totalCreditFromAllBookings()
     {
-        $bookings = Booking::where('agent_id',Auth::id())->get();
+        $bookings = Booking::where('user_id',Auth::id())->get();
         $total = 0;
         foreach($bookings as $booking){
             $total +=Booking::getTotalBookingAmount($booking);
         }
-
         return $total;
     }
 
@@ -52,6 +53,7 @@ class Agent extends \Eloquent
 
             return Agent::where('user_id', $agent_id)->first()->credit_limit;
         }
+
         return false;
 
     }

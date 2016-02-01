@@ -37,4 +37,3 @@ function postData(url, method, prefix, formData , successpage, defaultPage){
 
     });
 }
-

@@ -14,7 +14,7 @@
                                         {{Auth::user()->first_name.' '.Auth::user()->last_name}}
                                     </strong>
                                 </span>
-                                <span class="text-muted text-xs block">Art Director
+                                <span class="text-muted text-xs block">{{!empty(Agent::where('user_id',Auth::id())->count()) ? Agent::where('user_id',Auth::id())->first()->company : ''}}
                                     <b class="caret"></b></span> </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">

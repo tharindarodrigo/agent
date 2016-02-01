@@ -260,3 +260,7 @@ Route::group(array('prefix' => 'account'), function () {
     Route::post('recover-account/{code}', 'AccountController@postRecoverPassword');
 });
 
+
+Route::get('my-route', function(){
+    dd(Agent::canProceedWithCredit(200));
+});

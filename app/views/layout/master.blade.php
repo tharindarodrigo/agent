@@ -52,8 +52,8 @@
 
         <div class="footer">
             <div>
-                <div class="col-md-3">
-                    {{date('Y-m-d')}}
+                <div class="col-md-3" id="server_time">
+
                 </div>
                 <div class="col-md-6">
 
@@ -64,7 +64,6 @@
 
     </div>
 </div>
-
 {{HTML::script("//code.jquery.com/jquery-2.1.4.min.js")}}
 {{HTML::script("js/bootstrap.min.js")}}
 {{HTML::script("js/plugins/metisMenu/jquery.metisMenu.js")}}
@@ -84,6 +83,26 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        function startTime() {
+            var today = new Date();
+            var h = today.getUTCHours();
+            var m = today.getUTCMinutes();
+            var s = today.getUTCSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            $('#server_time').html(h + ":" + m + ":" + s);
+
+            var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
+
+        startTime();
+
+
 
         $.ajax({
             url: 'http://' + window.location.host + '/inquiries/get-inquiry-notifications',
