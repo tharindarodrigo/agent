@@ -122,8 +122,8 @@
 
                 });
 
-                var list = listInquiries(data);
-                $('#inquiries').html(list);
+                setTimeout(listInquiries(data),1000);
+
             },
 
             error: function () {
@@ -135,15 +135,19 @@
         function listInquiries(data) {
 
             var list = '';
-            array = data.rate_inquiries;
-            $.each(array, function (index, item) {
 
-                list += '<div><a id="rinq_' + item.id + '" href="' + item.rateinquiries_url + '">' + item.hotel + ' rates have been added</a></div>';
-                list += '<li class="divider"></li>';
+            if(data.rate_inquiries != null) {
+                $.each(data.rate_inquiries, function (index, item) {
 
-            });
+                    list += '<div><a id="rinq_' + item.id + '" href="' + item.rateinquiries_url + '">' + item.hotel + ' rates have been added</a></div>';
+                    list += '<li class="divider"></li>';
 
-            return list;
+                });
+            }
+
+            $('#inquiries').html(list);
+
+
         }
     });
 </script>

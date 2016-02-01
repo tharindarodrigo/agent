@@ -176,8 +176,8 @@ $total_hotel_amount = 0;
                     </div>
 
                     <div class="ibox-content">
-                        <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout
-                        </button>
+                        <a class="btn btn-primary pull-right" href="{{URL::to('bookings/create')}}"><i class="fa fa fa-shopping-cart"></i> Checkout
+                        </a>
                         <a href="{{ URL::to('/reservations') }}" class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</a>
                     </div>
                 </div>
