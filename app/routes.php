@@ -247,6 +247,12 @@ Route::any('/reservations/{?cityORhotel}', array(
     'uses' => 'HotelController@getReservations'
 ));
 
+//403 Page
+
+Route::get('/403', array(
+    'as' => '403-message',
+    'uses' => 'HomeController@view403'
+));
 
 Route::group(array('prefix' => 'account'), function () {
     Route::get('sign-up', 'AccountController@signUp');

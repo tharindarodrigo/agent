@@ -77,18 +77,9 @@ class HomeController extends BaseController
             $ed_date = date("Y/m/d", strtotime($st_date . ' + 2 days'));
         }
 
-
-        // Filtering
-        $hotel_type = DB::table('hotel_categories')->where('val', 1)->get();
-        $hotel_cities = DB::table('cities')->where('val', 1)->get();
-        $hotel_facilities = DB::table('hotel_facilities')->where('val', 1)->get();
-
-        return View::make('errors.403')
+        return View::make('layout.403')
             ->with(
                 array(
-                    'hotel_type' => $hotel_type,
-                    'hotel_cities' => $hotel_cities,
-                    'hotel_facilities' => $hotel_facilities,
                     'st_date' => $st_date,
                     'ed_date' => $ed_date,
                 )

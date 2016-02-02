@@ -212,15 +212,15 @@ class HotelController extends \BaseController
             ->join('room_specifications', 'room_specifications.id', '=', 'rates.room_specification_id')
             ->where('rates.val', 1)
             ->where('rates.hotel_id', $hotel_id)
-            ->where('rates.room_specification_id', 'LIKE', $room_type)
-            ->where('rates.meal_basis_id', 'LIKE', $meal_basis)
-            ->where('rates.from', '<=', $from_date)
-            ->where('rates.to', '>', $from_date)
+         //   ->where('rates.room_specification_id', 'LIKE', $room_type)
+         //   ->where('rates.meal_basis_id', 'LIKE', $meal_basis)
+         //   ->where('rates.from', '<=', $from_date)
+          //  ->where('rates.to', '>', $from_date)
             // ->groupBy('rates.meal_basis_id')
             //->orderBy('rates.meal_basis_id', 'desc')
             ->get();
 
-        //     dd(count($get_rooms));
+             dd(count($get_rooms));
 
         if (!empty($get_rooms)) {
             foreach ($get_rooms as $room) {
@@ -233,10 +233,9 @@ class HotelController extends \BaseController
                 $meal_basis = $room->meal_basis;
                 $room_specification = $room->room_specification;
 
-//dd($room_type_id.'/'.$room_specification_id.'/'.$meal_basis_id);
+                //dd($room_type_id.'/'.$room_specification_id.'/'.$meal_basis_id);
 
                 $get_low_hotel_rate = Rate::lowestRoomRateWithTax($hotel_id, $room_type_id, $room_specification_id, $meal_basis_id, $st_date, $ed_date);
-//dd($get_low_hotel_rate);
 
                 if ($get_low_hotel_rate > 0) {
                     $low_hotel_rate = $get_low_hotel_rate;

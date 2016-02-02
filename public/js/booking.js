@@ -61,33 +61,22 @@ function generateRoomRateTable(data) {
         $.each(data.rooms, function (index, item) {
 
             table += '<div style="padding-top: 10px; padding-bottom: 10px" class="feed-element">' +
-            ' <div class="row">' ;
-            //'<div class="col-md-1">' +
-            //'<a href="#" >' +
-            //'<img alt="image" class="img-circle" src="img/a7.jpg">' +
-            //'</a>' +
-            //'</div>';
+            ' <div class="row">' +
+            '<div class="col-md-2">' +
+            '<a href="#" >' +
+            '<img alt="image" class="img-circle" src="img/a7.jpg">' +
+            '</a>' +
+            '</div>';
 
 
-            table += '<div class="col-md-3">';
-
-            for ($x = 0; $x < 2; $x++) {
-                table += '<img alt="image" src="images/site/adult.png">';
-            }
-            for ($x = 0; $x < 1; $x++) {
-                table += '<img alt="image" src="images/site/child.png">';
-            }
-
-
-            table += '</div>' +
-                '<div class="col-md-5">' +
+            table += '<div class="col-md-6">' +
             '<strong>' + data.rooms[index]['room_type'] + '</strong> <br>' +
             '<strong>' + data.rooms[index]['meal_basis'] + '</strong> - <strong>' + data.rooms[index]['room_specification'] + ' room</strong> <br>' +
             '</div>';
 
 
             table +=
-            '<div class="col-md-3">' ;
+            '<div class="col-md-4">' ;
 
             if (data.rooms[index]['low_hotel_rate'] != 'No Rate') {
                 table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_hotel_rate'] + '&nbsp;&nbsp; </strong>';
@@ -179,8 +168,9 @@ function bookingCartDataAddToCart(url, bookingData) {
         dataType: 'json',
         data: bookingData,
         success: function (data) {
-            toastr.success('Successfully Added To The Cart...!!');
             $('#room_rates_list').hide("blind");
+            location.reload();
+            toastr.success('Successfully Added To The Cart...!!');
         },
 
         error: function () {

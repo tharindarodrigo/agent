@@ -243,7 +243,7 @@
                                                     </button>
                                                 @else
                                                     <button hotel_id="{{ $hotel->hotel_id }}"
-                                                            class="pull-right request_hotel btn-xs btn-info"
+                                                            class="pull-right book_hotel btn-xs btn-info"
                                                             type="submit"> Request
                                                     </button>
                                                 @endif
