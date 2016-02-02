@@ -26,8 +26,9 @@
                     <div class="ibox-title">
                         Client Details
                     </div>
+                    {{Form::open(array('route'=>array('bookings.store')))}}
                     <div class="ibox-content">
-                        {{Form::open()}}
+
                         <div class="form-group">
                             <label for="">Booking Name * <span style="font-style: italic; font-weight: lighter;"> (First & Last Name)</span></label>
                             {{Form::text('booking_name',null,array('class'=> 'form-control'))}}
@@ -55,11 +56,11 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     {{Form::text('adults', null, array('class'=> 'form-control', 'id'=>'date2', 'placeholder'=>'Adults'))}}
-                                    {{$errors->first('departure_date', '<span class="size12" style="color: red;">:message</span>') }}
+                                    {{$errors->first('adults', '<span class="size12" style="color: red;">:message</span>') }}
                                 </div>
                                 <div class="col-xs-6">
                                     {{Form::text('children', null, array('class'=> 'form-control', 'id'=>'date2', 'placeholder'=>'Children'))}}
-                                    {{$errors->first('departure_date', '<span class="size12" style="color: red;">:message</span>') }}
+                                    {{$errors->first('children', '<span class="size12" style="color: red;">:message</span>') }}
                                 </div>
                             </div>
                         </div>
@@ -124,7 +125,7 @@
                             <button class="btn btn-primary btn-outline" type="button" id="add_client_btn">Add Client
                             </button>
                         </div>
-                        {{Form::close()}}
+
                     </div>
                     <div class="ibox-title">
                         Flight Details
@@ -178,6 +179,7 @@
                             {{Form::submit('Create Booking',array('class'=>'btn btn-primary'))}}
                         </div>
                     </div>
+                    {{Form::close()}}
                 </div>
             </div>
             <div class="col-lg-4">
