@@ -31,18 +31,14 @@
             margin-bottom: 10px !important;
         }
 
-        select {
-            height: 20px !important;
-            -webkit-appearance: none;
-            font-size: 6px !important;
-        }
+        /*select {*/
+        /*height: 20px !important;*/
+        /*-webkit-appearance: none;*/
+        /*font-size: 6px !important;*/
+        /*}*/
 
-        select option {
-            font-size: 12px !important;
-        }
-
-        /*.filter_room_type, .filter_meal_type , .hotel_star{*/
-        /*height: 20px;*/
+        /*select option {*/
+        /*font-size: 12px !important;*/
         /*}*/
 
     </style>
@@ -105,7 +101,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" name="st_date"
                                                    value="{{ Session::has('st_date') ? Session::get('st_date') : $st_date }}">
                                         </div>
                                     </div>
@@ -117,7 +113,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" name="ed_date"
                                                    value="{{ Session::has('ed_date') ? Session::get('ed_date') : $ed_date }}">
                                         </div>
                                     </div>
@@ -235,17 +231,83 @@
                                                 $star = StarCategory::where('id', $stars)->first();
                                                 $hotel_star = $star->stars;
                                                 ?>
-                                                @if(!empty($low_hotel_rate))
+                                                @if($low_hotel_rate > 0)
                                                     <button hotel_id="{{ $hotel->hotel_id }}"
                                                             class="pull-right book_hotel btn-xs btn-primary"
                                                             type="submit">
                                                         <i class="fa fa-check"></i>&nbsp;View
                                                     </button>
                                                 @else
-                                                    <button hotel_id="{{ $hotel->hotel_id }}"
+                                                    <button hotel_id="{{ $hotel->hotel_id }}" data-toggle="modal"
+                                                            data-target="#myModal2"
+                                                            style="background: #d75124; border-color: #d75124"
                                                             class="pull-right book_hotel btn-xs btn-info"
-                                                            type="submit"> Request
+                                                            type="button"> Request
                                                     </button>
+
+                                                    <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content animated flipInY">
+                                                                {{ Form::open(array('url' => '/request-rate', 'files'=> true, 'id' => 'rate_request_form', 'class' => 'wizard-big', 'method' => 'POST', )) }}
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal"><span
+                                                                                aria-hidden="true">&times;</span><span
+                                                                                class="sr-only">Close</span></button>
+                                                                    <h4 class="modal-title"> {{ Hotel::Where('id', $hotel->hotel_id)->first()->name }} </h4>
+                                                                    <small class="font-bold">you can request rates from
+                                                                        here..
+                                                                    </small>
+                                                                </div>
+                                                                <div class="modal-body">
+
+                                                                    {{ Form::hidden('hotel_id', $hotel->hotel_id) }}
+
+                                                                    <div class="row">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-6">
+                                                                                <label> Room Specification </label>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                {{ Form::select('room_specification', RoomSpecification::lists('room_specification', 'id'), null, array('class' => 'form-control m-b', 'id' => '')) }}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-6">
+                                                                                <label>Meal Basis </label>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                {{ Form::select('meal_basis', MealBasis::lists('meal_basis_name', 'id'), null, array('class' => 'form-control m-b', 'id' => '')) }}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-6">
+                                                                                <label> Room Type </label>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                {{ Form::select('room_type', RoomType::Where('hotel_id', $hotel->hotel_id)->lists('room_type', 'id'), null, array('class' => 'form-control m-b', 'id' => '')) }}
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-white"
+                                                                            data-dismiss="modal">Close
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Send
+                                                                        Request
+                                                                    </button>
+                                                                </div>
+                                                                {{Form::close()}}
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
                                                 @endif
 
                                                 <strong>{{ Hotel::Where('id', $hotel->hotel_id)->first()->name }}</strong>

@@ -223,7 +223,7 @@ Route::any('/add-to-cart', array(
 
 // add to the cart
 
-Route::any('/booking-aad-to-cart', array(
+Route::any('/booking-add-to-cart', array(
     'as' => 'booking-cart-get',
     'uses' => 'CartController@addToCart'
 ));
@@ -245,6 +245,20 @@ Route::post('/get_cart_item/delete', 'CartController@cartItemDelete');
 Route::any('/reservations/{?cityORhotel}', array(
     'as' => 'reservations',
     'uses' => 'HotelController@getReservations'
+));
+
+// Rate Request
+
+Route::any('/request-rate', array(
+    'as' => 'request-rate',
+    'uses' => 'HotelController@requestRate'
+));
+
+// Allotment Request
+
+Route::any('/request-allotment', array(
+    'as' => 'request-allotment',
+    'uses' => 'HotelController@requestAllotment'
 ));
 
 //403 Page

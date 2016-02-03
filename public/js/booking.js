@@ -36,6 +36,20 @@ function sendBookingData(url, formData) {
 
                 });
 
+                $('.room_request_to_cart').click(function () {
+
+                    var url = 'http://' + window.location.host + '/request-allotment';
+                    var room_refer_id = $(this).closest('.room_request_to_cart').attr('room_refer_key');
+                    var hotel_id = $(this).closest('.room_request_to_cart').attr('hotel_id');
+
+                    var requestData = new FormData();
+                    requestData.append('room_refer_id', room_refer_id);
+                    requestData.append('hotel_id', hotel_id);
+
+                    requestAllotment(url, requestData);
+
+                });
+
                 $('#room_rates_list').show("blind", 500);
 
 
@@ -75,19 +89,18 @@ function generateRoomRateTable(data) {
             '</div>';
 
 
-            table +=
-            '<div class="col-md-4">' ;
+            table += '<div class="col-md-4">' ;
 
-            if (data.rooms[index]['low_hotel_rate'] != 'No Rate') {
-                table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_hotel_rate'] + '&nbsp;&nbsp; </strong>';
+            if (data.rooms[index]['low_room_rate'] != 0) {
+                table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong>';
             } else {
-
+               // table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong>';
             }
 
-            if (data.rooms[index]['low_hotel_rate'] != 'No Rate') {
+            if (data.rooms[index]['low_room_rate'] != 0) {
                 table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_add_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Book </a>';
             } else {
-                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary"> Request </a>';
+                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary" style="background: #d75124; border-color: #d75124"> Request </a>';
             }
 
             table += '</div>' +
@@ -140,7 +153,7 @@ function sendBookingCartData(url, cartData) {
             } else {
 
                 var hotel_id = data;
-                var url = 'http://' + window.location.host + '/booking-aad-to-cart';
+                var url = 'http://' + window.location.host + '/booking-add-to-cart';
 
                 var bookingData = new FormData();
                 bookingData.append('hotel_id', hotel_id);
@@ -180,7 +193,7 @@ function bookingCartDataAddToCart(url, bookingData) {
 
 }
 
-function getLowestRate(url, rateData) {
+function requestAllotment(url, requestData) {
     $.ajax({
         url: url,
         method: 'post',
@@ -188,9 +201,9 @@ function getLowestRate(url, rateData) {
         contentType: false,
         cache: false,
         dataType: 'json',
-        data: bookingData,
+        data: requestData,
         success: function (data) {
-            toastr.success('Successfully Added To The Cart...!!');
+           location.reload();
         },
 
         error: function () {
