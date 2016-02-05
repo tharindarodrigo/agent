@@ -38,13 +38,11 @@ function sendBookingData(url, formData) {
 
                 $('.room_request_to_cart').click(function () {
 
-                    var url = 'http://' + window.location.host + '/request-allotment';
+                    var url = 'http://' + window.location.host + '/request-rate';
                     var room_refer_id = $(this).closest('.room_request_to_cart').attr('room_refer_key');
-                    var hotel_id = $(this).closest('.room_request_to_cart').attr('hotel_id');
 
                     var requestData = new FormData();
                     requestData.append('room_refer_id', room_refer_id);
-                    requestData.append('hotel_id', hotel_id);
 
                     requestAllotment(url, requestData);
 

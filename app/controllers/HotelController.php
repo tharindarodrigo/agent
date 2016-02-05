@@ -26,7 +26,7 @@ class HotelController extends \BaseController
             $ed_date = date("Y/m/d", strtotime($st_date . ' + 2 days'));
         }
 
-    //    dd($st_date);
+        //    dd($st_date);
 
         Session::put('st_date', $st_date);
         Session::put('ed_date', $ed_date);
@@ -287,12 +287,6 @@ class HotelController extends \BaseController
         $st_date = Session::get('st_date');
         $ed_date = Session::get('ed_date');
 
-        $hotel_id = Input::get('hotel_id');
-        $room_specification = Input::get('room_specification');
-        $room_type = Input::get('room_type');
-        $meal_basis = Input::get('meal_basis');
-        $room_count = Input::get('room_count');
-
         if (Auth::check()) {
             $user_id = Auth::user()->id;
         }
@@ -302,20 +296,55 @@ class HotelController extends \BaseController
         }
         //dd($room_count);
 
-        $request_rate = array(
-            'hotel_id' => $hotel_id,
-            'user_id' => $user_id,
-            'from' => $st_date,
-            'to' => $ed_date,
-            'room_specification_id' => $room_specification,
-            'room_type_id' => $room_type,
-            'meal_basis_id' => $meal_basis,
-            'room_count' => $room_count,
-            'market_id' => $market,
-        );
-        $request_rate_id = RateInquiry::create($request_rate);
+        if (Input::has('room_refer_id')) {
 
-        return Redirect::to('/reservations');
+            $room_identity = Input::get('room_refer_id');
+            $room_identity_array = explode("_", $room_identity);
+
+            $hotel_id = $room_identity_array[0];
+            $room_type = $room_identity_array[1];
+            $room_specification = $room_identity_array[2];
+            $meal_basis = $room_identity_array[3];
+            $room_count = Session::get('room_count');
+
+            $request_rate = array(
+                'hotel_id' => $hotel_id,
+                'user_id' => $user_id,
+                'from' => $st_date,
+                'to' => $ed_date,
+                'room_specification_id' => $room_specification,
+                'room_type_id' => $room_type,
+                'meal_basis_id' => $meal_basis,
+                'room_count' => $room_count,
+                'market_id' => $market,
+            );
+            $request_rate_id = RateInquiry::create($request_rate);
+
+            return Response::json(true);
+
+        } else {
+
+            $hotel_id = Input::get('hotel_id');
+            $room_specification = Input::get('room_specification');
+            $room_type = Input::get('room_type');
+            $meal_basis = Input::get('meal_basis');
+            $room_count = Session::get('room_count');
+
+            $request_rate = array(
+                'hotel_id' => $hotel_id,
+                'user_id' => $user_id,
+                'from' => $st_date,
+                'to' => $ed_date,
+                'room_specification_id' => $room_specification,
+                'room_type_id' => $room_type,
+                'meal_basis_id' => $meal_basis,
+                'room_count' => $room_count,
+                'market_id' => $market,
+            );
+            $request_rate_id = RateInquiry::create($request_rate);
+
+            return Redirect::to('/reservations');
+        }
 
     }
 
