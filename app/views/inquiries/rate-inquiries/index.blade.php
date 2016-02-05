@@ -29,8 +29,8 @@
                                         <td>{{$rateinquiry->id}}</td>
                                         <td>{{$rateinquiry->from}}</td>
                                         <td>{{$rateinquiry->to}}</td>
-                                        <td>{{$rateinquiry->hotel->hotel}}</td>
-                                        <td>{{$rateinquiry->roomType->roomType}}</td>
+                                        <td>{{$rateinquiry->hotel->name}}</td>
+                                        <td>{{$rateinquiry->roomType->room_type}}</td>
                                         <td>{{$rateinquiry->mealBasis->meal_basis}}</td>
                                         <td>{{$rateinquiry->roomSpecification->room_specification}}</td>
                                         <td>

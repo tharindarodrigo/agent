@@ -36,12 +36,14 @@
                             {{Form::text('amount', null, array('class'=> 'form-control'))}}
                             <p>{{$errors->first('amount', '<span class="size12" style="color: red;">:message</span>') }}</p>
                         </div>
+                        @if(Entrust::hasRole('Admin'))
                         <div class="form-group">
                             <label for="payment_date_time">Date Time</label>
                             {{Form::text('payment_date_time', null, array('class'=> 'form-control', 'id'=>'date', 'autocomplete' => 'off'))}}
                             <p>{{$errors->first('payment_date_time', '<span class="size12" style="color: red;">:message</span>') }}</p>
 
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="">Details</label>
                             {{Form::textarea('details', null, array('class'=> 'form-control', 'rows'=>'3'))}}

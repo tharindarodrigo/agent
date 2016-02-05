@@ -22,7 +22,7 @@
                     {{Form::open(array('route'=>array('bookings.flightDetails.destroy',$booking->id,$flight->id), 'method'=>'delete'))}}
                     <button type="button" class="btn btn-danger btn-sm delete-button" value="{{$flight->id.'_flight'}}">
                         <span class="glyphicon glyphicon-trash"></span></button>
-                    <button class="btn btn-primary btn-sm edit_flight" data-toggle="modal"
+                    <button type="button" class="btn btn-primary btn-sm edit_flight" data-toggle="modal"
                             data-target="#flightModal_{{$flight->id}}" value="{{$flight->id.'_client'}}"><span
                                 class="glyphicon glyphicon-edit"></span></button>
                     {{Form::close()}}

@@ -83,6 +83,13 @@
                         </div>
                     </td>
                 </tr>
+                @if(Session::has('booking_cancellation_error_'.$booking->id))
+                <tr style="vertical-align: bottom;">
+                    <td class="alert alert-danger" colspan="9" style="vertical-align: bottom;">
+                            {{Session::pull('booking_cancellation_error_'.$booking->id)}}
+                    </td>
+                </tr>
+                @endif
             @endforeach
         @else
             <tr>

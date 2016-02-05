@@ -6,30 +6,30 @@ $total_hotel_amount = 0;
 @extends('reservations.reservations')
 
 @section('head-styles')
-    {{ HTML::style('css/plugins/iCheck/custom.css' , array('rel' => 'stylesheet' , 'media' => 'screen')) }}
-    {{ HTML::style('css/plugins/steps/jquery.steps.css' , array('rel' => 'stylesheet' , 'media' => 'screen')) }}
+{{ HTML::style('css/plugins/iCheck/custom.css' , array('rel' => 'stylesheet' , 'media' => 'screen')) }}
+{{ HTML::style('css/plugins/steps/jquery.steps.css' , array('rel' => 'stylesheet' , 'media' => 'screen')) }}
 
-    <!-- FooTable -->
-    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+        <!-- FooTable -->
+<link href="css/plugins/footable/footable.core.css" rel="stylesheet">
 
-    <style type="text/css">
-        h5 {
-            color: #3498db;
-        }
+<style type="text/css">
+    h5 {
+        color: #3498db;
+    }
 
-        .hotel_list_hide {
-            display: none;
-        }
+    .hotel_list_hide {
+        display: none;
+    }
 
-        .room_list_hide {
-            display: none;
-        }
+    .room_list_hide {
+        display: none;
+    }
 
-        .hotel_img_1 {
-            width: 40px;
-            height: 34px;
-        }
-    </style>
+    .hotel_img_1 {
+        width: 40px;
+        height: 34px;
+    }
+</style>
 
 @endsection
 
@@ -133,7 +133,7 @@ $total_hotel_amount = 0;
 
                                                                 <div>
                                                                     <strong> Room
-                                                                        Total  {{ number_format(($hotel_booking[$c]['room_cost'] + ($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee'] + $hotel_booking[$c]['supplement_rate'])), 2, '.', '') }} </strong>
+                                                                        Total {{ number_format(($hotel_booking[$c]['room_cost'] + ($hotel_booking[$c]['hotel_tax'] + $hotel_booking[$c]['hotel_handling_fee'] + $hotel_booking[$c]['supplement_rate'])), 2, '.', '') }} </strong>
                                                                 </div>
 
                                                             </div>
@@ -153,7 +153,8 @@ $total_hotel_amount = 0;
                                                 {{ Form::open(array('url' => '/get_cart_item/delete', 'method' => 'POST', 'id'=>'booking_cart_item_delete')) }}
                                                 <div class="btn-group">
                                                     <button id="delete_cart_item" type="submit" name="delete_item"
-                                                            class="btn-danger btn btn-xs"  value="{{ $hotel_booking['room_identity'] }}">
+                                                            class="btn-danger btn btn-xs"
+                                                            value="{{ $hotel_booking['room_identity'] }}">
                                                         Delete
                                                     </button>
                                                 </div>
@@ -165,9 +166,9 @@ $total_hotel_amount = 0;
                                     </tbody>
                                     {{--<tfoot>--}}
                                     {{--<tr>--}}
-                                        {{--<td colspan="6">--}}
-                                            {{--<ul class="pagination pull-right"></ul>--}}
-                                        {{--</td>--}}
+                                    {{--<td colspan="6">--}}
+                                    {{--<ul class="pagination pull-right"></ul>--}}
+                                    {{--</td>--}}
                                     {{--</tr>--}}
                                     {{--</tfoot>--}}
                                 </table>
@@ -176,9 +177,11 @@ $total_hotel_amount = 0;
                     </div>
 
                     <div class="ibox-content">
-                        <a class="btn btn-primary pull-right" href="{{URL::to('bookings/create')}}"><i class="fa fa fa-shopping-cart"></i> Checkout
+                        <a class="btn btn-primary pull-right" href="{{URL::to('bookings/create')}}"><i
+                                    class="fa fa fa-shopping-cart"></i> Checkout
                         </a>
-                        <a href="{{ URL::to('/reservations') }}" class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</a>
+                        <a href="{{ URL::to('/reservations') }}" class="btn btn-white"><i class="fa fa-arrow-left"></i>
+                            Continue shopping</a>
                     </div>
                 </div>
 
@@ -195,7 +198,7 @@ $total_hotel_amount = 0;
                             </span>
 
                         <h2 style="color: #1ab394" class="font-bold">
-                            USD  {{ number_format(($total_hotel_amount), 2, '.', '') }}
+                            USD {{ number_format(($total_hotel_amount), 2, '.', '') }}
                         </h2>
 
                         <hr/>
@@ -234,23 +237,23 @@ $total_hotel_amount = 0;
 
     </div>
 
-@endsection
+    @endsection
 
-@section('footer-scripts')
+    @section('footer-scripts')
 
-    <!-- Steps -->
+            <!-- Steps -->
     {{HTML::script("js/plugins/staps/jquery.steps.min.js")}}
 
-    <!-- Jquery Validate -->
+            <!-- Jquery Validate -->
     {{HTML::script("js/plugins/validate/jquery.validate.min.js")}}
 
     {{HTML::script("js/plugins/iCheck/icheck.min.js")}}
 
-    <!-- Custom js -->
+            <!-- Custom js -->
     {{ HTML::script('js/my_script.js') }}
     {{ HTML::script('js/booking.js') }}
 
-    <!-- FooTable -->
+            <!-- FooTable -->
     <script src="js/plugins/footable/footable.all.min.js"></script>
 
     <!-- Page-Level Scripts -->

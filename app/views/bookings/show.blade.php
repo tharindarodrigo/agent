@@ -105,9 +105,8 @@
                         </div>
 
                         <div class="col-md-12">
-                            {{Form::submit('update Booking Info',array('class'=>'btn bluebtn pull-right'))}}
+                            {{Form::submit('update Booking Info',array('class'=>'btn btn-primary pull-right'))}}
                         </div>
-
 
                         {{----------------------------------------------------------------------------------------------------------------------------------}}
 
@@ -167,12 +166,12 @@
                         </div>
                     </div>
                     {{--<div class="tab-pane --}}{{--Session::has('') ? 'active' : ''--}}{{--"--}}
-                         {{--id="excursions">--}}
-                        {{--<div class="panel-body">--}}
+                    {{--id="excursions">--}}
+                    {{--<div class="panel-body">--}}
 
-                            {{--@include('bookings.create_partials.excursions')--}}
+                    {{--@include('bookings.create_partials.excursions')--}}
 
-                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--</div>--}}
 
                     <div class="tab-pane {{--Session::has('') ? 'active' : ''--}}" id="invoice">
@@ -185,16 +184,16 @@
             </div>
         </div>
     </div>
-{{--@endsection--}}
+    {{--@endsection--}}
 
-{{--@section('scripts')--}}
+    {{--@section('scripts')--}}
 
     {{--<script type="text/javascript">--}}
-        {{--$(document).ready(function () {--}}
-            {{--$('.delete-button').click(function () {--}}
-                {{--alert('asdasd');--}}
-            {{--});--}}
-        {{--});--}}
+    {{--$(document).ready(function () {--}}
+    {{--$('.delete-button').click(function () {--}}
+    {{--alert('asdasd');--}}
+    {{--});--}}
+    {{--});--}}
 
     {{--</script>--}}
 @stop

@@ -29,6 +29,7 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
+
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -38,7 +39,6 @@
                             {{--<a class="collapse-link">--}}
                             {{--<i class="fa fa-chevron-up"></i>--}}
                             {{--</a>--}}
-
                         </div>
                     </div>
                     <div class="ibox-content">
@@ -73,13 +73,20 @@
                                             {{Form::input('date','from',!empty($from) ? $from : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'From', 'required'=>'true'))}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::input('date','to',!empty($to) ? $to : date('Y-m-d'),array('class'=> 'form-control','placeholder'=> 'To', 'required'=>'true'))}}
+                                            {{Form::input('date','to',!empty($to) ? $to : date('Y-m-d'), array('class'=> 'form-control','placeholder'=> 'To', 'required'=>'true'))}}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 vertical-align">
-                                    {{Form::submit('Search', array('name'=>'search', 'class'=>'btn btn-block btn-lg btn-primary'))}}
+                                    @if(Entrust::hasRole('agent'))
+                                    <div class="form-group">
+                                        {{Form::select('agent_id',array(''=>'Select Agent')+Agent::lists('company', 'id'),null,array('class'=> 'form-control'))}}
+                                    </div>
+                                    @endif
+                                    <div class="form-group">
+                                        {{Form::submit('Search', array('name'=>'search', 'class'=>'btn btn-block btn-primary'))}}
+                                    </div>
                                 </div>
                             </form>
                         </div>

@@ -34,8 +34,6 @@
 
             });
 
-
-
             $('#data_5 .inquiry_period').datepicker({
                 keyboardNavigation: false,
                 forceParse: false,

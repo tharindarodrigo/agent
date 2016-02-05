@@ -22,23 +22,33 @@
                     </div>
                     <div class="ibox-content">
                         <form action="">
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                {{Form::input('date', 'from_date', !empty($from) ? $from : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                {{Form::input('date', 'to_date', !empty($to) ? $to : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
+                            @if(Entrust::hasRole('Admin'))
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        {{Form::select('agent_id',array(''=>'Select Agent')+Agent::lists('company', 'id'),null,array('class'=> 'form-control'))}}
+                                    </div>
+                                </div>
+                            @endif
 
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    {{Form::input('date', 'from_date', !empty($from) ? $from : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                {{--<button class="btn btn-primary" name="search" type="submit"></button>--}}
-                                {{Form::submit('Search', array('name'=>'search', 'class'=> 'btn btn-primary'))}}
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    {{Form::input('date', 'to_date', !empty($to) ? $to : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    {{--<button class="btn btn-primary" name="search" type="submit"></button>--}}
+                                    {{Form::submit('Search', array('name'=>'search', 'class'=> 'btn btn-primary'))}}
+                                </div>
+                            </div>
+
+
                         </form>
                         @include('payments._index-partials.payments-table')
 

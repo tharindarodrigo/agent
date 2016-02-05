@@ -114,7 +114,7 @@ class AccountController extends \BaseController
         );
 
         if ($validator->fails()) {
-            dd($validator->errors());
+            //dd($validator->errors());
             //Redirect to the sign in page
             return Redirect::back()
                 ->withErrors($validator)

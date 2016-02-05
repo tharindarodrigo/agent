@@ -500,6 +500,7 @@ class HsbcPaymentsController extends \BaseController
 //                                ->to('tharindarodrigo@gmail.com');
 //                        });
 
+
                         Mail::send('emails/online-payment', array(
                             'booking' => $booking,
                             'payment' => $payment

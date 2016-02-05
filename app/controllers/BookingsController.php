@@ -682,16 +682,28 @@ class BookingsController extends \BaseController
 
         if (!Input::has('val')) {
             $rules = Booking::$agentRules;
-            Booking::whereHas('Voucher', function($q){
-                $q->where('val',0);
-            })->whereHas('');
+
+
         } else {
             $rules = ['val'];
+            //dd('<pre>',Booking::with('Voucher')->where('id',$id)->first(), '</pre>');
+
+            $booking = Booking::whereHas('Voucher', function($q){
+                $q->where('vouchers.val',1);
+            })->where('id',$id);
+
+            //dd($booking->count());
+
+            if($booking->count()>0){
+                Session::flash("booking_cancellation_error_".$id ,"<b>Sorry</b>, You cannot cancel the above booking! You have ". $booking->first()->voucher->count(). " active vouchers");
+                return Redirect::back();
+            }
         }
 
         $validator = Validator::make($data = Input::all(), $rules);
+
         if ($validator->fails()) {
-            dd($validator->errors());
+            //dd($validator->errors());
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
