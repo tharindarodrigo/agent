@@ -25,9 +25,14 @@ class BookingsController extends \BaseController
 
         $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
 
+
         if (Entrust::hasRole('Admin')) {
-            $bookings = Booking::with('user')
-                ->where('reference_number', 'like', '%' . $reference_number . '%');
+
+            $user_id = Input::has('agent_id') ? Agent::find(Input::get('agent_id'))->user_id : "%";
+
+            $bookings = Booking::whereHas('user', function ($q) use ($user_id) {
+                $q->where('users.id', 'like', $user_id);
+            })->where('reference_number', 'like', '%' . $reference_number . '%');
 
         } else {
 
@@ -76,14 +81,16 @@ class BookingsController extends \BaseController
             }
 
             $bookings = $bookings
-                ->where($tour,'>=',$from)
-                ->where($tour,'<=',$to)
+                ->where($tour, '>=', $from)
+                ->where($tour, '<=', $to)
                 ->where('val', 'LIKE', $val);
         }
 
         $bookings = $bookings->get();
 
-        return View::make('bookings.index', compact('bookings', 'from', 'to','tour_type', 'status'));
+
+
+        return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id'));
     }
 
     //this should be deleted
@@ -161,7 +168,7 @@ class BookingsController extends \BaseController
 
         return View::make('bookings.create');
 
-        Session::put('rate_box_details','');
+        Session::put('rate_box_details', '');
 
         if (Session::has('rate_box_details')) {
 
@@ -330,7 +337,7 @@ class BookingsController extends \BaseController
 
         $amount = Input::get('amount');
         Session::put('payment_amount', $amount);
-        $x = round(Session::get('the_total_booking_amount'),2);
+        $x = round(Session::get('the_total_booking_amount'), 2);
         // $hsbc_payment_id = 1000;
         $currency = 'USD';
         $total_price_all_hsbc = 0.1 * 100;
@@ -438,7 +445,7 @@ class BookingsController extends \BaseController
                  */
 
                 $pdf = PDF::loadView('emails/transport', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/transport'.$booking->id.'.pdf');
+                $pdf->save(public_path() . '/temp-files/transport' . $booking->id . '.pdf');
 
 //                if ($a > 0) {
 //                    Mail::send('emails/transport-mail', array(
@@ -527,7 +534,7 @@ class BookingsController extends \BaseController
                         // voucher
 
                         $pdf = PDF::loadView('emails/voucher', array('voucher' => $created_voucher));
-                        $pdf->save(public_path() . '/temp-files/voucher'.$created_voucher->id.'.pdf');
+                        $pdf->save(public_path() . '/temp-files/voucher' . $created_voucher->id . '.pdf');
 
 //                        $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
 //                            ->where('hotel_user.hotel_id', $created_voucher->hotel_id)
@@ -587,7 +594,7 @@ class BookingsController extends \BaseController
 
                 //Invoice
                 $pdf = PDF::loadView('emails/invoice', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+                $pdf->save(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
                 $pdf = PDF::loadView('emails/service-voucher', array('booking' => $booking));
                 $pdf->save(public_path() . '/temp-files/service-voucher.pdf');
 
@@ -680,27 +687,28 @@ class BookingsController extends \BaseController
     {
         $booking = Booking::findOrFail($id);
 
-        if (!Input::has('val')) {
-            $rules = Booking::$agentRules;
-
-
-        } else {
+        if (Input::has('val')) {
             $rules = ['val'];
             //dd('<pre>',Booking::with('Voucher')->where('id',$id)->first(), '</pre>');
 
-            $booking = Booking::whereHas('Voucher', function($q){
-                $q->where('vouchers.val',1);
-            })->where('id',$id);
+            $bookingVouchers = Booking::whereHas('Voucher', function ($q) {
+                $q->where('vouchers.val', 1);
+            })->where('id', $id);
 
             //dd($booking->count());
 
-            if($booking->count()>0){
-                Session::flash("booking_cancellation_error_".$id ,"<b>Sorry</b>, You cannot cancel the above booking! You have ". $booking->first()->voucher->count(). " active vouchers");
-                return Redirect::back();
+            if ($bookingVouchers->count() > 0) {
+                Session::flash("booking_cancellation_error_" . $id, "<b>Sorry</b>, You cannot cancel the above booking! You have " . $booking->first()->voucher->count() . " active vouchers");
+
+            } else {
+                $booking->update(array('val'=>Input::get('val')));
+                Session::flash('success', 'successfully Updated');
+
             }
+            return Redirect::back();
         }
 
-        $validator = Validator::make($data = Input::all(), $rules);
+        $validator = Validator::make($data = Input::all(), Booking::$agentRules);
 
         if ($validator->fails()) {
             //dd($validator->errors());
@@ -712,6 +720,7 @@ class BookingsController extends \BaseController
         $booking->update($data);
 
         return Redirect::back();
+
     }
 
     /**
@@ -732,7 +741,8 @@ class BookingsController extends \BaseController
      */
 
 
-    public function addClient()
+    public
+    function addClient()
     {
         $input = Input::all();
 
@@ -750,7 +760,8 @@ class BookingsController extends \BaseController
         return Response::json(Session::get('client-list'));
     }
 
-    public function destroyClient()
+    public
+    function destroyClient()
     {
         $deletable = Input::get('deletable');
 
@@ -764,12 +775,14 @@ class BookingsController extends \BaseController
         return Response::json(Session::get('client-list'));
     }
 
-    public function getClientList()
+    public
+    function getClientList()
     {
         return Response::json(Session::get('client-list'));
     }
 
-    public function cancelBooking()
+    public
+    function cancelBooking()
     {
         Session::forget('add_new_voucher');
         Session::forget('rate_box_details');
@@ -778,7 +791,8 @@ class BookingsController extends \BaseController
         return Redirect::to('/');
     }
 
-    public function sendBookingEmails($booking)
+    public
+    function sendBookingEmails($booking)
     {
         $ehi_users = User::getEhiUsers();
 
@@ -822,7 +836,7 @@ class BookingsController extends \BaseController
 
         $vouchers = $booking->voucher;
 
-        foreach($vouchers as $voucher){
+        foreach ($vouchers as $voucher) {
             $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
                 ->where('hotel_user.hotel_id', $voucher->hotel_id)
                 ->get();
@@ -850,7 +864,7 @@ class BookingsController extends \BaseController
         Mail::send('emails/booking-mail', array(
             'booking' => Booking::getBookingData($booking->id)
         ), function ($message) use ($booking, $emails, $ehi_users) {
-            $message->attach(public_path() . '/temp-files/booking'.$booking->id.'.pdf')
+            $message->attach(public_path() . '/temp-files/booking' . $booking->id . '.pdf')
                 ->subject('New Booking: ' . $booking->reference_number)
                 ->from('noreply@srilankahotels.com', 'SriLankaHotels.Travel')
                 ->bcc('admin@srilankahotels.travel', 'Admin');
@@ -876,7 +890,7 @@ class BookingsController extends \BaseController
                 'booking' => Booking::getBookingData($booking->id)
             ), function ($message) use ($user, $booking, $emails) {
                 $message->subject('Booking Invoice : ' . $booking->reference_number)
-                    ->attach(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+                    ->attach(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
                 $message->to($user->email, $user->first_name . ' ' . $user->last_name);
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
@@ -899,7 +913,7 @@ class BookingsController extends \BaseController
             ), function ($message) use ($booking, $emails) {
                 $message->to($booking->email, $booking->name)
                     ->subject('Booking Created : ' . $booking->reference_number)
-                    ->attach(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+                    ->attach(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
                     foreach ($ehi_users as $ehi_user) {

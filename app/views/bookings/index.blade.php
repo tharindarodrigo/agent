@@ -79,9 +79,9 @@
                                 </div>
 
                                 <div class="col-lg-3 vertical-align">
-                                    @if(Entrust::hasRole('agent'))
+                                    @if(Entrust::hasRole('Admin'))
                                     <div class="form-group">
-                                        {{Form::select('agent_id',array(''=>'Select Agent')+Agent::lists('company', 'id'),null,array('class'=> 'form-control'))}}
+                                        {{Form::select('agent_id',array('%'=>'Select Agent')+Agent::lists('company', 'id'),null,array('class'=> 'form-control'))}}
                                     </div>
                                     @endif
                                     <div class="form-group">
@@ -91,10 +91,7 @@
                             </form>
                         </div>
                         @include('bookings.index_partials.all-bookings')
-
                     </div>
-
-
                 </div>
             </div>
         </div>
