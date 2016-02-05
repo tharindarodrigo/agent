@@ -57,7 +57,7 @@ class Rate extends \Eloquent
             ->where('to', '>', $from_date)
             ->where('market_id', $market)
             ->min('rate');
-
+//dd($get_low_rate);
         if (!empty($get_low_rate)) {
 
             $get_market_details = Market::where('id', $market)->first();
@@ -127,7 +127,6 @@ class Rate extends \Eloquent
 
         for ($x = 1; $x <= $dates; $x++) {
 
-
             $get_room_rate = Rate::where('hotel_id', '=', $hotel_id)
                 ->where('room_type_id', 'LIKE', $room_type_id)
                 ->where('room_specification_id', 'LIKE', $specification_id)
@@ -136,7 +135,9 @@ class Rate extends \Eloquent
                 ->where('to', '>', $from_date)
                 ->where('market_id', $market)
                 ->get();
-//dd(count($get_room_rate));
+
+            //  dd(($get_room_rate));
+
             if (count($get_room_rate) > 0) {
                 //dd($tax.'/'.$tax_type.'/'.$handling_fee.'/'.$handling_fee_type);
                 foreach ($get_room_rate as $low_rates) {

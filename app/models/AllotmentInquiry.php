@@ -9,7 +9,7 @@ class AllotmentInquiry extends \Eloquent
     ];
 
     // Don't forget to fill this array
-    protected $fillable = [];
+    protected $fillable = ['hotel_id', 'room_type_id', 'status', 'from','to', 'user_id', 'market_id', 'room_count'];
 
     public function hotel()
     {
