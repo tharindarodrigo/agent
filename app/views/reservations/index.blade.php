@@ -9,6 +9,10 @@
             color: #3498db;
         }
 
+        strong{
+            font-size: 12px;
+        }
+
         .hotel_list_hide {
             display: none;
         }
@@ -239,13 +243,13 @@
                                                     </button>
                                                 @else
                                                     <button hotel_id="{{ $hotel->hotel_id }}" data-toggle="modal"
-                                                            data-target="#myModal2"
+                                                            data-target="#myModa{{ $hotel->hotel_id }}"
                                                             style="background: #d75124; border-color: #d75124"
                                                             class="pull-right book_hotel btn-xs btn-info"
                                                             type="button"> Request
                                                     </button>
 
-                                                    <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog"
+                                                    <div class="modal inmodal" id="myModa{{ $hotel->hotel_id }}" tabindex="-1" role="dialog"
                                                          aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content animated flipInY">

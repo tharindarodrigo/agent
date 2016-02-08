@@ -36,15 +36,27 @@ function sendBookingData(url, formData) {
 
                 });
 
-                $('.room_request_to_cart').click(function () {
+                $('.rate_request_to_cart').click(function () {
 
                     var url = 'http://' + window.location.host + '/request-rate';
+                    var room_refer_id = $(this).closest('.rate_request_to_cart').attr('room_refer_key');
+
+                    var requestRateData = new FormData();
+                    requestRateData.append('room_refer_id', room_refer_id);
+
+                    requestRoom(url, requestRateData);
+
+                });
+
+                $('.room_request_to_cart').click(function () {
+
+                    var url = 'http://' + window.location.host + '/request-allotment';
                     var room_refer_id = $(this).closest('.room_request_to_cart').attr('room_refer_key');
 
-                    var requestData = new FormData();
-                    requestData.append('room_refer_id', room_refer_id);
+                    var requestRoomData = new FormData();
+                    requestRoomData.append('room_refer_id', room_refer_id);
 
-                    requestAllotment(url, requestData);
+                    requestAllotment(url, requestRoomData);
 
                 });
 
@@ -73,32 +85,47 @@ function generateRoomRateTable(data) {
         $.each(data.rooms, function (index, item) {
 
             table += '<div style="padding-top: 10px; padding-bottom: 10px" class="feed-element">' +
-            ' <div class="row">' +
+            '<div class="row">' +
             '<div class="col-md-2">' +
             '<a href="#" >' +
             '<img alt="image" class="img-circle" src="img/a7.jpg">' +
             '</a>' +
             '</div>';
 
-
-            table += '<div class="col-md-6">' +
+            table += '<div class="col-md-5">' +
             '<strong>' + data.rooms[index]['room_type'] + '</strong> <br>' +
-            '<strong>' + data.rooms[index]['meal_basis'] + '</strong> - <strong>' + data.rooms[index]['room_specification'] + ' room</strong> <br>' +
+            '<small>' + data.rooms[index]['meal_basis'] + '</small> - <small>' + data.rooms[index]['room_specification'] + ' room</small> <br>' +
             '</div>';
 
+            var x = data.rooms[index]['allotments'];
 
-            table += '<div class="col-md-4">' ;
+            if ((data.rooms[index]['low_room_rate']) != 0 && (x > 0)) {
 
-            if (data.rooms[index]['low_room_rate'] != 0) {
-                table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong>';
+                table += '<div style="padding-left: 0px;" class="col-md-2">' +
+                '<select> ';
+
+                for (var i = 0; i <= x; i++) {
+                    table += '<option value="' + i + '">' + i + '</option>';
+                }
+
+                table += '</select> <br/>' +
+                '<small style="color: #ed5565">' + data.rooms[index]['allotments'] + ' room' + '</small>' +
+                '</div>';
+
+                table += '<div class="col-md-3" style="padding-left: 10px; padding-right: 0px;">' +
+                '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong> <br/>' +
+                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_add_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Book </a> <br/>';
+
+            } else if (data.rooms[index]['low_room_rate'] != 0) {
+
+                table += '<div class="col-md-5" style="padding-left: 10px; padding-right: 0px;">' +
+                '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong> <br/>' +
+                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Request Room </a> <br/>';
+
             } else {
-               // table += '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong>';
-            }
 
-            if (data.rooms[index]['low_room_rate'] != 0) {
-                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_add_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Book </a>';
-            } else {
-                table += '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary" style="background: #d75124; border-color: #d75124"> Request </a>';
+                table += '<div class="col-md-5" style="padding-left: 10px; padding-right: 0px;">' +
+                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="rate_request_to_cart btn-xs btn-primary" style="background: #d75124; border-color: #d75124"> Request Rate</a>';
             }
 
             table += '</div>' +
@@ -191,7 +218,9 @@ function bookingCartDataAddToCart(url, bookingData) {
 
 }
 
-function requestAllotment(url, requestData) {
+// Request Rate
+
+function requestRoom(url, requestRateData) {
     $.ajax({
         url: url,
         method: 'post',
@@ -199,9 +228,9 @@ function requestAllotment(url, requestData) {
         contentType: false,
         cache: false,
         dataType: 'json',
-        data: requestData,
+        data: requestRateData,
         success: function (data) {
-           location.reload();
+            location.reload();
         },
 
         error: function () {
@@ -209,6 +238,28 @@ function requestAllotment(url, requestData) {
         }
     });
 }
+
+// Request Room
+
+function requestAllotment(url, requestRoomData) {
+    $.ajax({
+        url: url,
+        method: 'post',
+        processData: false,
+        contentType: false,
+        cache: false,
+        dataType: 'json',
+        data: requestRoomData,
+        success: function (data) {
+            location.reload();
+        },
+
+        error: function () {
+            //alert('There was an error signing In');
+        }
+    });
+}
+
 
 
 

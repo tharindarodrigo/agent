@@ -122,9 +122,6 @@ class AccountController extends \BaseController
 
         } else {
 
-//            dd('asdasd');
-
-
             $remember = (Input::has('remember')) ? true : false;
 
             $auth = Auth::attempt(array(

@@ -249,6 +249,8 @@ class HotelController extends \BaseController
                     $low_room_rate = 0;
                 }
 
+                $allotments = Allotment::allotmentsCount($room_type_id, Session::get('st_date'), Session::get('ed_date'));
+
                 $room_array = array(
                     'hotel_id' => $hotel_id,
                     'room_type_id' => $room_type_id,
@@ -258,6 +260,7 @@ class HotelController extends \BaseController
                     'meal_basis' => $meal_basis,
                     'room_specification' => $room_specification,
                     'low_room_rate' => $low_room_rate,
+                    'allotments' => $allotments,
                 );
 
                 $rooms[] = $room_array;
