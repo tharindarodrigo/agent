@@ -23,15 +23,20 @@ class AccountsController extends \BaseController
             $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
             $user_id = Auth::id();
 
-            $payments_query = Payment::with('user')->with('agent')
+            $agent_id = Input::get('agent_id');
+
+            $payments_query = Payment::whereHas('user', function($q) use ($agent_id){
+                $q->where('user_id','like', '%'.$agent_id.'%');
+            })->with('agent')
                 ->select(array('payment_date_time AS date', 'amount AS debit', 'details', 'id'));
 
-            $invoices_query = Booking::join('invoices', 'invoices.booking_id', '=','bookings.id')
+            $invoices_query = Booking::whereHas('user', function($q) use ($agent_id){
+                $q->where('user_id','like', '%'.$agent_id.'%');
+            })->join('invoices', 'invoices.booking_id', '=','bookings.id')
                 ->select(array('arrival_date AS date', 'reference_number AS details', 'amount as credit'))
-
                 ->where('val','=', 1);
 
-            if(!Entrust::hasRole('Admin')){
+            if(Entrust::hasRole('Agent')){
                 $payments_query->where('user_id',$user_id);
                 $invoices_query->where('user_id',$user_id);
             }
@@ -83,7 +88,7 @@ class AccountsController extends \BaseController
             if(Input::has('get_payment'))
                 return View::make('accounts.index', compact('bookings', 'payments', 'merged_data','total'))->withInput();
 
-            return View::make('accounts.index', compact('bookings', 'payments', 'merged_data', 'invoice', 'total'));
+            return View::make('accounts.index', compact('bookings', 'payments', 'merged_data', 'invoice', 'total', 'agent_id'));
         }
 
         return App::abort(404);
@@ -135,8 +140,15 @@ class AccountsController extends \BaseController
         $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
 
         if (Entrust::hasRole('Admin')) {
-            $bookings = Booking::with('user')->with('invoice')
-                ->where('reference_number', 'like', '%' . $reference_number . '%');
+
+            $agent_id = Input::get('agent_id');
+
+            $bookings = Booking::whereHas('user', function($q) use ($agent_id){
+                $q->where('users.id', 'like', '%'.$agent_id.'%');
+            })
+                ->whereHas('invoice', function($q) use ($reference_number){
+                $q->where('reference_number', 'like', '%' . $reference_number . '%');
+            });
 
         } else {
 
@@ -150,6 +162,7 @@ class AccountsController extends \BaseController
 
             $from = Input::get('from');
             $to = Input::get('to');
+            $agent_id = Input::get('agent_id');
 
             $bookings = $bookings
                 ->where('arrival_date','>=',$from)

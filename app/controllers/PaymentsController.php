@@ -13,6 +13,7 @@ class PaymentsController extends \BaseController
         $data = Input::all();
 //        dd($data);
         if (Input::get('search')) {
+            $agent_id = Input::get('agent_id');
 
             $validator = Validator::make($data, array(
                 'from_date' => 'required|date',
@@ -27,7 +28,7 @@ class PaymentsController extends \BaseController
             $to = Input::get('to_date');
 
             $payments = Payment::where('payment_date_time', '>=', $from)->where('payment_date_time', '<=', $to)->get();
-            return View::make('payments.index', compact('payments','from','to'));
+            return View::make('payments.index', compact('payments','from','to','agent_id'));
 
         } else {
             $payments = Payment::all();
