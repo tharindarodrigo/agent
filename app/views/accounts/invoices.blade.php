@@ -96,7 +96,8 @@
                                     <td align="right">{{number_format($booking->invoice->amount,2)}}</td>
                                     <td>
                                         <a href="{{URL::to('invoice/'.$booking->id)}}"
-                                           class="btn btn-sm btn-default" target="_blank"><span class="fa fa-eye"></span></a>
+                                           class="btn btn-sm btn-default" target="_blank"><span
+                                                    class="fa fa-eye"></span></a>
                                     </td>
                                 </tr>
                             @endforeach

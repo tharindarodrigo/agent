@@ -8,6 +8,14 @@
 
 @endsection
 
+@section('css')
+
+    {{HTML::style('css/plugins/dataTables/dataTables.bootstrap.css')}}
+    {{HTML::style('css/plugins/dataTables/dataTables.responsive.css')}}
+    {{HTML::style('css/plugins/dataTables/dataTables.tableTools.min.css')}}
+
+@endsection
+
 @section('active-accounts')
     {{'active'}}
 @endsection
@@ -59,79 +67,97 @@
     {{HTML::script('https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.js')}}
     {{HTML::script('control-panel-assets/ajax/commonFunctions.js')}}
 
+    {{HTML::script('js/plugins/dataTables/jquery.dataTables.js')}}
+    {{HTML::script('js/plugins/dataTables/dataTables.bootstrap.js')}}
+    {{HTML::script('js/plugins/dataTables/dataTables.responsive.js')}}
+    {{HTML::script('js/plugins/dataTables/dataTables.tableTools.min.js')}}
+
+
 
     <script type="text/javascript">
 
 
-        {{--$(document).ready(function () {--}}
+        $(document).ready(function () {
+            $('#credit_limit_table').dataTable();
 
-            {{--confirmDeleteItem();--}}
+            $('.btn-success').click(function () {
 
-            {{--$('#date1, #date2, #date3, #date4').datepicker({--}}
-                {{--dateFormat: 'yy-mm-dd',--}}
-                {{--changeMonth: true,--}}
-                {{--changeYear: true--}}
-            {{--});--}}
+                var agent_id = $(this).attr('agent_id');
+                var credit_limit = $(this).attr('credit_limit');
 
-            {{--$('#dob').datepicker({--}}
-                {{--dateFormat: 'yy-mm-dd',--}}
-                {{--changeMonth: true,--}}
-                {{--changeYear: true,--}}
-                {{--minDate: new Date(1900),--}}
-                {{--maxDate: new Date(),--}}
-                {{--numberOfMonths: 1--}}
-            {{--});--}}
-            {{--$('.payment-date-control').datepicker({--}}
-                {{--dateFormat: 'yy-mm-dd',--}}
-                {{--changeMonth: true,--}}
-                {{--changeYear: true,--}}
-                {{--minDate: new Date(1900),--}}
-                {{--numberOfMonths: 1--}}
-            {{--});--}}
+                $('#agent_id').val(agent_id);
+                $('#credit_limit').val(credit_limit);
 
-{{--//        $('.my_dob').datepicker({--}}
-{{--//            dateFormat: 'yy-mm-dd',--}}
-{{--//            changeMonth: true,--}}
-{{--//            changeYear: true,--}}
-{{--//            minDate: new Date(1900),--}}
-{{--//            maxDate: new Date(),--}}
-{{--//            numberOfMonths: 1--}}
-{{--//        });--}}
+            });
+        });
 
-            {{--$('.date-control').datepicker({--}}
-                {{--dateFormat: 'yy-mm-dd',--}}
-                {{--changeMonth: true,--}}
-                {{--changeYear: true--}}
-            {{--});--}}
+        {{--confirmDeleteItem();--}}
 
-            {{--$('.time-control').timepicker();--}}
-            {{--$('#time1, #time2').timepicker();--}}
-            {{--$('.update_client').hide();--}}
+        {{--$('#date1, #date2, #date3, #date4').datepicker({--}}
+        {{--dateFormat: 'yy-mm-dd',--}}
+        {{--changeMonth: true,--}}
+        {{--changeYear: true--}}
+        {{--});--}}
+
+        {{--$('#dob').datepicker({--}}
+        {{--dateFormat: 'yy-mm-dd',--}}
+        {{--changeMonth: true,--}}
+        {{--changeYear: true,--}}
+        {{--minDate: new Date(1900),--}}
+        {{--maxDate: new Date(),--}}
+        {{--numberOfMonths: 1--}}
+        {{--});--}}
+        {{--$('.payment-date-control').datepicker({--}}
+        {{--dateFormat: 'yy-mm-dd',--}}
+        {{--changeMonth: true,--}}
+        {{--changeYear: true,--}}
+        {{--minDate: new Date(1900),--}}
+        {{--numberOfMonths: 1--}}
+        {{--});--}}
+
+        {{--//        $('.my_dob').datepicker({--}}
+        {{--//            dateFormat: 'yy-mm-dd',--}}
+        {{--//            changeMonth: true,--}}
+        {{--//            changeYear: true,--}}
+        {{--//            minDate: new Date(1900),--}}
+        {{--//            maxDate: new Date(),--}}
+        {{--//            numberOfMonths: 1--}}
+        {{--//        });--}}
+
+        {{--$('.date-control').datepicker({--}}
+        {{--dateFormat: 'yy-mm-dd',--}}
+        {{--changeMonth: true,--}}
+        {{--changeYear: true--}}
+        {{--});--}}
+
+        {{--$('.time-control').timepicker();--}}
+        {{--$('#time1, #time2').timepicker();--}}
+        {{--$('.update_client').hide();--}}
 
 
-            {{--var url = 'http://' + window.location.host + '/bookings/get-clients';--}}
-            {{--//alert(url);--}}
-            {{--sendData(url, null);--}}
+        {{--var url = 'http://' + window.location.host + '/bookings/get-clients';--}}
+        {{--//alert(url);--}}
+        {{--sendData(url, null);--}}
 
-            {{--client details--}}
+        {{--client details--}}
 
-            {{--$('.clients').attr('disabled', true);--}}
-            {{--$('.edit_client').click(function () {--}}
-                {{--var a = $(this);--}}
-                {{--$('.clients').attr('disabled', true);--}}
-                {{--$('tr').css('background', 'none');--}}
+        {{--$('.clients').attr('disabled', true);--}}
+        {{--$('.edit_client').click(function () {--}}
+        {{--var a = $(this);--}}
+        {{--$('.clients').attr('disabled', true);--}}
+        {{--$('tr').css('background', 'none');--}}
 
-                {{--var client_id = client_class = $(this).val();--}}
-                {{--$('.' + client_class).attr('disabled', false);--}}
-                {{--$('.' + client_class).change(function () {--}}
-                    {{--alert($('#update_' + client_id).attr('hidden'));--}}
-                    {{--if (true) {--}}
+        {{--var client_id = client_class = $(this).val();--}}
+        {{--$('.' + client_class).attr('disabled', false);--}}
+        {{--$('.' + client_class).change(function () {--}}
+        {{--alert($('#update_' + client_id).attr('hidden'));--}}
+        {{--if (true) {--}}
 
-                    {{--}--}}
-                    {{--$('#update_' + client_id).effect('slide')(200);--}}
-                {{--});--}}
-                {{--$(this).closest('tr').css('background', '#B9F097').fadeIn(200);--}}
-            {{--});--}}
+        {{--}--}}
+        {{--$('#update_' + client_id).effect('slide')(200);--}}
+        {{--});--}}
+        {{--$(this).closest('tr').css('background', '#B9F097').fadeIn(200);--}}
+        {{--});--}}
         {{--});--}}
 
         $('#add_client_btn').click(function () {

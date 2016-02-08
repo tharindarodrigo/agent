@@ -4,6 +4,11 @@ class AccountsController extends \BaseController
 {
     private $_user;
 
+    private $rules = [
+        'agent_id' => 'required',
+        'amount' => 'required'
+    ];
+
     public function __construct()
     {
         $this->_user = Auth::user();
@@ -87,7 +92,42 @@ class AccountsController extends \BaseController
 
     public function getCreditLimit()
     {
+        if(Entrust::hasRole('Admin')){
+
+            $agents = Agent::all();
+
+            return View::make('accounts.credit-limit', compact('agents'));
+
+        }
+
         return View::make('accounts.credit-limit');
+    }
+
+    public function updateCreditLimit()
+    {
+        if (Input::has('update')) {
+            $data = Input::all();
+
+            //dd($data);
+
+            $validator = Validator::make($data, [
+                'agent_id' => 'required',
+                'credit_limit' => 'required|numeric'
+            ]);
+
+            if ($validator->fails()) {
+//                dd($validator->errors());
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+
+            $agent = Agent::findOrfail(Input::get('agent_id'));
+            if ($agent->update($data)) {
+                Session::flash('global', 'Successfully Updated '. $agent->company ."'s' credit limit");
+                return Redirect::back();
+            }
+        }
+        return Redirect::back();
     }
 
     public function getInvoices()
@@ -110,7 +150,6 @@ class AccountsController extends \BaseController
 
             $from = Input::get('from');
             $to = Input::get('to');
-
 
             $bookings = $bookings
                 ->where('arrival_date','>=',$from)
