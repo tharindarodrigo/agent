@@ -104,7 +104,6 @@ class AccountController extends \BaseController
     public function  signIn()
     {
 
-
         $validator = Validator::make(Input::all(),
 
             array(

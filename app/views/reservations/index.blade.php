@@ -245,7 +245,7 @@
                                                     <button hotel_id="{{ $hotel->hotel_id }}" data-toggle="modal"
                                                             data-target="#myModa{{ $hotel->hotel_id }}"
                                                             style="background: #d75124; border-color: #d75124"
-                                                            class="pull-right book_hotel btn-xs btn-info"
+                                                            class="pull-right btn-xs btn-info"
                                                             type="button"> Request
                                                     </button>
 
