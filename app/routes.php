@@ -86,6 +86,8 @@ Route::group(array('before' => 'auth'), function () {
     Route::resource('bookings.vouchers', 'VouchersController');
     Route::get('accounts/balance-sheet/{reference_number?}', 'AccountsController@getBalanceSheet');
     Route::get('accounts/credit-limit', 'AccountsController@getCreditLimit');
+    Route::post('accounts/credit-limit/update', 'AccountsController@updateCreditLimit');
+
     Route::get('accounts/invoices', 'AccountsController@getInvoices');
 
     Route::resource('inquiries/rate-inquiries', 'RateInquiriesController');

@@ -14,7 +14,7 @@ class Agent extends \Eloquent
     ];
 
     // Don't forget to fill this array
-    protected $fillable = ['company', 'address', 'email', 'phone', 'tax', 'tax_type', 'handling_fee', 'handling_fee_type', 'market_id', 'country_id', 'user_id'];
+    protected $fillable = ['company', 'address', 'email', 'phone', 'tax', 'tax_type', 'handling_fee', 'handling_fee_type', 'market_id', 'country_id', 'user_id', 'credit_limit'];
 
 
     public static function getAgents()
@@ -71,6 +71,11 @@ class Agent extends \Eloquent
     public function market()
     {
         return $this->belongsTo('Market');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('Country');
     }
 
 }

@@ -10,6 +10,7 @@ class InvoicesController extends \BaseController
      */
     public function index()
     {
+
         $invoices = Invoice::all();
 
         return View::make('invoices.index', compact('invoices'));
@@ -20,6 +21,7 @@ class InvoicesController extends \BaseController
      *
      * @return Response
      */
+
     public function create()
     {
         return View::make('invoices.create');

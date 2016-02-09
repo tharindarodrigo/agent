@@ -4,6 +4,11 @@ class AccountsController extends \BaseController
 {
     private $_user;
 
+    private $rules = [
+        'agent_id' => 'required',
+        'amount' => 'required'
+    ];
+
     public function __construct()
     {
         $this->_user = Auth::user();
@@ -18,15 +23,20 @@ class AccountsController extends \BaseController
             $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
             $user_id = Auth::id();
 
-            $payments_query = Payment::with('user')->with('agent')
+            $agent_id = Input::get('agent_id');
+
+            $payments_query = Payment::whereHas('user', function($q) use ($agent_id){
+                $q->where('user_id','like', '%'.$agent_id.'%');
+            })->with('agent')
                 ->select(array('payment_date_time AS date', 'amount AS debit', 'details', 'id'));
 
-            $invoices_query = Booking::join('invoices', 'invoices.booking_id', '=','bookings.id')
+            $invoices_query = Booking::whereHas('user', function($q) use ($agent_id){
+                $q->where('user_id','like', '%'.$agent_id.'%');
+            })->join('invoices', 'invoices.booking_id', '=','bookings.id')
                 ->select(array('arrival_date AS date', 'reference_number AS details', 'amount as credit'))
-
                 ->where('val','=', 1);
 
-            if(!Entrust::hasRole('Admin')){
+            if(Entrust::hasRole('Agent')){
                 $payments_query->where('user_id',$user_id);
                 $invoices_query->where('user_id',$user_id);
             }
@@ -78,7 +88,7 @@ class AccountsController extends \BaseController
             if(Input::has('get_payment'))
                 return View::make('accounts.index', compact('bookings', 'payments', 'merged_data','total'))->withInput();
 
-            return View::make('accounts.index', compact('bookings', 'payments', 'merged_data', 'invoice', 'total'));
+            return View::make('accounts.index', compact('bookings', 'payments', 'merged_data', 'invoice', 'total', 'agent_id'));
         }
 
         return App::abort(404);
@@ -87,7 +97,42 @@ class AccountsController extends \BaseController
 
     public function getCreditLimit()
     {
+        if(Entrust::hasRole('Admin')){
+
+            $agents = Agent::all();
+
+            return View::make('accounts.credit-limit', compact('agents'));
+
+        }
+
         return View::make('accounts.credit-limit');
+    }
+
+    public function updateCreditLimit()
+    {
+        if (Input::has('update')) {
+            $data = Input::all();
+
+            //dd($data);
+
+            $validator = Validator::make($data, [
+                'agent_id' => 'required',
+                'credit_limit' => 'required|numeric'
+            ]);
+
+            if ($validator->fails()) {
+//                dd($validator->errors());
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+
+            $agent = Agent::findOrfail(Input::get('agent_id'));
+            if ($agent->update($data)) {
+                Session::flash('global', 'Successfully Updated '. $agent->company ."'s' credit limit");
+                return Redirect::back();
+            }
+        }
+        return Redirect::back();
     }
 
     public function getInvoices()
@@ -95,8 +140,15 @@ class AccountsController extends \BaseController
         $reference_number = Input::has('reference_number') ? Input::get('reference_number') : '%';
 
         if (Entrust::hasRole('Admin')) {
-            $bookings = Booking::with('user')->with('invoice')
-                ->where('reference_number', 'like', '%' . $reference_number . '%');
+
+            $agent_id = Input::get('agent_id');
+
+            $bookings = Booking::whereHas('user', function($q) use ($agent_id){
+                $q->where('users.id', 'like', '%'.$agent_id.'%');
+            })
+                ->whereHas('invoice', function($q) use ($reference_number){
+                $q->where('reference_number', 'like', '%' . $reference_number . '%');
+            });
 
         } else {
 
@@ -110,7 +162,7 @@ class AccountsController extends \BaseController
 
             $from = Input::get('from');
             $to = Input::get('to');
-
+            $agent_id = Input::get('agent_id');
 
             $bookings = $bookings
                 ->where('arrival_date','>=',$from)
