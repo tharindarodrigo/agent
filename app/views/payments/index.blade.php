@@ -28,7 +28,7 @@
                             @if(Entrust::hasRole('Admin'))
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        {{Form::select('agent_id', array('%'=>'Select Agent')+Agent::lists('company', 'id'), !empty($agent_id) ? $agent_id : null, array('class'=> 'form-control'))}}
+                                        {{Form::select('agent_id', array('%'=>'All Agents')+Agent::lists('company', 'id'), !empty($agent_id) ? $agent_id : null, array('class'=> 'form-control'))}}
                                     </div>
                                 </div>
                             @endif
