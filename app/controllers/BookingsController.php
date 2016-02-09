@@ -89,7 +89,6 @@ class BookingsController extends \BaseController
         $bookings = $bookings->get();
 
 
-
         return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id'));
     }
 
@@ -241,9 +240,6 @@ class BookingsController extends \BaseController
     public function store()
     {
 
-//        dd(Input::all());
-//        dd(Session::get('the_total_booking_amount'));
-
         if (Auth::check()) {
             $user = Auth::user();
             if (Entrust::hasRole('Agent')) {
@@ -264,11 +260,6 @@ class BookingsController extends \BaseController
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-//        if (!Session::has('client-list')) {
-//            return Redirect::back();
-//        }
-
-
         $data['val'] = 1;
 
         if ($x = Booking::find(Booking::max('id'))) {
@@ -281,16 +272,13 @@ class BookingsController extends \BaseController
 
         $clients = null;
 
-        $this->storeAllData();
-
-        return Redirect::to('bookings');
-
+        $newBooking = $this->storeAllData();
 
         $data = array(
-            'details' => 'thilina', //payments table
+            'details' => $newBooking->booking_name,
             'ip_address' => $_SERVER['REMOTE_ADDR'],
             //'reference_number' => $reference_number,
-            'amount' => 0.1,
+            'amount' => Booking::getTotalBookingAmount($newBooking),
             'payment_status' => 0,
             'my_booking' => 2,
         );
@@ -306,7 +294,7 @@ class BookingsController extends \BaseController
         $stamp = strtotime("now");
 
         $payment_id = Payment::orderBy('created_at', 'desc')->first()->id;
-        $orderid = "$stamp" . 'B' . "$payment_id";
+        $orderid = "$stamp" . 'A' . "$payment_id";
         $last_res_resid = str_replace(".", "", $orderid);
 
         $hsbc_id = HsbcPayment::orderBy('created_at', 'desc')->first()->id;
@@ -333,22 +321,17 @@ class BookingsController extends \BaseController
                         'HSBC_payment_id' => $hsbc_payment_id
                     )
                 );
+
         }
 
-        $amount = Input::get('amount');
-        Session::put('payment_amount', $amount);
-        $x = round(Session::get('the_total_booking_amount'), 2);
-        // $hsbc_payment_id = 1000;
         $currency = 'USD';
-        $total_price_all_hsbc = 0.1 * 100;
+        //$x = Booking::getTotalBookingAmount($newBooking) * 100 * 1.037;
+        $x = 2 * 100 * 1.037;
+        $total_price_all_hsbc = round($x, 2);
 
 //        dd($hsbc_payment_id . '/' . $currency . '/' . $total_price_all_hsbc . '/' . $last_res_resid);
 
-        $this->storeAllData();
-
-
         HsbcPayment::goto_hsbc_gateway($hsbc_payment_id, $currency, $total_price_all_hsbc, $last_res_resid);
-
 
     }
 
@@ -637,6 +620,8 @@ class BookingsController extends \BaseController
                 }
             }
 
+            return $booking;
+
         } else {
             return Redirect::back();
         }
@@ -701,7 +686,7 @@ class BookingsController extends \BaseController
                 Session::flash("booking_cancellation_error_" . $id, "<b>Sorry</b>, You cannot cancel the above booking! You have " . $booking->first()->voucher->count() . " active vouchers");
 
             } else {
-                $booking->update(array('val'=>Input::get('val')));
+                $booking->update(array('val' => Input::get('val')));
                 Session::flash('success', 'successfully Updated');
 
             }

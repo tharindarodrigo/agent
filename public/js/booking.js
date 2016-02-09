@@ -120,12 +120,47 @@ function generateRoomRateTable(data) {
 
                 table += '<div class="col-md-5" style="padding-left: 10px; padding-right: 0px;">' +
                 '<strong style="color: #1ab394" class=""> USD' + data.rooms[index]['low_room_rate'] + '&nbsp;&nbsp; </strong> <br/>' +
-                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="room_request_to_cart btn-xs btn-primary"> <i class="fa fa-check"></i>&nbsp;Request Room </a> <br/>';
+                '<a class="btn-xs btn-primary" data-toggle="modal" data-target="#confirm-ok'+data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id']+'"> <i class="fa fa-check"></i>&nbsp;Request Room </a> <br/>' +
 
+                '<div class="modal inmodal" id="confirm-ok'+data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] +'" tabindex="-1" role="dialog" aria-hidden="true">' +
+                '<div class="modal-dialog">' +
+                '<div class="modal-content animated flipInY">' +
+                '<div class="modal-header">' +
+                '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+                '<h4 class="modal-title">' + data.hotel_name + '</h4>' +
+                '</div>' +
+                '<div class="modal-body">' +
+                '<p><h3> Do you want to proceed..?? </h3></p>' +
+                '</div>' +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-white" data-dismiss="modal">No</button>' +
+                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '" type="button" class="room_request_to_cart btn btn-danger btn-ok">Yes</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
             } else {
 
                 table += '<div class="col-md-5" style="padding-left: 10px; padding-right: 0px;">' +
-                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '"  class="rate_request_to_cart btn-xs btn-primary" style="background: #d75124; border-color: #d75124"> Request Rate</a>';
+                '<a class="btn-xs btn-primary" style="background: #d75124; border-color: #d75124" data-toggle="modal" data-target="#confirm-ok'+data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id']+'"> Request Rate</a>' +
+
+                '<div class="modal inmodal" id="confirm-ok'+data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] +'" tabindex="-1" role="dialog" aria-hidden="true">' +
+                '<div class="modal-dialog">' +
+                '<div class="modal-content animated flipInY">' +
+                '<div class="modal-header">' +
+                '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+                '<h4 class="modal-title">' + data.hotel_name + '</h4>' +
+                '</div>' +
+                '<div class="modal-body">' +
+                '<p><h3> Do you want to proceed..?? </h3></p>' +
+                '</div>' +
+                '<div class="modal-footer">' +
+                '<button type="button" class="btn btn-white" data-dismiss="modal">No</button>' +
+                '<a hotel_id="' + data.rooms[index]['hotel_id'] + '" room_refer_key="' + data.rooms[index]['hotel_id'] + '_' + data.rooms[index]['room_type_id'] + '_' + data.rooms[index]['room_specification_id'] + '_' + data.rooms[index]['meal_basis_id'] + '" type="button" class="rate_request_to_cart btn btn-danger btn-ok">Yes</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
             }
 
             table += '</div>' +
@@ -133,7 +168,6 @@ function generateRoomRateTable(data) {
             '</div>';
 
         });
-
 
     }
 
