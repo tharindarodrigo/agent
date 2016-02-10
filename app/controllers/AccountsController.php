@@ -153,7 +153,7 @@ class AccountsController extends \BaseController
         } else {
 
             $bookings = Booking::whereHas('user', function ($q) {
-                $q->where('users.id', $this->_user->id);
+                $q->where('users.id', Auth::id());
             })->with('invoice')->where('reference_number', 'like', '%' . $reference_number . '%');
         }
 

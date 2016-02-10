@@ -11,12 +11,16 @@
                     <div class="ibox-content">
                         <div class="row">
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    Agent :
-                                    {{Form::select('agent_id', array('%'=>'All')+Agent::lists('company', 'id'), null , array('class' => 'form-control'))}}
+                            @if(Entrust::hasRole('Admin'))
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        Agent :
+                                        {{Form::select('agent_id', array('%'=>'All')+Agent::lists('company', 'id'), null , array('class' => 'form-control'))}}
+                                    </div>
                                 </div>
-                            </div>
+
+                            @endif
 
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -30,11 +34,13 @@
                                     {{Form::input('date', 'to', null, array('class' => 'form-control'))}}
                                 </div>
                             </div>
+
                             <div class="col-md-3" align="center">
                                 <div class="form-group">
                                     &nbsp;
                                     {{Form::submit('Search', array('class'=>'btn btn-block btn-primary'))}}
                                 </div>
+
                             </div>
                         </div>
 

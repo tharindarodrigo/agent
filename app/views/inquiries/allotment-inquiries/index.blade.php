@@ -13,6 +13,7 @@
 
                     <div class="ibox-content">
                         <div class="row">
+                            @if(Entrust::hasRole('Admin'))
 
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -20,6 +21,7 @@
                                     {{Form::select('agent_id', array('%'=>'All')+Agent::lists('company', 'id'), null , array('class' => 'form-control'))}}
                                 </div>
                             </div>
+                            @endif
 
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -29,7 +31,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    To : 
+                                    To :
                                     {{Form::input('date', 'to', null, array('class' => 'form-control'))}}
                                 </div>
                             </div>

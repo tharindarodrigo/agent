@@ -43,6 +43,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row">
+                            @if(Entrust::hasRole('Admin'))
                             <div class="col-lg-3">
                                 <div class="row">
                                     <form action="">
@@ -57,6 +58,7 @@
                                     </form>
                                 </div>
                             </div>
+                            @endif
                             <form action="">
                                 <div class="col-lg-6">
                                     <div class="col-md-6">
