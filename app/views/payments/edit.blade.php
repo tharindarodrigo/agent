@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="payment_date_time">Date Time</label>
-                            {{Form::text('payment_date_time', null, array('class'=> 'form-control', 'id'=>'date', 'autocomplete' => 'off'))}}
+                            {{Form::input('date','payment_date_time', null, array('class'=> 'form-control', 'id'=>'date', 'autocomplete' => 'off'))}}
                             <p>{{$errors->first('payment_date_time', '<span class="size12" style="color: red;">:message</span>') }}</p>
 
                         </div>

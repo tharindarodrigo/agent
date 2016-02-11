@@ -11,11 +11,46 @@ class RateInquiriesController extends \BaseController
     public function index()
     {
 
-        RateInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
+        //RateInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
+        $from = null;
+        $to = null;
+        if (Input::has('search')) {
 
-        $rateinquiries = RateInquiry::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
+            //dd(Input::all());
 
-        return View::make('inquiries.rate-inquiries.index', compact('rateinquiries'));
+            $from = Input::get('from');
+            $to = Input::get('to');
+
+            if (Entrust::hasRole('Admin')) {
+
+                $user_id = Input::get('agent_id');
+                $rateinquiries = RateInquiry::whereHas('user', function ($q) use ($user_id) {
+                    $q->where('users.id', 'like', '%' . $user_id . '%');
+                });
+
+            } elseif (Entrust::hasRole('Agent')) {
+                $rateinquiries = RateInquiry::whereHas('user', function ($q) {
+                    $q->where('users.id', '=', Auth::id());
+                });
+            }
+
+            if (!empty($from) && !empty($to)) {
+                $rateinquiries = $rateinquiries->where('from', '>=', $from)->where('to', '<=', $to);
+            }
+
+            $rateinquiries = $rateinquiries->get();
+
+        } else {
+            if (Entrust::hasRole('Admin')) {
+                $rateinquiries = RateInquiry::orderBy('updated_at', 'desc')->get();
+            } elseif (Entrust::hasRole('Agent')) {
+                $rateinquiries = RateInquiry::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
+            }
+
+        }
+
+
+        return View::make('inquiries.rate-inquiries.index', compact('rateinquiries', 'user_id', 'from', 'to'));
     }
 
     /**
@@ -23,7 +58,8 @@ class RateInquiriesController extends \BaseController
      *
      * @return Response
      */
-    public function create()
+    public
+    function create()
     {
         return View::make('inquiries.rate-inquiries.create');
     }
@@ -33,7 +69,8 @@ class RateInquiriesController extends \BaseController
      *
      * @return Response
      */
-    public function store()
+    public
+    function store()
     {
         $validator = Validator::make($data = Input::all(), RateInquiry::$rules);
 
@@ -43,7 +80,7 @@ class RateInquiriesController extends \BaseController
 
         $data->user_id = Auth::id();
 
-		if (RateInquiry::create($data)) {
+        if (RateInquiry::create($data)) {
 
             $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
                 ->where('hotel_user.hotel_id', $data->hotel_id)
@@ -61,8 +98,8 @@ class RateInquiriesController extends \BaseController
             });
         }
 
-		return Redirect::route('inquiries.rate-inquiries.index');
-	}
+        return Redirect::route('inquiries.rate-inquiries.index');
+    }
 
     /**
      * Display the specified rateinquiry.
@@ -70,7 +107,8 @@ class RateInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         $rateinquiry = RateInquiry::findOrFail($id);
 
@@ -83,7 +121,8 @@ class RateInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         $rateinquiry = RateInquiry::find($id);
 
@@ -96,7 +135,8 @@ class RateInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function update($id)
+    public
+    function update($id)
     {
         $rateinquiry = RateInquiry::findOrFail($id);
 
@@ -117,7 +157,8 @@ class RateInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         RateInquiry::destroy($id);
 

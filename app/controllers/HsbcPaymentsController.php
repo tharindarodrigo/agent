@@ -542,7 +542,7 @@ class HsbcPaymentsController extends \BaseController
         Mail::send('emails/transport-mail', array(
             'booking' => Booking::find($booking->id)
         ), function ($message) use ($booking, $ehi_users) {
-            $message->attach('/temp-files/transport.pdf')
+            $message->attach('public/temp-files/transport.pdf')
                 ->subject('New Transfer : ' . $booking->reference_number)
                 ->from('transport@srilankahotels.travel', 'SriLankaHotels.Travel')
                 ->bcc('admin@srilankahotels.travel');
@@ -560,7 +560,7 @@ class HsbcPaymentsController extends \BaseController
             Mail::send('emails/excursion-mail', array(
                 'booking' => $booking
             ), function ($message) use ($booking, $ehi_users) {
-                $message->attach('/temp-files/excursions.pdf')
+                $message->attach('public/temp-files/excursions.pdf')
                     ->subject('New Excursions : ' . $booking->reference_number)
                     ->from('noreply@srilankahotels.travel', 'SriLankaHotels.Travel');
 
@@ -587,7 +587,7 @@ class HsbcPaymentsController extends \BaseController
             Mail::send('emails/voucher-mail', array(
                 'voucher' => $voucher
             ), function ($message) use ($booking, $hotel_users, $voucher) {
-                $message->attach('/temp-files/voucher' . $voucher->id . '.pdf')
+                $message->attach('public/temp-files/voucher' . $voucher->id . '.pdf')
                     ->subject('Booking Voucher : ' . $booking->reference_number)
                     ->from('reservations@srilankahotels.travel', 'SriLankaHotels.Travel')
                     ->bcc('admin@srilankahotels.travel', 'SriLankaHotels.Travel');
@@ -607,7 +607,7 @@ class HsbcPaymentsController extends \BaseController
         Mail::send('emails/booking-mail', array(
             'booking' => Booking::getBookingData($booking->id)
         ), function ($message) use ($booking, $emails, $ehi_users) {
-            $message->attach('/temp-files/booking'.$booking->id.'.pdf')
+            $message->attach('public/temp-files/booking'.$booking->id.'.pdf')
                 ->subject('New Booking: ' . $booking->reference_number)
                 ->from('noreply@srilankahotels.com', 'SriLankaHotels.Travel')
                 ->bcc('admin@srilankahotels.travel', 'Admin');
@@ -633,7 +633,7 @@ class HsbcPaymentsController extends \BaseController
                 'booking' => Booking::getBookingData($booking->id)
             ), function ($message) use ($user, $booking, $emails) {
                 $message->subject('Booking Invoice : ' . $booking->reference_number)
-                    ->attach('/temp-files/invoice'.$booking->id.'.pdf');
+                    ->attach('public/temp-files/invoice'.$booking->id.'.pdf');
                 $message->to($user->email, $user->first_name . ' ' . $user->last_name);
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
@@ -656,7 +656,7 @@ class HsbcPaymentsController extends \BaseController
             ), function ($message) use ($booking, $emails) {
                 $message->to($booking->email, $booking->name)
                     ->subject('Booking Created : ' . $booking->reference_number)
-                    ->attach('/temp-files/invoice'.$booking->id.'.pdf');
+                    ->attach('public/temp-files/invoice'.$booking->id.'.pdf');
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
                     foreach ($ehi_users as $ehi_user) {

@@ -52,6 +52,9 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'AccountController@getSignOut',
     ));
 
+    Route::get('account/profile','AccountController@getProfile');
+    Route::post('account/profile/update-agent-profile','AccountController@updateAgentProfile');
+
     Route::get('account/profile/change-password', 'AccountController@getChangePassword');
     Route::post('account/profile/post-change-password', 'AccountController@updateProfile');
 

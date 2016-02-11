@@ -28,7 +28,7 @@ class BookingsController extends \BaseController
 
         if (Entrust::hasRole('Admin')) {
 
-            $user_id = Input::has('agent_id') ? Agent::find(Input::get('agent_id'))->user_id : "%";
+            $user_id = Input::has('agent_id')? Input::get('agent_id') : '%';
 
             $bookings = Booking::whereHas('user', function ($q) use ($user_id) {
                 $q->where('users.id', 'like', $user_id);
@@ -44,6 +44,8 @@ class BookingsController extends \BaseController
         //return View::make('bookings.index', compact('bookings'));
 
         if (Input::get('search')) {
+
+
 
             $status = Input::get('status');
 
@@ -89,7 +91,7 @@ class BookingsController extends \BaseController
         $bookings = $bookings->get();
 
 
-        return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id'));
+        return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id', 'user_id'));
     }
 
     //this should be deleted

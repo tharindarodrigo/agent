@@ -11,14 +11,16 @@
                             <span class="clear">
                                 <span class="block m-t-xs">
                                     <strong class="font-bold">
-                                        {{Auth::user()->first_name.' '.Auth::user()->last_name}}
+                                       <span> {{Auth::user()->first_name.' '.Auth::user()->last_name}}
+                                           <b class="caret"></b></span>
                                     </strong>
                                 </span>
-                                <span class="text-muted text-xs block">{{!empty(Agent::where('user_id',Auth::id())->count()) ? Agent::where('user_id',Auth::id())->first()->company : ''}}
-                                    <b class="caret"></b></span> </span>
+                            </span>
+                        {{--<span class="text-muted text-xs block">{{!empty(Agent::where('user_id',Auth::id())->count()) ? Agent::where('user_id',Auth::id())->first()->company : ''}}--}}
+                        {{--<b class="caret"></b></span> </span>--}}
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="{{URL::to('accounts/profile')}}">My Profile</a></li>
+                        <li><a href="{{URL::to('account/profile')}}">My Profile</a></li>
                         <li><a href="{{URL::to('account/profile/change-password')}}">Change Password</a></li>
                         <li><a href="#">Mailbox</a></li>
                         <li class="divider"></li>

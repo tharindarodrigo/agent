@@ -30,7 +30,9 @@
     {{HTML::script('js/plugins/datapicker/bootstrap-datepicker.js')}}
     <script type="text/javascript">
         $(function () {
-            $('.hotel_selector').chosen(function(){
+
+
+            $('.hotel_selector').chosen(function () {
 
             });
 
@@ -52,27 +54,27 @@
         });
 
         $(document).ready(function () {
+                confirmDeleteItem();
             $('.hotel_selector').change(function () {
                 var hotel_id = $(this).val();
 
                 var formData = new FormData();
-                formData.append('hotel_id',hotel_id);
+                formData.append('hotel_id', hotel_id);
                 var rooms = '';
                 $.ajax({
-                    url: 'http://'+window.location.host+'/hotel/get-room-list',
+                    url: 'http://' + window.location.host + '/hotel/get-room-list',
                     method: 'post',
                     cache: false,
                     processData: false,
                     contentType: false,
                     data: formData,
                     dataType: 'json',
-                    success: function(data){
-                        if(data != null){
+                    success: function (data) {
+                        if (data != null) {
 
-                            $.each(data,function(index, item){
-                                rooms += '<option value="'+index+'">'+item+'</option>'
+                            $.each(data, function (index, item) {
+                                rooms += '<option value="' + index + '">' + item + '</option>'
                             });
-
 
 
                             $('#room_id').html(rooms);

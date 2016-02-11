@@ -35,4 +35,10 @@ class RateInquiry extends \Eloquent
     {
         return $this->belongsTo('RoomType');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+
+    }
 }

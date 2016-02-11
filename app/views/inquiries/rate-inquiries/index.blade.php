@@ -11,37 +11,40 @@
                     <div class="ibox-content">
                         <div class="row">
 
-                            @if(Entrust::hasRole('Admin'))
+                            <form action="">
+
+                                @if(Entrust::hasRole('Admin'))
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            Agent :
+                                            {{Form::select('agent_id', array('%'=>'All')+Agent::lists('company', 'user_id'), !empty($user_id) ? $user_id : '%' , array('class' => 'form-control'))}}
+                                        </div>
+                                    </div>
+
+                                @endif
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        Agent :
-                                        {{Form::select('agent_id', array('%'=>'All')+Agent::lists('company', 'id'), null , array('class' => 'form-control'))}}
+                                        From :
+                                        {{Form::input('date', 'from', $from, array('class' => 'form-control', ))}}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        To :
+                                        {{Form::input('date', 'to', $to, array('class' => 'form-control'))}}
                                     </div>
                                 </div>
 
-                            @endif
+                                <div class="col-md-3" align="center">
+                                    <div class="form-group">
+                                        &nbsp;
+                                        {{Form::submit('Search', array('class'=>'btn btn-block btn-primary', 'name'=>'search'))}}
+                                    </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    From :
-                                    {{Form::input('date', 'from', null, array('class' => 'form-control', ))}}
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    To :
-                                    {{Form::input('date', 'to', null, array('class' => 'form-control'))}}
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" align="center">
-                                <div class="form-group">
-                                    &nbsp;
-                                    {{Form::submit('Search', array('class'=>'btn btn-block btn-primary'))}}
-                                </div>
-
-                            </div>
+                            </form>
                         </div>
 
                     </div>

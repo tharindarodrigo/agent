@@ -13,7 +13,7 @@ class PaymentsController extends \BaseController
         $data = Input::all();
 //        dd($data);
         if (Input::get('search')) {
-            $agent_id = Input::get('agent_id');
+            $agent_id = Input::has('agent_id');
 
             $validator = Validator::make($data, array(
                 'from_date' => 'required|date',
@@ -27,11 +27,18 @@ class PaymentsController extends \BaseController
             $from = Input::get('from_date');
             $to = Input::get('to_date');
 
-            $payments = Payment::where('payment_date_time', '>=', $from)->where('payment_date_time', '<=', $to)->get();
+            $payments = Payment::where('payment_date_time', '>=', $from)->where('payment_date_time', '<=', $to)->where('agent_id','like', '%'.$agent_id.'%')->get();
             return View::make('payments.index', compact('payments','from','to','agent_id'));
 
         } else {
-            $payments = Payment::all();
+
+            if(Entrust::hasRole('Agent')){
+                $payments = Payment::where('user_id',Auth::id())->get();
+
+            } elseif (Entrust::hasRole('Admin')){
+                $payments = Payment::all();
+            }
+
             return View::make('payments.index', compact('payments'));
         }
 
@@ -83,6 +90,8 @@ class PaymentsController extends \BaseController
      */
     public function store()
     {
+
+
         $data = Input::all();
 
         $data['user_id'] = Auth::id();
@@ -93,6 +102,7 @@ class PaymentsController extends \BaseController
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator)->withInput();
         }
+
 
         /**
          * Payments are starting from "BK" numbers
@@ -109,11 +119,12 @@ class PaymentsController extends \BaseController
 
         if(Entrust::hasRole('Agent')){
             $data['agent_id'] = User::getAgentOfUser(Auth::id());
+            return dd('Redirect to Payement Gateway');
         }
 
         Payment::create($data);
 
-        return Redirect::route('payments.index');
+        return Redirect::route('accounts.payments.index');
     }
 
     /**

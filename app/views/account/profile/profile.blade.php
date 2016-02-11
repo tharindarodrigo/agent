@@ -5,8 +5,8 @@
 @endsection
 
 @section('bread-crumbs')
-    <li>Hello</li>
-    <li>Hi</li>
+    <li>Account</li>
+    <li>Profile</li>
 @endsection
 
 @section('content')
