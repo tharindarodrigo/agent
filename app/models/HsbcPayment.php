@@ -9,7 +9,7 @@ class HsbcPayment extends \Eloquent
     static function goto_hsbc_gateway($payment_id, $currency, $payment_amount, $orderid)
     {
 
-        $returnUrl = "http://srilankahotels.travel/payment-get";
+        $returnUrl = "http://agent.srilankahotels.travel/payment-get";
 
         switch ($currency) {
             case "USD": //USD account

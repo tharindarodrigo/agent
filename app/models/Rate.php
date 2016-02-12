@@ -165,6 +165,7 @@ class Rate extends \Eloquent
 
 
                 $lowest_room_rate = number_format(($room_rates / $dates), 2);
+                //dd($lowest_room_rate);
                 return ($lowest_room_rate);
             } else {
                 $lowest_room_rate = 0;

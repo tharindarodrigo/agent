@@ -273,12 +273,14 @@ class BookingsController extends \BaseController
         $clients = null;
 
         $newBooking = $this->storeAllData();
+        $booking_name = $newBooking->booking_name;
+        $booking_amount = Booking::getTotalBookingAmount($newBooking);
 
         $data = array(
-            'details' => $newBooking->booking_name,
+            'details' => $booking_name,
             'ip_address' => $_SERVER['REMOTE_ADDR'],
             //'reference_number' => $reference_number,
-            'amount' => Booking::getTotalBookingAmount($newBooking),
+            'amount' => $booking_amount,
             'payment_status' => 0,
             'my_booking' => 2,
         );
@@ -326,8 +328,10 @@ class BookingsController extends \BaseController
 
         $currency = 'USD';
         //$x = Booking::getTotalBookingAmount($newBooking) * 100 * 1.037;
-        $x = 2 * 100 * 1.037;
-        $total_price_all_hsbc = round($x, 2);
+       // $x = 2 * 100 * 1.037;
+        //$total_price_all_hsbc = round($x, 2);
+        $total_price_all_hsbc = $booking_amount * 100;
+        dd($total_price_all_hsbc);
 
 //        dd($hsbc_payment_id . '/' . $currency . '/' . $total_price_all_hsbc . '/' . $last_res_resid);
 

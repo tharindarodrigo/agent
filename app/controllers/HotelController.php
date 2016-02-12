@@ -78,14 +78,15 @@ class HotelController extends \BaseController
         if (Input::has('hotel_star')) {
             Session::put('reservation', 2);
             $star = Input::get('hotel_star');
-            if ($star == 5) {
-                $star = 4;
-            } else if ($star == 7) {
+            if ($star == 4) {
                 $star = 5;
+            } else if ($star == 5) {
+                $star = 7;
             }
         } else {
             $star = '%';
         }
+        Session::put('reservation', 2);
 
         if (!empty($get_city_or_hotel)) {
 
