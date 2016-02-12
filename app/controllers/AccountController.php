@@ -164,6 +164,8 @@ class AccountController extends \BaseController
 
     }
 
+
+
     public function getSignOut()
     {
         Session::forget('market');
@@ -359,7 +361,7 @@ class AccountController extends \BaseController
 
     private function writeLog($content)
     {
-        File::append(public_path() . '/user-log.txt', $content . "\n");
+        File::append('public/user-log.txt', $content . "\n");
     }
 
     public function getChangePassword()
@@ -370,6 +372,19 @@ class AccountController extends \BaseController
     public function changePassword()
     {
         $this->updateProfile();
+    }
+
+    public function getProfile()
+    {
+        if(Entrust::hasRole('Agent')){
+
+            $agent = Agent::where('user_id', Auth::id())->first();
+            return View::make('account.profile.edit', compact('agent'));
+
+        }elseif(Entrust::hasRole('Admin')){
+            $agents = Agent::all();
+            return View::make('account.profile.agent-list', compact('agents'));
+        }
     }
 
 

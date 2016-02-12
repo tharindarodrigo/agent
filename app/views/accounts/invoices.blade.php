@@ -102,7 +102,7 @@
                                         <td>{{$booking->reference_number}}</td>
                                         <td>{{$booking->arrival_date}}</td>
                                         <td>{{$booking->booking_name}}</td>
-                                        <td align="right">{{number_format($booking->invoice->amount,2)}}</td>
+                                        <td align="right">{{number_format($booking->invoice->first()->amount,2)}}</td>
                                         <td>
                                             <a href="{{URL::to('invoice/'.$booking->id)}}"
                                                class="btn btn-sm btn-default" target="_blank"><span

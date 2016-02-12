@@ -18,21 +18,27 @@ class RateInquiry extends \Eloquent
 
     public function roomSpecification()
     {
-        return $this->belongsTo('roomSpecification');
+        return $this->belongsTo('RoomSpecification');
     }
 
     public function market()
     {
-        return $this->belongsTo('market');
+        return $this->belongsTo('Market');
     }
 
     public function mealBasis()
     {
-        return $this->belongsTo('mealBasis');
+        return $this->belongsTo('MealBasis');
     }
 
     public function roomType()
     {
-        return $this->belongsTo('roomType');
+        return $this->belongsTo('RoomType');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+
     }
 }

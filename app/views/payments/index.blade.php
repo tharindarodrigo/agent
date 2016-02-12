@@ -21,14 +21,13 @@
                         <h5>Payments</h5>
 {{--                        {{$agent_id}}--}}
                     </div>
-
                     <div class="ibox-content">
 
                         <form action="">
                             @if(Entrust::hasRole('Admin'))
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        {{Form::select('agent_id', array('%'=>'All Agents')+Agent::lists('company', 'id'), !empty($agent_id) ? $agent_id : null, array('class'=> 'form-control'))}}
+                                        {{Form::select('agent_id', array('%'=>'All agents')+Agent::lists('company', 'id'), !empty($agent_id) ? $agent_id : null, array('class'=> 'form-control'))}}
                                     </div>
                                 </div>
                             @endif
@@ -36,11 +35,15 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     {{Form::input('date', 'from_date', !empty($from) ? $from : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
+                                    <p>{{$errors->first('from_date', '<span class="size12" style="color: red;">:message</span>') }}</p>
+
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     {{Form::input('date', 'to_date', !empty($to) ? $to : date('Y-m-d'), array('class'=> 'form-control', 'type'=> 'date', 'required'=>'true'))}}
+                                    <p>{{$errors->first('to_date', '<span class="size12" style="color: red;">:message</span>') }}</p>
+
                                 </div>
                             </div>
 
@@ -51,7 +54,6 @@
                                 </div>
                             </div>
 
-
                         </form>
                         @include('payments._index-partials.payments-table')
 
@@ -59,7 +61,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 

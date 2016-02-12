@@ -28,7 +28,7 @@ class BookingsController extends \BaseController
 
         if (Entrust::hasRole('Admin')) {
 
-            $user_id = Input::has('agent_id') ? Agent::find(Input::get('agent_id'))->user_id : "%";
+            $user_id = Input::has('agent_id')? Input::get('agent_id') : '%';
 
             $bookings = Booking::whereHas('user', function ($q) use ($user_id) {
                 $q->where('users.id', 'like', $user_id);
@@ -44,6 +44,8 @@ class BookingsController extends \BaseController
         //return View::make('bookings.index', compact('bookings'));
 
         if (Input::get('search')) {
+
+
 
             $status = Input::get('status');
 
@@ -89,7 +91,7 @@ class BookingsController extends \BaseController
         $bookings = $bookings->get();
 
 
-        return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id'));
+        return View::make('bookings.index', compact('bookings', 'from', 'to', 'tour_type', 'status', 'agent_id', 'user_id'));
     }
 
     //this should be deleted
@@ -432,13 +434,13 @@ class BookingsController extends \BaseController
                  */
 
                 $pdf = PDF::loadView('emails/transport', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/transport' . $booking->id . '.pdf');
+                $pdf->save('public/temp-files/transport' . $booking->id . '.pdf');
 
 //                if ($a > 0) {
 //                    Mail::send('emails/transport-mail', array(
 //                        'booking' => Booking::find($booking->id)
 //                    ), function ($message) use ($booking, $ehi_users) {
-//                        $message->attach(public_path() . '/temp-files/transport.pdf')
+//                        $message->attach('public/temp-files/transport.pdf')
 //                            ->subject('New Transfer : ' . $booking->reference_number)
 //                            ->from('transport@srilankahotels.travel', 'SriLankaHotels.Travel')
 //                            ->bcc('admin@srilankahotels.travel');
@@ -479,12 +481,12 @@ class BookingsController extends \BaseController
                     }
 
                     $pdf = PDF::loadView('emails/excursion', array('booking' => $booking));
-                    $pdf->save(public_path() . '/temp-files/excursions.pdf');
+                    $pdf->save('public/temp-files/excursions.pdf');
 
 //                    Mail::send('emails/excursion-mail', array(
 //                        'booking' => $booking
 //                    ), function ($message) use ($booking, $ehi_users) {
-//                        $message->attach(public_path() . '/temp-files/excursions.pdf')
+//                        $message->attach('public/temp-files/excursions.pdf')
 //                            ->subject('New Excursions : ' . $booking->reference_number)
 //                            ->from('noreply@srilankahotels.travel', 'SriLankaHotels.Travel');
 //
@@ -521,7 +523,7 @@ class BookingsController extends \BaseController
                         // voucher
 
                         $pdf = PDF::loadView('emails/voucher', array('voucher' => $created_voucher));
-                        $pdf->save(public_path() . '/temp-files/voucher' . $created_voucher->id . '.pdf');
+                        $pdf->save('public/temp-files/voucher' . $created_voucher->id . '.pdf');
 
 //                        $hotel_users = DB::table('users')->leftJoin('hotel_user', 'users.id', '=', 'hotel_user.user_id')
 //                            ->where('hotel_user.hotel_id', $created_voucher->hotel_id)
@@ -530,7 +532,7 @@ class BookingsController extends \BaseController
 //                        Mail::send('emails/voucher-mail', array(
 //                            'voucher' => Voucher::find($created_voucher->id)
 //                        ), function ($message) use ($booking, $hotel_users,$created_voucher) {
-//                            $message->attach(public_path() . '/temp-files/voucher'.$created_voucher->id.'.pdf')
+//                            $message->attach('public/temp-files/voucher'.$created_voucher->id.'.pdf')
 //                                ->subject('Booking Voucher : ' . $booking->reference_number)
 //                                ->from('reservations@srilankahotels.travel', 'SriLankaHotels.Travel')
 //                                ->bcc('admin@srilankahotels.travel', 'SriLankaHotels.Travel');
@@ -545,7 +547,7 @@ class BookingsController extends \BaseController
                 //Booking details
 
 //                $pdf = PDF::loadView('emails/booking', array('booking' => $booking));
-//                $pdf->save(public_path() . '/temp-files/booking'.$booking->id.'.pdf');
+//                $pdf->save('public/temp-files/booking'.$booking->id.'.pdf');
 //
                 $ehi_users = User::getEhiUsers();
 //
@@ -554,7 +556,7 @@ class BookingsController extends \BaseController
 //                Mail::send('emails/booking-mail', array(
 //                    'booking' => Booking::getBookingData($booking->id)
 //                ), function ($message) use ($booking, $emails, $ehi_users) {
-//                    $message->attach(public_path() . '/temp-files/booking'.$booking->id.'.pdf')
+//                    $message->attach('public/temp-files/booking'.$booking->id.'.pdf')
 //                        ->subject('New Booking: ' . $booking->reference_number)
 //                        ->from('noreply@srilankahotels.com', 'SriLankaHotels.Travel')
 //                        ->bcc('admin@srilankahotels.travel', 'Admin');
@@ -581,16 +583,16 @@ class BookingsController extends \BaseController
 
                 //Invoice
                 $pdf = PDF::loadView('emails/invoice', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
+                $pdf->save('public/temp-files/invoice' . $booking->id . '.pdf');
                 $pdf = PDF::loadView('emails/service-voucher', array('booking' => $booking));
-                $pdf->save(public_path() . '/temp-files/service-voucher.pdf');
+                $pdf->save('public/temp-files/service-voucher.pdf');
 
 //                if ($user = $booking->user) {
 //                    Mail::send('emails/invoice-mail', array(
 //                        'booking' => Booking::getBookingData($booking->id)
 //                    ), function ($message) use ($user, $booking, $emails) {
 //                        $message->subject('Booking Invoice : ' . $booking->reference_number)
-//                            ->attach(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+//                            ->attach('public/temp-files/invoice'.$booking->id.'.pdf');
 //                        $message->to($user->email, $user->first_name . ' ' . $user->last_name);
 //                        $message->to('accounts@srilankahotels.travel', 'Accounts');
 //                        if (!empty($ehi_users)) {
@@ -608,7 +610,7 @@ class BookingsController extends \BaseController
 //                    ), function ($message) use ($booking, $emails) {
 //                        $message->to($booking->email, $booking->name)
 //                            ->subject('Booking Created : ' . $booking->reference_number)
-//                            ->attach(public_path() . '/temp-files/invoice'.$booking->id.'.pdf');
+//                            ->attach('public/temp-files/invoice'.$booking->id.'.pdf');
 //                        $message->to('accounts@srilankahotels.travel', 'Accounts');
 //                        if (!empty($ehi_users)) {
 //                            foreach ($ehi_users as $ehi_user) {
@@ -788,7 +790,7 @@ class BookingsController extends \BaseController
         Mail::send('emails/transport-mail', array(
             'booking' => Booking::find($booking->id)
         ), function ($message) use ($booking, $ehi_users) {
-            $message->attach(public_path() . '/temp-files/transport.pdf')
+            $message->attach('public/temp-files/transport.pdf')
                 ->subject('New Transfer : ' . $booking->reference_number)
                 ->from('transport@srilankahotels.travel', 'SriLankaHotels.Travel')
                 ->bcc('admin@srilankahotels.travel');
@@ -806,7 +808,7 @@ class BookingsController extends \BaseController
             Mail::send('emails/excursion-mail', array(
                 'booking' => $booking
             ), function ($message) use ($booking, $ehi_users) {
-                $message->attach(public_path() . '/temp-files/excursions.pdf')
+                $message->attach('public/temp-files/excursions.pdf')
                     ->subject('New Excursions : ' . $booking->reference_number)
                     ->from('noreply@srilankahotels.travel', 'SriLankaHotels.Travel');
 
@@ -833,7 +835,7 @@ class BookingsController extends \BaseController
             Mail::send('emails/voucher-mail', array(
                 'voucher' => $voucher
             ), function ($message) use ($booking, $hotel_users, $voucher) {
-                $message->attach(public_path() . '/temp-files/voucher' . $voucher->id . '.pdf')
+                $message->attach('public/temp-files/voucher' . $voucher->id . '.pdf')
                     ->subject('Booking Voucher : ' . $booking->reference_number)
                     ->from('reservations@srilankahotels.travel', 'SriLankaHotels.Travel')
                     ->bcc('admin@srilankahotels.travel', 'SriLankaHotels.Travel');
@@ -853,7 +855,7 @@ class BookingsController extends \BaseController
         Mail::send('emails/booking-mail', array(
             'booking' => Booking::getBookingData($booking->id)
         ), function ($message) use ($booking, $emails, $ehi_users) {
-            $message->attach(public_path() . '/temp-files/booking' . $booking->id . '.pdf')
+            $message->attach('public/temp-files/booking' . $booking->id . '.pdf')
                 ->subject('New Booking: ' . $booking->reference_number)
                 ->from('noreply@srilankahotels.com', 'SriLankaHotels.Travel')
                 ->bcc('admin@srilankahotels.travel', 'Admin');
@@ -879,7 +881,7 @@ class BookingsController extends \BaseController
                 'booking' => Booking::getBookingData($booking->id)
             ), function ($message) use ($user, $booking, $emails) {
                 $message->subject('Booking Invoice : ' . $booking->reference_number)
-                    ->attach(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
+                    ->attach('public/temp-files/invoice' . $booking->id . '.pdf');
                 $message->to($user->email, $user->first_name . ' ' . $user->last_name);
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
@@ -902,7 +904,7 @@ class BookingsController extends \BaseController
             ), function ($message) use ($booking, $emails) {
                 $message->to($booking->email, $booking->name)
                     ->subject('Booking Created : ' . $booking->reference_number)
-                    ->attach(public_path() . '/temp-files/invoice' . $booking->id . '.pdf');
+                    ->attach('public/temp-files/invoice' . $booking->id . '.pdf');
                 $message->to('accounts@srilankahotels.travel', 'Accounts');
                 if (!empty($ehi_users)) {
                     foreach ($ehi_users as $ehi_user) {

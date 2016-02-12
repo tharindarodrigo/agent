@@ -10,22 +10,49 @@ class AllotmentInquiriesController extends \BaseController
      */
     public function index()
     {
-        //RateInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
+        //AllotmentInquiry::where('viewed', 0)->where('status', 1)->update(array('viewed'=> 1));
 
 
-        if(!Input::has('search')){
-            $today = date('Y-m-d');
+        $from = null;
+        $to = null;
+        if (Input::has('search')) {
 
-            $allotmentinquiries = AllotmentInquiry::where('from', '>=', $today)->orderBy('updated_at', 'desc')->get();
-        } else {
+            //dd(Input::all());
+
             $from = Input::get('from');
             $to = Input::get('to');
 
-            $allotmentinquiries = AllotmentInquiry::where('from', '>=', $from)->where('to', '<=', $to)->orderBy('updated_at', 'desc')->get();
+            if (Entrust::hasRole('Admin')) {
+
+                $user_id = Input::get('agent_id');
+                $allotmentinquiries = AllotmentInquiry::whereHas('user', function ($q) use ($user_id) {
+                    $q->where('users.id', 'like', '%' . $user_id . '%');
+                });
+
+            } elseif (Entrust::hasRole('Agent')) {
+                $allotmentinquiries = AllotmentInquiry::whereHas('user', function ($q) {
+                    $q->where('users.id', '=', Auth::id());
+                });
+            }
+
+            if (!empty($from) && !empty($to)) {
+                $allotmentinquiries = $allotmentinquiries->where('from', '>=', $from)->where('to', '<=', $to);
+            }
+
+            $allotmentinquiries = $allotmentinquiries->get();
+
+        } else {
+
+            if (Entrust::hasRole('Admin')) {
+                $allotmentinquiries = AllotmentInquiry::orderBy('updated_at', 'desc')->get();
+            } elseif (Entrust::hasRole('Agent')) {
+                $allotmentinquiries = AllotmentInquiry::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
+            }
+
 
         }
 
-        return View::make('inquiries.allotment-inquiries.index', compact('allotmentinquiries'));
+        return View::make('inquiries.allotment-inquiries.index', compact('allotmentinquiries', 'user_id', 'from', 'to'));
     }
 
     /**
@@ -33,7 +60,8 @@ class AllotmentInquiriesController extends \BaseController
      *
      * @return Response
      */
-    public function create()
+    public
+    function create()
     {
         return View::make('inquiries.allotment-inquiries.create');
     }
@@ -43,7 +71,8 @@ class AllotmentInquiriesController extends \BaseController
      *
      * @return Response
      */
-    public function store()
+    public
+    function store()
     {
         $validator = Validator::make($data = Input::all(), AllotmentInquiry::$rules);
 
@@ -78,7 +107,8 @@ class AllotmentInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function show($id)
+    public
+    function show($id)
     {
         $allotmentinquiry = AllotmentInquiry::findOrFail($id);
 
@@ -91,7 +121,8 @@ class AllotmentInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         $allotmentinquiry = AllotmentInquiry::find($id);
 
@@ -104,7 +135,8 @@ class AllotmentInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function update($id)
+    public
+    function update($id)
     {
         $allotmentinquiry = AllotmentInquiry::findOrFail($id);
 
@@ -125,7 +157,8 @@ class AllotmentInquiriesController extends \BaseController
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         AllotmentInquiry::destroy($id);
 
