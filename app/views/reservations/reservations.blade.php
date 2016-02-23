@@ -19,6 +19,10 @@
     @yield('bread-crumbs')
 @endsection
 
+@section('main-title')
+    Reservations
+@endsection
+
 @section('content')
     @yield('reservations-content')
 @endsection

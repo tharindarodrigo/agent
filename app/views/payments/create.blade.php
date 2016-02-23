@@ -18,9 +18,9 @@
         <div class="row">
             <div class="col-lg-5">
                 <div class="ibox float-e-margins">
+                <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>Make a Payment</h5>
-
                     </div>
                     <div class="ibox-content">
                         {{Form::open(array('route'=>array('accounts.payments.store')))}}
@@ -31,6 +31,9 @@
                             <p>{{$errors->first('agent_id', '<span class="size12" style="color: red;">:message</span>') }}</p>
                         </div>
                         @endif
+
+                        {{ Form::hidden('user_id', Auth::id(), array('id' => 'user_id')) }}
+                        {{ Form::hidden('payment_date_time', Session::get('st_date'),array('id' => 'payment_date_time')) }}
                         <div class="form-group">
                             <label for="amount">Amount</label>
                             {{Form::text('amount', null, array('class'=> 'form-control'))}}

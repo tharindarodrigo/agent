@@ -56,25 +56,8 @@
             <div class="col-lg-4">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>Srilankahotels.travel</h5>
+                        <h5>Reservations</h5>
 
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#">Config option 1</a>
-                                </li>
-                                <li><a href="#">Config option 2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="ibox-content">
 
@@ -160,7 +143,7 @@
                                     <div class="form-group">
                                         <br/><br/>
                                         <button class="btn search_submit btn-primary" type="button">
-                                            <i class="fa fa-check"></i>&nbsp;Submit
+                                            <i class="fa fa-check"></i>&nbsp; Search
                                         </button>
                                     </div>
 
@@ -182,7 +165,7 @@
                                 <div class="row">
                                     <div class="row">
                                         <div class="container col-md-12">
-                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }} / From
+                                            <h5> &nbsp;&nbsp;&nbsp; {{ $city_or_hotel }} ~> From
                                                 : {{ Session::get('st_date') .' to : '. Session::get('ed_date'); }}</h5>
                                         </div>
                                     </div>
@@ -210,7 +193,8 @@
                                     <?php
 
                                     //echo public_path();
-                                    $directory = public_path() . '/images/hotel_images/';
+                                     //       dd(__DIR__);
+                                    $directory = 'home/srilanka/public_html/images/hotel_images/';
                                     $images = glob($directory . $hotel->hotel_id . "_*");
                                     $img_path = array_shift($images);
                                     $img_name = basename($img_path);
@@ -220,9 +204,9 @@
                                         <div style="padding-top: 10px; padding-bottom: 10px" class="feed-element">
                                             <a href="#" class="pull-left">
                                                 @if(count($img_path)>0)
-                                                    {{ HTML::image('images/hotel_images/'.$img_name, '', array('class' => 'hotel_img_1'))}}
+                                                    {{ HTML::image('http://srilankahotels.travel/images/hotel_images/'.$img_name, '', array('class' => 'hotel_img_1'))}}
                                                 @else
-                                                    {{ HTML::image('images/no-image.jpg', '', array('class' => 'hotel_img_1')) }}
+                                                    {{ HTML::image('http://srilankahotels.travel/images/no-image.jpg', '', array('class' => 'hotel_img_1')) }}
                                                 @endif
                                             </a>
 

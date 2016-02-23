@@ -540,6 +540,25 @@ class HsbcPaymentsController extends \BaseController
                     //  return View::make('pages.message');
                 }
 
+                if (substr_count($orderInfo, 'AP') != 0) {
+
+                    if ($txnResponseCode == 0) {
+                        $mybooking = 0;
+
+                        $payment = DB::table('payments')
+                            ->where('HSBC_payment_id', $merchTxnRef)
+                            ->update(
+                                array(
+                                    'my_booking' => $mybooking
+                                )
+                            );
+
+                        $booking = Booking::where('payment_reference_number', $orderInfo)->first();
+
+                        $this->sendBookingEmails($booking);
+                    }
+                }
+
 
                 $url = "http://srilankahotels.travel/message";
 

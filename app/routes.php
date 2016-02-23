@@ -53,7 +53,8 @@ Route::group(array('before' => 'auth'), function () {
     ));
 
     Route::get('account/profile','AccountController@getProfile');
-    Route::post('account/profile/update-agent-profile','AccountController@updateAgentProfile');
+    Route::get('account/profile/{id}/edit','AccountController@getEditProfile');
+    Route::post('account/profile/{id}/update','AccountController@updateAgentProfile');
 
     Route::get('account/profile/change-password', 'AccountController@getChangePassword');
     Route::post('account/profile/post-change-password', 'AccountController@updateProfile');
@@ -78,6 +79,7 @@ Route::group(array('before' => 'auth'), function () {
     Route::post('accounts/get-payment-list', 'PaymentsController@getPaymentsList');
     Route::resource('accounts/payments', 'PaymentsController');
     Route::resource('inquiries/rate-inquiries', 'RateInquiriesController');
+    Route::resource('inquiries/allotment-inquiries', 'RateInquiriesController');
     Route::post('hotel/get-room-list','HotelController@getRoomList');
 
 
@@ -100,7 +102,7 @@ Route::group(array('before' => 'auth'), function () {
     Route::get('voucher/{id}', function ($id) {
         $voucher = Voucher::find($id);
         $pdf = PDF::loadView('emails/voucher', array('voucher' => $voucher));
-        $pdf->setPaper('a4')->save(public_path() . '/temp-files/voucher.pdf');
+        $pdf->setPaper('a4')->save('/home/srilanka/public_html/temp-files/voucher.pdf');
         return $pdf->stream('abc.pdf');
     });
 
@@ -169,6 +171,56 @@ Route::post('auto-complete', array(
     'uses' => 'HotelController@autoComplete'
 ));
 
+
+
+// Online Hotel Payments To gateway
+
+Route::any('/payments-send', array(
+    'as' => 'online-hotel-payments',
+    'uses' => 'HsbcPaymentsController@sendPayment'
+));
+
+// Online Hotel Payments email
+
+Route::any('/online-hotel-payments-send-email', array(
+    'as' => 'online-hotel-payments-send-email',
+    'uses' => 'BookingsController@storeAllDataAndSendEmails'
+));
+
+Route::any('/online-agent-payments-send-email', array(
+    'as' => 'online-agent-payments-send-email',
+    'uses' => 'PageController@storeAllDataAndSendEmails'
+));
+
+
+Route::get('/online-hotel-payments', function () {
+    return View::make('payment_send');
+});
+
+
+Route::any('/send-payment-gateway', array(
+    'as' => 'send-payment-gateway',
+    'uses' => 'HsbcPaymentsController@sendToPaymentGateway'
+));
+
+Route::any('/payment-get', array(
+    'as' => '/payment-get',
+    'uses' => 'HsbcPaymentsController@paymentGet'
+));
+
+
+// Pay Online Payments (Agents)
+
+Route::get('/pay-online', array(
+    'as' => 'pay-online-get',
+    'uses' => 'PageController@getpayOnline'
+));
+
+
+Route::post('/pay-online', array(
+    'as' => 'pay-online-post',
+    'uses' => 'PageController@payOnline'
+));
 
 //Reservations
 

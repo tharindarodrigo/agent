@@ -96,6 +96,7 @@ class HotelController extends \BaseController
 
             if (!is_null($get_city_or_hotel_id)) {
                 $city_id = $get_city_or_hotel_id->id;
+                //dd($city_id);
 
                 $hotels = Rate::With('MealBasis', 'RoomSpecification', 'Hotel')
                     ->WhereHas('Hotel', function ($q) use ($city_id, $star) {
